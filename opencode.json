@@ -1,0 +1,68 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "lead",
+  "agent": {
+    "build": { "disable": true },
+    "plan": { "disable": true },
+    "lead": {
+      "description": "Lead — 你的 AI 领队/管家。编排一切：开发、调研、写作、项目、会议、生活。",
+      "mode": "primary",
+      "prompt": "{file:./agents/lead.md}",
+      "permission": {
+        "*": "allow",
+        "task": { "*": "allow" }
+      }
+    },
+    "coder": {
+      "description": "Coder — 编码 agent。写代码、修 bug、重构、UI 实现。",
+      "mode": "primary",
+      "prompt": "{file:./agents/coder.md}",
+      "permission": {
+        "*": "allow",
+        "task": { "*": "allow" }
+      }
+    },
+    "qa": {
+      "description": "QA — 质量守门 agent。测试、代码审查、文档审查、质量检查。",
+      "mode": "primary",
+      "prompt": "{file:./agents/qa.md}",
+      "permission": {
+        "*": "allow",
+        "task": { "*": "allow" }
+      }
+    },
+    "researcher": {
+      "description": "Researcher — 深度调研 sub-agent。按 prompt 只写 ./research/ 和 ./working/research/。",
+      "mode": "subagent",
+      "prompt": "{file:./agents/researcher.md}",
+      "permission": {
+        "write": "allow",
+        "edit": "allow",
+        "bash": "allow",
+        "task": "deny"
+      }
+    },
+    "fixer": {
+      "description": "Fixer — 定点修复 sub-agent。按 prompt 只写清单文件和 fixer 产物。",
+      "mode": "subagent",
+      "prompt": "{file:./agents/fixer.md}",
+      "permission": {
+        "write": "allow",
+        "edit": "allow",
+        "bash": "allow",
+        "task": "deny"
+      }
+    },
+    "butler": {
+      "description": "Butler — 管家。按 prompt 只写报告和整理建议，不擅自改正文。",
+      "mode": "subagent",
+      "prompt": "{file:./agents/butler.md}",
+      "permission": {
+        "write": "allow",
+        "edit": "allow",
+        "bash": "allow",
+        "task": "deny"
+      }
+    }
+  }
+}
