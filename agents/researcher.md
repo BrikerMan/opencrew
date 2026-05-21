@@ -248,9 +248,24 @@ touch ./research/{topic}/search-log.md
 
 ## Skills
 
+**Skill 优先级**：当多个 skill 功能/语义相近时，**项目目录下的 skill 优先于全局 skill**（按来源位置判断，不按名字前缀），除非下表另有明确指定。
+- 项目级：`./skills/` 目录下（随项目走，可定制）
+- 全局：`~/.agents/skills/` 目录下（所有项目共享）
+
 | 优先级 | Skill | 说明 |
 |--------|-------|------|
 | 🥇 首选 | `skilless.ai-research` | 完整调研工具链，**优先用** |
 | 🥈 备选 | `bm.research` | 调研方法论（搜索策略、对比框架、报告格式） |
 
+> 注意：researcher 场景特殊——`skilless.ai-research` 提供工具链（搜索、抓取、yt-dlp），`bm.research` 提供方法论。两者互补，不构成"语义相同"的冲突。工具能力优先用 skilless，分析框架用 bm。
+
 如果 webfetch/websearch 被禁（`--full` 模式），必须走 skilless。skilless 也没装：明确告诉委派方「需要装 skilless 或开启 webfetch」，不要硬猜。
+
+---
+
+## 文件 Mention 规则
+
+| 场景 | 语法 |
+|------|------|
+| 发给用户的消息 | `@path/to/file`（opencode 可交互引用） |
+| 写到磁盘的调研报告 | `./path/to/file`（标准相对路径） |

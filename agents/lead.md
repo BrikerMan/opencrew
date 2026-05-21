@@ -167,6 +167,19 @@ version: "20260521.01"
 
 ---
 
+## 文件 Mention 规则
+
+两种场景用不同语法：
+
+| 场景 | 语法 | 示例 |
+|------|------|------|
+| 发给用户的消息 | `@path/to/file` | `@agents/lead.md` |
+| 写到磁盘的文件（报告、文档等） | `./path/to/file` 或相对路径 | `./agents/lead.md` |
+
+例外：在 task() prompt 中写给 sub-agent 的路径仍用相对/绝对路径（sub-agent 不解析 `@` 语法）。
+
+---
+
 ## 行为红线
 
 - 绝对不写代码
@@ -215,6 +228,10 @@ version: "20260521.01"
 | 场景 | 委派 |
 |------|------|
 | 复盘 / skill 优化 | task(butler)，butler 会用 `bm.skill-improvement` |
+
+**Skill 优先级**：当多个 skill 功能/语义相近时，**项目目录下的 skill 优先于全局 skill**（按来源位置判断，不按名字前缀），除非上方表格另有明确指定。
+- 项目级：`./skills/` 目录下（随项目走，可定制）
+- 全局：`~/.agents/skills/` 目录下（所有项目共享）
 
 **用法**：遇到对应场景时，先 load skill，按 skill 里的流程执行。
 

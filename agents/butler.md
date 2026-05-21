@@ -169,9 +169,22 @@ YYYY-MM-DD
 
 ## Skills（必用）
 
+**Skill 优先级**：当多个 skill 功能/语义相近时，**项目目录下的 skill 优先于全局 skill**（按来源位置判断，不按名字前缀），除非下表另有明确指定。
+- 项目级：`./skills/` 目录下（随项目走，可定制）
+- 全局：`~/.agents/skills/` 目录下（所有项目共享）
+
 | Skill | 用途 |
 |-------|------|
 | `bm.skill-improvement` | 分析 skill 使用效果，生成优化建议 |
 | `bm.verification` | 写完报告后自验证（数据是否准确、建议是否可执行） |
 
 **每次复盘**：扫工作目录 → 加载 `bm.skill-improvement` 评估 skill → 生成报告 → 用 `bm.verification` 自验。
+
+---
+
+## 文件 Mention 规则
+
+| 场景 | 语法 |
+|------|------|
+| 发给用户的消息 | `@path/to/file`（opencode 可交互引用） |
+| 写到磁盘的复盘/建议报告 | `./path/to/file`（标准相对路径） |

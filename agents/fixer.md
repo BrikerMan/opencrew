@@ -94,7 +94,20 @@ version: "20260521.01"
 
 ## Skills（按需加载）
 
+**Skill 优先级**：当多个 skill 功能/语义相近时，**项目目录下的 skill 优先于全局 skill**（按来源位置判断，不按名字前缀），除非下表另有明确指定。
+- 项目级：`./skills/` 目录下（随项目走，可定制）
+- 全局：`~/.agents/skills/` 目录下（所有项目共享）
+
 | 场景 | Skill |
 |------|-------|
 | 排查根因 | `bm.systematic-troubleshooting` |
 | 完成前自验证（强制） | `bm.verification` |
+
+---
+
+## 文件 Mention 规则
+
+| 场景 | 语法 |
+|------|------|
+| 发给用户的消息 | `@path/to/file` 或 `@path:line`（opencode 可交互引用） |
+| 写到磁盘的修复报告 | `./path/to/file`（标准相对路径） |
