@@ -1,19 +1,47 @@
 # opencrew
 
-> 你的 AI crew，跑在 [OpenCode](https://opencode.ai) 上。一人公司的标配。
+> 跑在 [OpenCode](https://opencode.ai) 上的 AI 团队。6 个 agent + 13 个 skill，一条命令开箱即用。
 
 [English](./README.md) · 中文
+
+**TLDR**: OpenCode 给你一个编码 agent，opencrew 给你一整个团队——lead、coder、qa、researcher、fixer、butler——加上 13 个 skill 覆盖从 debug 到会议纪要到健康追踪的一切。一条命令搞定：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/brikerman/opencrew/main/install.sh | bash -s -- --global --full
+```
 
 ---
 
 ## 这是什么
 
-你是一人公司——产品、技术、调研、写作、会议、健康、生活全都自己扛。**opencrew** 把 [OpenCode](https://opencode.ai) 变成你的团队：
+**问题。** OpenCode 很强大，但开箱只有 build + plan agent。要真正干活，你得手动配置 agent、从零写 prompt、搞清楚委派模式、接入工具链——门槛很高，尤其是非开发者，只想有个能用的 AI 团队。
+
+**解法。** opencrew 是 OpenCode 的开箱即用配置。一次安装，6 个角色清晰的 agent + 13 个 skill 覆盖 90% 的商业 + 日常场景。从编码到调研到会议纪要到健康追踪——全部本地运行，全部透明，全部在你的工作目录里。
 
 - **6 个角色清晰的 agent**：`lead` 编排委派、`coder` 写代码、`qa` 测试审查、`researcher` 深度调研、`fixer` 定点修复、`butler` 复盘管家。
 - **13 个 skill** 覆盖编码之外的事：brainstorming、verification、systematic-troubleshooting、用户视角评审、项目管理、会议、健康、日记、身心健康、沟通。
 - **所有产物落在你的工作目录**，不写 `/tmp/`、不用隐藏目录，Finder 能看见。
 - **为 OpenCode 设计**：安装时注入 agent + skill + 项目级（或全局）的 `opencode.json`。
+
+---
+
+## 设计理念
+
+**开箱即用，面向所有人。** opencrew 让非高级用户也能直接用 OpenCode。一次安装，就有一个可用的 AI 团队——不需要 prompt 工程。
+
+**覆盖 90% 的商业 + 日常场景。** 搭配 [skilless](https://github.com/brikerman/skilless)，编码、调研、写作、会议、健康、沟通全都能搞定。
+
+**跑你自己的本地 agent。** 不用云、不用 API key（可选）、不用订阅。你的 agent、你的数据、你的机器。
+
+**Lead = 领队，不是工程师。** 它编排一切，不写代码。它的失败模式是「试图自己干活」。
+
+**6 agents 不是 60 个。** 权限相同的角色用 skill，避免认知负担。
+
+**skill 是同一个人的不同帽子。** PM 模式、写作模式、健康教练模式都是 Lead 戴不同的帽子，不需要造新 agent。
+
+**面向非技术用户。** 13 个 skill 里只有少数是程序员视角的，大部分（meeting / health / journal / communication / wellness 等）一个人公司、自由职业、知识工作者都用得上。
+
+**所有产物都在你眼前。** 不偷偷写 `/tmp/`、不用隐藏目录，让 AI 的工作过程对你完全透明。
 
 ---
 
@@ -67,7 +95,7 @@ Skill 是可加载的指令集，不是独立 agent。用 `bm.*` 前缀做命名
 
 | Skill | 作用 |
 |---|---|
-| `bm.brainstorming` | 行动前用苏格拉底式追问精炼意图，分块呈现 spec 让用户确认 |
+| `bm.brainstorming` | 行动前用苏格拉底式追问精炼意图，分块展现 spec 让用户确认 |
 | `bm.verification` | 声明"完成"前必须列检查清单、跑一遍、给证据 |
 | `bm.systematic-troubleshooting` | 4 阶段根因法（复现 → 缩小 → 假设 → 验证） |
 
@@ -205,13 +233,6 @@ cd opencrew
 curl -fsSL https://skilless.ai/install.sh | bash
 ```
 
-### 已知限制
-
-- subagent 写入范围主要靠 prompt 契约约束；如果你的 OpenCode 版本支持更细路径 ACL，可以进一步收紧。
-- `./install.sh --check` 默认检查当前项目；全局安装请用 `--global --check`。
-- rollback 只恢复当前 scope 的上一份备份；项目安装仍会影响全局共享的 `~/.agents/skills/`。
-- 仓库里的 `opencode.json` 是参考/开发配置；安装器会生成指向 `./.opencode/agent/*.md` 的项目配置。
-
 ---
 
 ## 典型场景
@@ -251,20 +272,6 @@ Lead 调用 bm.health → 确认是否保存后，写入 ./health/body/metrics/2
 Lead → Butler (background)
 Butler 扫 cwd → 写入 ./reports/butler-2026-05-21.md
 ```
-
----
-
-## 设计理念
-
-**Lead = 领队，不是工程师**。它编排一切，不写代码。它的失败模式是「试图自己干活」。
-
-**6 agents 不是 60 个**。权限相同的角色用 skill，避免认知负担。
-
-**skill 是同一个人的不同帽子**。PM 模式、写作模式、健康教练模式都是 Lead 戴不同的帽子，不需要造新 agent。
-
-**面向非技术用户**。13 个 skill 里只有少数是程序员视角的，大部分（meeting / health / journal / communication / wellness 等）一个人公司、自由职业、知识工作者都用得上。
-
-**所有产物都在你眼前**。不偷偷写 `/tmp/`、不用隐藏目录，让 AI 的工作过程对你完全透明。
 
 ---
 

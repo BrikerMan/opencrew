@@ -1,19 +1,47 @@
 # opencrew
 
-> Your AI crew on top of [OpenCode](https://opencode.ai). Built for the one-person army.
+> Your AI crew on top of [OpenCode](https://opencode.ai). 6 agents + 13 skills — one install away from a fully operational local AI team.
 
 English · [中文](./README.zh.md)
+
+**TLDR**: OpenCode gives you a coding agent. opencrew gives you a whole team — lead, coder, qa, researcher, fixer, butler — plus 13 skills for everything from debugging to meeting notes to health tracking. One command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/brikerman/opencrew/main/install.sh | bash -s -- --global --full
+```
 
 ---
 
 ## What is it
 
-You're a one-person army — building the product, doing the research, writing the docs, running the meetings, tracking your own health and life. **opencrew** turns [OpenCode](https://opencode.ai) into your team:
+**The problem.** OpenCode is powerful, but out of the box it gives you build + plan agents and little else. To get real work done you need to hand-configure agents, write prompts from scratch, figure out delegation patterns, and wire up tool integrations. That's a high bar — especially for non-developers who just want an AI team that works.
+
+**The solution.** opencrew is a batteries-included configuration for OpenCode. One install gives you 6 agents with clear roles and 13 skills covering 90% of business + daily scenarios. From coding to research to meeting notes to health tracking — all running locally, all transparent, all in your working directory.
 
 - **6 agents** with clear roles: a `lead` who delegates, a `coder`, a `qa`, a `researcher`, a `fixer`, a `butler`.
 - **13 skills** for the work outside of coding: brainstorming, verification, troubleshooting, user-perspective review, project management, meetings, health, journaling, wellness, communication.
 - **Everything lands in your working directory** — no `/tmp/` writes, no hidden dirs, fully visible in Finder.
 - **Built for OpenCode** — installs as agents + skills + a project (or global) `opencode.json`.
+
+---
+
+## Design philosophy
+
+**OpenCode out of the box, for everyone.** opencrew makes OpenCode accessible to non-power-users. One install, you have a working AI team — no prompt engineering needed.
+
+**90% of business + daily scenarios covered.** Paired with [skilless](https://github.com/brikerman/skilless), it handles coding, research, writing, meetings, health, communication, and everything in between.
+
+**Run your own local agents.** No cloud, no API keys (optional), no subscription. Your agents, your data, your machine.
+
+**Lead is a leader, not an engineer.** It orchestrates everything; it doesn't write code. Its failure mode is "trying to do work itself".
+
+**6 agents, not 60.** Same-permission roles share a skill, reducing cognitive load.
+
+**Skills are different hats on the same person.** PM mode, writing mode, health-coach mode—Lead wears different hats, no need to spawn new agents.
+
+**Built for non-technical users too.** Of the 13 skills, only a few are programmer-flavored. The rest (meeting / health / journal / communication / wellness etc.) are useful for solo founders, freelancers, knowledge workers.
+
+**Everything is in front of you.** Nothing sneaks into `/tmp/` or hidden dirs. The AI's working process is fully transparent.
 
 ---
 
@@ -205,13 +233,6 @@ The installer detects [skilless](https://github.com/brikerman/skilless); if miss
 curl -fsSL https://skilless.ai/install.sh | bash
 ```
 
-### Known limitations
-
-- Subagent scopes are prompt-enforced unless your OpenCode version supports stricter path ACLs.
-- `./install.sh --check` checks the current project by default; use `--global --check` for global installs.
-- Rollback restores the last backup for the current scope only; project installs still share global `~/.agents/skills/`.
-- The repo `opencode.json` is a reference/dev config. The installer generates project config entries that point to `./.opencode/agent/*.md`.
-
 ---
 
 ## Typical scenarios
@@ -251,20 +272,6 @@ You → Lead: "Do a sweep of my working directory"
 Lead → Butler (background)
 Butler scans cwd → writes ./reports/butler-2026-05-21.md
 ```
-
----
-
-## Design philosophy
-
-**Lead is a leader, not an engineer.** It orchestrates everything; it doesn't write code. Its failure mode is "trying to do work itself".
-
-**6 agents, not 60.** Same-permission roles share a skill, reducing cognitive load.
-
-**Skills are different hats on the same person.** PM mode, writing mode, health-coach mode—Lead wears different hats, no need to spawn new agents.
-
-**Built for non-technical users too.** Of the 13 skills, only a few are programmer-flavored. The rest (meeting / health / journal / communication / wellness etc.) are useful for solo founders, freelancers, knowledge workers.
-
-**Everything is in front of you.** Nothing sneaks into `/tmp/` or hidden dirs. The AI's working process is fully transparent.
 
 ---
 
