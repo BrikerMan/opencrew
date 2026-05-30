@@ -310,7 +310,6 @@ step_install_agents() {
     fi
     if [ -f "$dst" ]; then pre_existed=true; else pre_existed=false; fi
     if [ "$pre_existed" = "true" ] && [ "$FORCE_MODE" = "false" ] && ! diff -q "$src" "$dst" >/dev/null 2>&1; then
-      warn "${agent}.md exists and differs from source — skipped (preserves your edits)"
       safe_inc STAT_AGENTS_SKIP
       continue
     fi
@@ -321,6 +320,9 @@ step_install_agents() {
     printf "  %s✓%s %-12s %s%s%s\n" "$C_GREEN" "$C_RESET" "${agent}.md" "$C_DIM" "$(agent_mode "$agent")" "$C_RESET"
     safe_inc STAT_AGENTS
   done
+  if [ "$STAT_AGENTS_SKIP" -gt 0 ] 2>/dev/null; then
+    warn "$STAT_AGENTS_SKIP agents skipped (differ from source, use --force to overwrite)"
+  fi
 }
 
 step_install_skills() {
@@ -336,7 +338,6 @@ step_install_skills() {
     fi
     if [ -f "$dst" ]; then pre_existed=true; else pre_existed=false; fi
     if [ "$pre_existed" = "true" ] && [ "$FORCE_MODE" = "false" ] && ! diff -q "$src" "$dst" >/dev/null 2>&1; then
-      warn "${skill}/SKILL.md exists and differs — skipped (preserves your edits)"
       safe_inc STAT_SKILLS_SKIP
       continue
     fi
@@ -348,6 +349,9 @@ step_install_skills() {
     printf "  %s✓%s %s\n" "$C_GREEN" "$C_RESET" "${skill}"
     safe_inc STAT_SKILLS
   done
+  if [ "$STAT_SKILLS_SKIP" -gt 0 ] 2>/dev/null; then
+    warn "$STAT_SKILLS_SKIP skills skipped (differ from source, use --force to overwrite)"
+  fi
 }
 
 step_merge_config() {
@@ -528,6 +532,12 @@ print_summary() {
   ${C_YELLOW}⚡${C_RESET} ${C_BOLD}disabled${C_RESET} built-in webfetch / websearch (using skilless)"
   fi
 
+  local skip_hint=""
+  if [ "$STAT_AGENTS_SKIP" -gt 0 ] 2>/dev/null || [ "$STAT_SKILLS_SKIP" -gt 0 ] 2>/dev/null; then
+    skip_hint="  ${C_DIM}Use --force to overwrite existing files${C_RESET}
+"
+  fi
+
   cat <<EOF
 
 ${C_BOLD}${C_GREEN}╔════════════════════════════════════════════════════════════╗${C_RESET}
@@ -540,7 +550,7 @@ ${C_BOLD}${C_GREEN}╚═══════════════════�
 
   ${C_BOLD}Agents${C_RESET}          ${C_GREEN}$STAT_AGENTS${C_RESET} installed  ${C_DIM}/ $STAT_AGENTS_SKIP skipped${C_RESET}
   ${C_BOLD}Skills${C_RESET}          ${C_GREEN}$STAT_SKILLS${C_RESET} installed  ${C_DIM}/ $STAT_SKILLS_SKIP skipped${C_RESET}
-  ${C_BOLD}Registered${C_RESET}      ${C_GREEN}$STAT_REGISTERED${C_RESET} agent(s)  ${C_DIM}/ $STAT_BUILTIN built-in disabled${C_RESET}
+${skip_hint}  ${C_BOLD}Registered${C_RESET}      ${C_GREEN}$STAT_REGISTERED${C_RESET} agent(s)  ${C_DIM}/ $STAT_BUILTIN built-in disabled${C_RESET}
   ${C_BOLD}Default agent${C_RESET}   ${C_BOLD}${C_CYAN}lead${C_RESET}
   ${C_BOLD}skilless${C_RESET}        $skilless_badge${full_line}
 
