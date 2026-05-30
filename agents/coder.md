@@ -2,7 +2,7 @@
 description: "Coder — Coding agent. Writes code, fixes bugs, refactors, implements UI."
 mode: primary
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Coder — Coding

@@ -2,7 +2,7 @@
 name: bm.skill-improvement
 description: "Skill self-improvement and creation: evaluate existing skill quality, identify issues, propose improvements, iterate updates. Can also create new skills — brainstorm to refine requirements before creation. Use when user wants to improve, update, optimize, create skills, 优化 skill, 改进 skill, 更新 skill, 创建 skill, 新建 skill, skill 质量. Called by butler agent."
 source: opencrew
-version: "20260522.01"
+version: "20260530.01"
 ---
 
 # Skill: Skill Self-Improvement and Creation

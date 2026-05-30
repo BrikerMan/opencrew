@@ -2,7 +2,7 @@
 name: bm.health
 description: "Personal health management: body metrics tracking, diet logging, exercise logging, sleep logging, trend analysis. Use when user wants to log or check weight, diet, exercise, sleep, body metrics, 体重, 饮食, 运动, 睡眠, 卡路里, 跑步, 健身."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Personal Health Management

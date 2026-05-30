@@ -2,7 +2,7 @@
 name: bm.project-mgmt
 description: "Project management: project creation, task management, progress tracking, risk assessment, weekly report generation. Use when user needs to manage projects, tasks, milestones, risks, timelines, 项目, 任务, 进度, 风险, 里程碑, 排期, project, task, sprint. Data stored in current working directory, organized by directory."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Project Management

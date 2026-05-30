@@ -2,7 +2,7 @@
 description: "QA — Quality gate agent. Testing, code review, document review (technical + non-technical), quality checks."
 mode: primary
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # QA — Quality Gate

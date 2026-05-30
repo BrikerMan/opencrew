@@ -2,7 +2,7 @@
 name: bm.wellness
 description: "Physical and mental health care: preliminary symptom assessment, medication tracking, mood check-in, psychological self-help tools, stress management, emotional support, crisis intervention. Use when user mentions symptoms, illness, medication, mood, anxiety, stress, emotional support, mental health, 不舒服, 症状, 吃药, 情绪, 焦虑, 压力, 心理, 难过, 失眠. Includes safety red lines — never replaces professional medical care."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Physical and Mental Health Care

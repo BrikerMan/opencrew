@@ -2,7 +2,7 @@
 name: bm.review-checklist
 description: "Code review checklist: structured code review process, quality gates, best practice checks. Use when user requests code review, PR review, quality check, 审查, review, 代码审查, PR检查. Covers security, performance, maintainability, test coverage dimensions."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Code Review Checklist

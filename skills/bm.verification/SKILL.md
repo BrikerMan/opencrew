@@ -2,7 +2,7 @@
 name: bm.verification
 description: "Self-verification before completion: before claiming done, must list checklist, run through it, and check results. Use before claiming a task is complete, finished, ready, done, 完成, 搞定, 做完, 跑通, ready, done, finish, complete. Prevents false completions, self-deception, and submitting broken deliverables."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Verification (Self-Verification Before Completion)

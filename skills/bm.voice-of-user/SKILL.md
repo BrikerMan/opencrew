@@ -2,7 +2,7 @@
 name: bm.voice-of-user
 description: "Challenge product/spec/feature from user perspective: play different personas walking through flows, list friction points, give improvement suggestions in user language (not technical jargon). Use when designing or reviewing a product, feature, spec, UI, UX, flow, copy, 产品, 设计, 评审, 用户体验, UX, 易用性, 流程, 文案, review feature, design review, user perspective. Fills the 'user perspective' gap."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Voice of User (User Perspective Review)

@@ -2,7 +2,7 @@
 description: "Butler — Steward. Retrospectives, working directory cleanup, project health checks, skill optimization. Cautious writes."
 mode: subagent
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Butler — Steward

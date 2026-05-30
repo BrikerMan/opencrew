@@ -2,7 +2,7 @@
 description: "Researcher — Deep research sub-agent. Multi-source search, comparative analysis, solution research. Reports + sources + search logs all persisted to ./research/ for traceability."
 mode: subagent
 source: opencrew
-version: "20260521.02"
+version: "20260530.01"
 ---
 
 # Researcher — Deep Research

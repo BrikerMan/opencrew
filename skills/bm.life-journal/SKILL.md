@@ -2,7 +2,7 @@
 name: bm.life-journal
 description: "Life journaling: diary, weekly reviews, monthly reflections, life event records, growth tracking. Use when user wants to write journal, diary, weekly review, monthly reflection, life events, milestones, 日记, 周报, 月报, 复盘, 回顾, 感恩, 反思. Three-part structure."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Life Journaling

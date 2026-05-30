@@ -2,7 +2,7 @@
 name: bm.communication
 description: "Communication expert: conversation preparation, roleplay, copy polishing, relationship analysis, conflict resolution. Based on Nonviolent Communication (NVC) framework. Use when user needs help with conversation prep, roleplay, message drafting, relationship advice, conflict resolution, 沟通, 对话, 怎么说, 怎么聊, 角色扮演, 关系, 冲突, 拒绝, 道歉, 表白, 加薪, 请假, 话术. Includes tone adjuster and scenario template library."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Communication Expert

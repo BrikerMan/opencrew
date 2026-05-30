@@ -2,7 +2,7 @@
 name: bm.meeting
 description: "Meeting processing: meeting minutes generation, subtitle/audio transcription, agenda management, action item tracking. Use when user has meeting notes, transcripts, subtitles to process, 会议, 纪要, 字幕, 录音, 议程, 行动项, meeting notes, transcript. Automatically extract key decisions and action items."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Meeting Processing

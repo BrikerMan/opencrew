@@ -2,7 +2,7 @@
 description: "Fixer — Targeted fix sub-agent. Limited write permissions. Only fixes issues that were identified."
 mode: subagent
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Fixer — Targeted Fixes

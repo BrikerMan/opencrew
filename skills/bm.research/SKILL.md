@@ -2,7 +2,7 @@
 name: bm.research
 description: "Research methodology: multi-source search, comparative analysis, solution research, fact-checking. Use when user needs to investigate, compare, analyze options, do deep research, 调研, 对比, 分析, 方案, 选型, 调查, 事实核查. Do NOT use for task completion verification; use bm.verification for 完成/搞定/跑通/done. Structured research process producing analysis reports with sources."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Research Methodology

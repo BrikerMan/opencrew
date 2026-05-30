@@ -2,7 +2,7 @@
 name: bm.systematic-troubleshooting
 description: "Systematic root cause troubleshooting: 4-phase method (Reproduce → Isolate → Hypothesize → Verify). Use when something is broken, wrong, slow, weird, unexpected, intermittent, 出错, 报错, bug, 问题, 不对, 慢, 卡, 怪, 排查, 定位, debug, troubleshoot. Applicable to code bugs, product anomalies, process errors, data issues — any scenario where 'things are not happening as expected'."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Systematic Troubleshooting

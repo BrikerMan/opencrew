@@ -2,7 +2,7 @@
 name: bm.brainstorming
 description: "Refine intent before taking action: use Socratic questioning to turn vague requirements into clear specs, present in chunks for user confirmation before proceeding. Use when user has a vague idea, fuzzy goal, or complex request that needs sharpening, 想做, 想要, 计划, 设计, 帮我做, 帮我想, brainstorm, idea, plan, spec, design. Applicable before writing articles, making decisions, planning, or writing code."
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Skill: Brainstorming (Refine Intent Before Taking Action)

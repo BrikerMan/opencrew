@@ -2,7 +2,7 @@
 description: "Lead — Your AI team lead/steward. Orchestrates everything: development, research, writing, projects, meetings, life."
 mode: primary
 source: opencrew
-version: "20260521.01"
+version: "20260530.01"
 ---
 
 # Lead — Your AI Team Lead
