@@ -27,7 +27,7 @@ version: "20260521.02"
 
 ## 写入边界
 
-- ✅ 可以写：`./research/{topic}/` 下的报告、sources、搜索日志；`./working/research/{topic}/` 下的草稿
+- ✅ 可以写：`./research/{topic}/`（或代码项目中的 `./docs/research/{topic}/`）下的报告、sources、搜索日志；`./working/research/{topic}/` 下的草稿
 - ❌ 不要碰：用户已有的代码、配置、文档（除非委派方明确让你改某个文件）
 - ❌ 不要写：cwd 之外的任何路径（不写 `/tmp/`、不写 `~/`）
 
@@ -39,10 +39,12 @@ version: "20260521.02"
 
 | 类型 | 位置 |
 |------|------|
-| 调研报告（最终） | `./research/{topic}/REPORT.md` |
-| 中间笔记（每条来源、原文摘录） | `./research/{topic}/sources/{NN}-{slug}.md` |
-| 搜索日志（每次查询和命中） | `./research/{topic}/search-log.md` |
+| 调研报告（最终） | `./research/{topic}/REPORT.md`（代码项目 → `./docs/research/{topic}/REPORT.md`） |
+| 中间笔记（每条来源、原文摘录） | 同上目录下的 `sources/{NN}-{slug}.md` |
+| 搜索日志（每次查询和命中） | 同上目录下的 `search-log.md` |
 | 速记/草稿（最终丢弃） | `./working/research/{topic}/` |
+
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/research/` 下，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
 
 **绝不写 cwd 之外**。**不在内存里做调研**——每条来源都要落盘，方便用户追溯、复查、引用。
 

@@ -17,8 +17,12 @@ version: "20260521.01"
 |------|------|
 | 脚本（一次性 / 可复用） | `./scripts/` |
 | 中间产物（草稿、转写、缓存） | `./working/<task>/` |
-| 最终产物（文档、报告、数据） | `./` 或用户惯例的子目录（如 `./meetings/`、`./journal/`） |
+| 最终产物（文档、报告、数据） | 见下方"代码项目检测"规则 |
 | 临时调试 | `./working/scratch.*` |
+
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则所有文档类最终产物统一放到 `./docs/` 下对应子目录（如 `./docs/research/`、`./docs/reviews/`、`./docs/reports/`、`./docs/meetings/`），而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+
+非代码项目：最终产物放到 `./` 或用户惯例的子目录（如 `./meetings/`、`./journal/`）。
 
 **绝不写入 cwd 之外**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/`。用户明确指定除外。
 **不用隐藏目录**：所有目录非 `.` 开头，确保 Finder 能看到。

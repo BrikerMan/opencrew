@@ -147,5 +147,7 @@ Spec 已落到 ./{topic}-spec.md，确认无误我就开始动手。
 ## 文件落点
 
 - 中间 brainstorm 草稿 → `./working/brainstorm-{topic}.md`
-- 最终 spec → `./{topic}-spec.md` 或用户指定位置
+- 最终 spec → `./{topic}-spec.md`（代码项目 → `./docs/{topic}-spec.md`）或用户指定位置
 - 不写 `/tmp/`、不用隐藏目录
+
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。

@@ -16,8 +16,10 @@ version: "20260521.01"
 | 类型 | 位置 |
 |------|------|
 | 测试文件 | 项目测试目录 |
-| 审查报告 | `./reviews/{topic}-review.md` |
+| 审查报告 | `./reviews/{topic}-review.md`（代码项目 → `./docs/reviews/{topic}-review.md`） |
 | 中间产物（覆盖率分析等） | `./working/qa/` |
+
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则文档类最终产物（审查报告等）统一放到 `./docs/` 下对应子目录（如 `./docs/reviews/`），而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
 
 **绝不写 cwd 之外**：不写 `/tmp/`、`~/Desktop/`。
 

@@ -81,9 +81,9 @@ graph TD
 | **Lead** | primary | 全 + 委派 | 你的 chief of staff。理解意图 → 委派 → 质控 → 也管生活 |
 | **Coder** | primary | 全 + 委派 | 写代码、修 bug、重构、UI |
 | **QA** | primary | 全 + 委派 | 测试、代码审查、文档审查 |
-| **Researcher** | subagent | prompt 约束：只写 `./research/`、`./working/research/` | 深度调研、对比分析 |
-| **Fixer** | subagent | prompt 约束：只写清单文件、`./working/fixer/`、`./reviews/` | 定点修复，不顺手优化 |
-| **Butler** | subagent | prompt 约束：只写 `./reports/`、`./working/butler-*` | 复盘工作目录、提出 skill 优化建议 |
+| **Researcher** | subagent | prompt 约束：只写 `./research/`、`./working/research/`（代码项目 → `./docs/research/`） | 深度调研、对比分析 |
+| **Fixer** | subagent | prompt 约束：只写清单文件、`./working/fixer/`、`./reviews/`（代码项目 → `./docs/reviews/`） | 定点修复，不顺手优化 |
+| **Butler** | subagent | prompt 约束：只写 `./reports/`、`./working/butler-*`（代码项目 → `./docs/reports/`） | 复盘工作目录、提出 skill 优化建议 |
 
 ---
 
@@ -141,6 +141,8 @@ Skill 是可加载的指令集，不是独立 agent。用 `bm.*` 前缀做命名
 
 ## 文件落点（所有 agent 遵守）
 
+**非代码项目**（笔记、Obsidian vault 等）：
+
 ```
 你启动 opencode 的目录/
 ├── scripts/      ← 脚本（一次性 / 可复用）
@@ -149,9 +151,24 @@ Skill 是可加载的指令集，不是独立 agent。用 `bm.*` 前缀做命名
 └── ...           ← 你的项目本身
 ```
 
+**代码项目**（检测标志：`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml` 等）：
+
+```
+你启动 opencode 的目录/
+├── scripts/      ← 脚本（一次性 / 可复用）
+├── working/      ← 中间产物（不变）
+├── docs/         ← 所有文档类产物
+│   ├── research/
+│   ├── reviews/
+│   ├── reports/
+│   └── ...
+└── ...           ← 你的代码项目
+```
+
 - ✅ 所有产物都在当前目录，Finder 能看见，不用 `.tmp/` 隐藏目录
 - ✅ 不会往 `/tmp/`、`~/Desktop/`、`~/Downloads/` 写东西，避免每次问你授权
 - ✅ `working/` 让你一眼知道哪些是中间产物，可以放心清理
+- ✅ 代码项目：文档类产物统一放 `./docs/`，保持项目根目录整洁
 
 ---
 

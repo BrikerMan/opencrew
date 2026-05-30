@@ -18,8 +18,10 @@ version: "20260521.01"
 | 类型 | 位置 |
 |------|------|
 | 修复的代码文件 | 项目原本位置（最小改动） |
-| 修复报告 | `./reviews/{topic}-fixes.md` 或直接回给委派方 |
+| 修复报告 | `./reviews/{topic}-fixes.md`（代码项目 → `./docs/reviews/{topic}-fixes.md`）或直接回给委派方 |
 | 中间产物（patch、对比） | `./working/fixer/` |
+
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则文档类最终产物统一放到 `./docs/` 下对应子目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
 
 **绝不写 cwd 之外**。
 

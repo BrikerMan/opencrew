@@ -20,6 +20,8 @@ version: "20260521.01"
 | 代码文件 | 项目原本的目录结构 |
 | 临时调试 | `./working/scratch.*` |
 
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则所有文档类最终产物（spec、报告等）统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+
 **绝不写入 cwd 之外**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/`。需要执行脚本就放 `./scripts/`，需要中间产物就放 `./working/`。
 
 ---

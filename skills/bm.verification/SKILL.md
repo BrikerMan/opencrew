@@ -153,3 +153,5 @@ $ markdownlint output/report.md
 ## 文件落点
 
 验证证据/日志 → `./working/verification-{task}.log`，必要时附在报告里。
+
+**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则文档类最终产物统一放到 `./docs/` 下对应子目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。

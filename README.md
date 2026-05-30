@@ -81,9 +81,9 @@ graph TD
 | **Lead** | primary | full + delegate | Your chief of staff. Understand intent → delegate → quality control. Also handles life/health/scheduling |
 | **Coder** | primary | full + delegate | Writes code, fixes bugs, refactors, builds UI |
 | **QA** | primary | full + delegate | Tests, code review, doc review |
-| **Researcher** | subagent | scoped write by prompt: `./research/`, `./working/research/` | Deep research, comparative analysis |
-| **Fixer** | subagent | scoped write by prompt: listed files, `./working/fixer/`, `./reviews/` | Targeted fixes only, no scope creep |
-| **Butler** | subagent | scoped write by prompt: `./reports/`, `./working/butler-*` | Weekly review, working-dir cleanup suggestions, skill optimization proposals |
+| **Researcher** | subagent | scoped write by prompt: `./research/`, `./working/research/` (code project → `./docs/research/`) | Deep research, comparative analysis |
+| **Fixer** | subagent | scoped write by prompt: listed files, `./working/fixer/`, `./reviews/` (code project → `./docs/reviews/`) | Targeted fixes only, no scope creep |
+| **Butler** | subagent | scoped write by prompt: `./reports/`, `./working/butler-*` (code project → `./docs/reports/`) | Weekly review, working-dir cleanup suggestions, skill optimization proposals |
 
 ---
 
@@ -141,6 +141,8 @@ A skill is a loadable instruction set, not a separate agent. The `bm.*` prefix i
 
 ## File layout (every agent obeys)
 
+**Non-code projects (notes, Obsidian vaults, etc.):**
+
 ```
 <dir-where-you-launched-opencode>/
 ├── scripts/      ← scripts (one-off / reusable)
@@ -149,9 +151,24 @@ A skill is a loadable instruction set, not a separate agent. The `bm.*` prefix i
 └── ...           ← your project itself
 ```
 
+**Code projects** (detected by `package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, etc.):
+
+```
+<dir-where-you-launched-opencode>/
+├── scripts/      ← scripts (one-off / reusable)
+├── working/      ← intermediate artifacts (unchanged)
+├── docs/         ← all document artifacts (research/, reviews/, reports/, meetings/, etc.)
+│   ├── research/
+│   ├── reviews/
+│   ├── reports/
+│   └── ...
+└── ...           ← your code project
+```
+
 - ✅ Everything in cwd, visible in Finder, no `.tmp/` style hidden dirs
 - ✅ Never writes to `/tmp/`, `~/Desktop/`, `~/Downloads/`—no permission-prompt fatigue
 - ✅ `working/` makes it obvious what's intermediate and safe to clean
+- ✅ Code projects: docs go to `./docs/` to keep the project root clean
 
 ---
 
