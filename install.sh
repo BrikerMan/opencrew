@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # opencrew installer
-# Version: 20260521.03
+# Version: 20260530.01
 # Source:  https://github.com/brikerman/opencrew
 #
 # What it does:
@@ -21,7 +21,7 @@ set -euo pipefail
 #   ./install.sh --force      # Overwrite existing/modified files
 #   ./install.sh --help
 
-VERSION="20260521.03"
+VERSION="20260530.01"
 
 # ─── Paths / Args ──────────────────────────────────────────
 
@@ -443,6 +443,11 @@ step_check_skilless() {
 
 # ─── Check ─────────────────────────────────────────────────
 
+# Extract version string from YAML frontmatter (first 10 lines)
+extract_version() {
+  head -10 "$1" 2>/dev/null | sed -n 's/^version:[[:space:]]*"\?\([^"]*\)"\?/\1/p' | head -1
+}
+
 do_check() {
   step "Check (${SCOPE})"
   local errors=0 warnings=0 outdated=0
@@ -457,7 +462,14 @@ do_check() {
       printf "  %s✗%s %s — missing\n" "$C_RED" "$C_RESET" "${agent}.md"
       safe_inc errors
     elif $have_src && [ -f "$SRC_AGENTS/${agent}.md" ] && ! diff -q "$SRC_AGENTS/${agent}.md" "$ad/${agent}.md" >/dev/null 2>&1; then
-      printf "  %s[~]%s %s %soutdated (differs from source)%s\n" "$C_YELLOW" "$C_RESET" "${agent}.md" "$C_DIM" "$C_RESET"
+      local v_src v_dst
+      v_src="$(extract_version "$SRC_AGENTS/${agent}.md")"
+      v_dst="$(extract_version "$ad/${agent}.md")"
+      if [ -n "$v_src" ] && [ -n "$v_dst" ]; then
+        printf "  %s[~]%s %-14s %soutdated (%s → %s)%s\n" "$C_YELLOW" "$C_RESET" "${agent}.md" "$C_DIM" "$v_dst" "$v_src" "$C_RESET"
+      else
+        printf "  %s[~]%s %-14s %soutdated (differs from source)%s\n" "$C_YELLOW" "$C_RESET" "${agent}.md" "$C_DIM" "$C_RESET"
+      fi
       safe_inc outdated
     else
       printf "  %s✓%s %s\n" "$C_GREEN" "$C_RESET" "${agent}.md"
@@ -470,7 +482,14 @@ do_check() {
       printf "  %s✗%s %s — missing\n" "$C_RED" "$C_RESET" "${skill}"
       safe_inc errors
     elif $have_src && [ -f "$SRC_SKILLS/${skill}/SKILL.md" ] && ! diff -q "$SRC_SKILLS/${skill}/SKILL.md" "$GLOBAL_SKILLS_DIR/${skill}/SKILL.md" >/dev/null 2>&1; then
-      printf "  %s[~]%s %s %soutdated (differs from source)%s\n" "$C_YELLOW" "$C_RESET" "${skill}" "$C_DIM" "$C_RESET"
+      local v_src v_dst
+      v_src="$(extract_version "$SRC_SKILLS/${skill}/SKILL.md")"
+      v_dst="$(extract_version "$GLOBAL_SKILLS_DIR/${skill}/SKILL.md")"
+      if [ -n "$v_src" ] && [ -n "$v_dst" ]; then
+        printf "  %s[~]%s %-30s %soutdated (%s → %s)%s\n" "$C_YELLOW" "$C_RESET" "${skill}" "$C_DIM" "$v_dst" "$v_src" "$C_RESET"
+      else
+        printf "  %s[~]%s %-30s %soutdated (differs from source)%s\n" "$C_YELLOW" "$C_RESET" "${skill}" "$C_DIM" "$C_RESET"
+      fi
       safe_inc outdated
     else
       printf "  %s✓%s %s\n" "$C_GREEN" "$C_RESET" "${skill}"
