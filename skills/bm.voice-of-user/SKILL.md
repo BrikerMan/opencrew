@@ -1,207 +1,207 @@
 ---
 name: bm.voice-of-user
-description: "从用户视角拷问产品/spec/feature：扮演不同 persona 跑流程，列摩擦点，给用户语言（不是技术语言）的改进建议。Use when designing or reviewing a product, feature, spec, UI, UX, flow, copy, 产品, 设计, 评审, 用户体验, UX, 易用性, 流程, 文案, review feature, design review, user perspective. 填补「用户视角」缺口。"
+description: "Challenge product/spec/feature from user perspective: play different personas walking through flows, list friction points, give improvement suggestions in user language (not technical jargon). Use when designing or reviewing a product, feature, spec, UI, UX, flow, copy, 产品, 设计, 评审, 用户体验, UX, 易用性, 流程, 文案, review feature, design review, user perspective. Fills the 'user perspective' gap."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: Voice of User（用户视角拷问与评审）
+# Skill: Voice of User (User Perspective Review)
 
-**站在用户那一侧**审视产品/功能/spec/文案/流程。不是技术评审，是把自己当成「真用户」去发现问题、给意见。
-
----
-
-## 适用场景
-
-- 评审一个 feature 设计 / spec / PRD
-- 评审 UI / 流程 / 文案
-- 决定要不要加一个功能（先看用户视角值不值得）
-- 优化已有产品的体验
-- 写产品介绍 / Landing Page 时检查是否能打动用户
-
-**不适用**：技术质量审查（用 [bm.review-checklist](../bm.review-checklist/SKILL.md)）、bug 排查（用 [bm.systematic-troubleshooting](../bm.systematic-troubleshooting/SKILL.md)）。
+**Stand on the user's side** to scrutinize products/features/specs/copy/flows. This is not a technical review — it's about putting yourself in the shoes of a "real user" to discover problems and give feedback.
 
 ---
 
-## 核心原则
+## Applicable Scenarios
 
-1. **不是设计者视角，是用户视角**。设计者懂上下文、知道为什么，用户不懂、不在乎。
-2. **用户语言**：不说"trade-off"、"P0"、"MVP"，说"够用"、"省心"、"麻烦"。
-3. **具体场景**：不说"这里体验不好"，说"我（新手）第一次进来看到 X，我会想 Y"。
-4. **真正卡住的问题 vs 锦上添花**：分级，别一锅端。
+- Reviewing a feature design / spec / PRD
+- Reviewing UI / flows / copy
+- Deciding whether to add a feature (first check from user perspective if it's worth it)
+- Improving an existing product's experience
+- Checking if product intro / Landing Page can resonate with users
+
+**Not applicable**: Technical quality review (use [bm.review-checklist](../bm.review-checklist/SKILL.md)), bug troubleshooting (use [bm.systematic-troubleshooting](../bm.systematic-troubleshooting/SKILL.md)).
 
 ---
 
-## 工作流程
+## Core Principles
 
-### Step 1：明确评审对象
+1. **Not the designer's perspective, but the user's**. Designers know the context and the "why"; users don't know and don't care.
+2. **User language**: Don't say "trade-off", "P0", "MVP"; say "good enough", "hassle-free", "annoying".
+3. **Specific scenarios**: Don't say "the experience here is bad"; say "as a first-time user, when I see X, I think Y".
+4. **Truly blocking issues vs. nice-to-haves**: Rank them; don't lump everything together.
 
-读 spec / 看截图 / 听用户口述。如果信息不全，问：
-- 这是给谁用的？（**最关键**）
-- 用户在什么情境下会用到？（手机/电脑、忙/闲、刚听说/老用户）
-- 解决用户的什么问题？
+---
 
-### Step 2：选 personas（至少 3 个）
+## Workflow
 
-不要只用一个"理想用户"评审。至少跑 3 个 persona：
+### Step 1: Clarify the Review Target
 
-| Persona | 特点 | 关注点 |
+Read the spec / look at screenshots / listen to user's verbal description. If information is incomplete, ask:
+- Who is this for? (**Most critical**)
+- In what context will users encounter this? (mobile/desktop, busy/idle, new user/veteran)
+- What user problem does it solve?
+
+### Step 2: Select Personas (At Least 3)
+
+Don't review with only one "ideal user". Run at least 3 personas:
+
+| Persona | Characteristics | Focus |
 |---|---|---|
-| **新手 / 第一次** | 不知道这是什么、怎么用 | 第一眼能不能懂；前 60 秒会不会跑 |
-| **不耐烦 / 忙碌** | 没时间读说明、想快速完成 | 几步完成；有没有不必要的步骤 |
-| **重度用户 / 老手** | 熟悉同类产品、有比较 | 高频操作快不快；快捷方式有没有 |
-| **不熟悉技术的人** | 长辈、非技术职业 | 术语能不能懂；出错时能不能恢复 |
-| **无障碍用户** | 视障、运动障碍、键盘党 | 能不能用键盘走通；颜色对比够不够 |
+| **Novice / First Time** | Doesn't know what this is or how to use it | Can they understand at first glance; will they bounce in the first 60 seconds |
+| **Impatient / Busy** | No time to read instructions, wants to finish quickly | How many steps to complete; are there unnecessary steps |
+| **Power User / Veteran** | Familiar with similar products, has comparisons | Is high-frequency operation fast; are there shortcuts |
+| **Non-technical Person** | Elderly, non-tech professions | Can they understand the terminology; can they recover from errors |
+| **Accessibility User** | Visually impaired, motor impaired, keyboard-only users | Can they complete the flow with keyboard; is color contrast sufficient |
 
-任务背景里如果有具体的目标用户画像，加进来或替换。
+If the task background includes specific target user personas, add them or substitute.
 
-### Step 3：每个 persona 走一遍流程
+### Step 3: Walk Through the Flow for Each Persona
 
-按用户视角描述：**「我是 XXX，我打开 X，我看到 Y，我想 Z，我做 W，结果是……」**
+Describe from the user's perspective: **"I am XXX, I open X, I see Y, I want Z, I do W, the result is..."**
 
-记录：
-- **看到**：界面/文字/按钮
-- **想到**：心里的疑问、期待、误解
-- **做了**：动作
-- **结果**：是否符合预期；如果不符合，卡在哪
+Record:
+- **See**: Interface/text/buttons
+- **Think**: Inner questions, expectations, misunderstandings
+- **Do**: Actions
+- **Result**: Whether it matches expectations; if not, where they got stuck
 
-**重点抓**：
-- 哪一步最容易放弃 / 退出
-- 哪句话/术语会让用户懵
-- 哪个按钮会让用户不知道点不点
-- 几步才能完成核心目的（越多越糟）
+**Focus on catching**:
+- Which step is most likely to cause abandonment / exit
+- Which phrase/term confuses the user
+- Which button makes the user unsure whether to click it
+- How many steps to complete the core purpose (more = worse)
 
-### Step 4：列摩擦点 + 分级
+### Step 4: List Friction Points + Rank Them
 
 ```markdown
-## 摩擦点（按严重程度）
+## Friction Points (By Severity)
 
-### 🔴 阻断级（用户会放弃）
-- **新手第一次进首页**：看到「配置 vault 路径」不知道是啥，可能直接关掉
-  - 建议文案：「告诉我笔记放在哪个文件夹」+ 一个「让我自己选」按钮
+### 🔴 Blocking (User Will Abandon)
+- **Novice landing on homepage for the first time**: Sees "configure vault path" and doesn't know what it means, might just close the app
+  - Suggested copy: "Tell me which folder your notes are in" + a "Let me choose" button
 
-### 🟡 不爽级（能做完但烦）
-- **重度用户**：每次添加任务都要点 4 次，能不能一键？
-  - 建议：加 `Cmd+N` 快捷键
+### 🟡 Annoying (Can Complete But Frustrating)
+- **Power user**: Need to click 4 times every time to add a task, can we make it one click?
+  - Suggestion: Add `Cmd+N` keyboard shortcut
 
-### 🟢 锦上添花
-- 颜色可以更协调一点
+### 🟢 Nice to Have
+- Colors could be more harmonious
 ```
 
-### Step 5：建议要给替代方案
+### Step 5: Suggestions Must Include Alternatives
 
-不只说"这里不行"，要给至少一个具体替代：
+Don't just say "this doesn't work"; provide at least one specific alternative:
 
-❌ "这个按钮文案不好"
-✅ "把『确认提交』改成『就这样发出去』——更口语，新手更容易点"
+❌ "This button copy is bad"
+✅ "Change 'Confirm Submit' to 'Send It Like This' — more conversational, easier for novices to click"
 
-❌ "流程太长了"
-✅ "把第 2、3 步合并成一个表单，原本 5 步 → 3 步"
-
----
-
-## 经典追问清单
-
-每次都问自己（不一定全都用）：
-
-**入口/第一印象**
-- 用户怎么知道有这个功能？
-- 第一眼能看懂这是干嘛的吗？
-- 能不能 30 秒内说出价值？
-
-**任务路径**
-- 完成核心目标要几步？
-- 中间有没有多余步骤？
-- 哪些步骤要用户输入？输入要花多少脑力？
-
-**容错**
-- 用户做错了能不能回去？
-- 出错的提示用户能看懂吗？
-- 删/不可逆操作有没有确认？
-
-**等待/反馈**
-- 慢操作有没有进度提示？
-- 完成有没有明显反馈？
-- 失败时知道下一步该干啥吗？
-
-**离开/再来**
-- 用户离开后再来还能找到上次的状态吗？
-- 用完会不会想推荐给朋友？为什么？
+❌ "The flow is too long"
+✅ "Merge steps 2 and 3 into one form, from 5 steps → 3 steps"
 
 ---
 
-## 反模式
+## Classic Follow-up Question Checklist
 
-| 反模式 | 为什么错 | 正确做法 |
+Ask yourself each time (not all need to be used):
+
+**Entry / First Impression**
+- How does the user know this feature exists?
+- Can they understand what it does at first glance?
+- Can they articulate the value within 30 seconds?
+
+**Task Path**
+- How many steps to complete the core goal?
+- Are there unnecessary intermediate steps?
+- Which steps require user input? How much mental effort does the input take?
+
+**Error Tolerance**
+- Can the user go back if they make a mistake?
+- Can the user understand error messages?
+- Are there confirmations for destructive/irreversible actions?
+
+**Waiting / Feedback**
+- Is there a progress indicator for slow operations?
+- Is there clear feedback upon completion?
+- When it fails, does the user know what to do next?
+
+**Leaving / Returning**
+- Can the user find their previous state when they come back?
+- After using it, would they want to recommend it to a friend? Why?
+
+---
+
+## Anti-Patterns
+
+| Anti-Pattern | Why It's Wrong | Correct Approach |
 |---|---|---|
-| 抽象的"体验不好" | 没法行动 | 具体到「哪个 persona、看到啥、想啥、卡在哪」 |
-| 只挑刺不给方案 | 设计者没法改 | 每个问题至少 1 个替代方案 |
-| 用产品经理黑话 | 用户不会这么想 | 用户语言 |
-| 一锅端列 30 条问题 | 没重点，改不动 | 分阻断/不爽/锦上添花，先解决阻断级 |
-| 拿"我觉得"代表用户 | 你不是用户 | 明确按 persona 评审，注明这是哪个 persona 的视角 |
-| 评审完就结束 | 改了之后没复审 | 改完后再走一遍 persona 流程验证 |
+| Vague "experience is bad" | Not actionable | Specific to "which persona, sees what, thinks what, stuck where" |
+| Only criticizing without solutions | Designer can't act on it | At least 1 alternative per issue |
+| Using product manager jargon | Users don't think like that | User language |
+| Dumping 30 issues at once | No focus, can't fix them all | Rank as blocking/annoying/nice-to-have, fix blocking first |
+| Representing users with "I think" | You are not the user | Review per persona explicitly, note which persona's perspective |
+| Ending after review | No re-review after changes | Walk through persona flow again after fixes to verify |
 
 ---
 
-## 输出模板
+## Output Template
 
 ```markdown
-# Voice of User 评审：{对象}
+# Voice of User Review: {Target}
 
-**评审对象**：{spec / 功能 / 截图 / 流程}
-**目标用户**：{画像}
-**核心目标**：{用户用这个想达成什么}
+**Review Target**: {spec / feature / screenshot / flow}
+**Target Users**: {Personas}
+**Core Goal**: {What users want to achieve with this}
 
 ## Personas
 
-1. **{P1 名字}**：{背景一句话}
-2. **{P2 名字}**：{背景一句话}
-3. **{P3 名字}**：{背景一句话}
+1. **{P1 Name}**: {One-sentence background}
+2. **{P2 Name}**: {One-sentence background}
+3. **{P3 Name}**: {One-sentence background}
 
-## 流程走查
+## Flow Walkthrough
 
-### {P1} 视角
-> 我是 X，我打开 Y，我看到 Z……
+### {P1} Perspective
+> I am X, I open Y, I see Z...
 
-- ✅ 顺畅的环节
-- ⚠️ 摩擦点 1
-- ❌ 阻断点
+- ✅ Smooth parts
+- ⚠️ Friction point 1
+- ❌ Blocking point
 
-### {P2} 视角
+### {P2} Perspective
 ...
 
-## 摩擦点汇总
+## Friction Points Summary
 
-### 🔴 阻断级
-- ...（建议 ...）
+### 🔴 Blocking
+- ... (Suggestion: ...)
 
-### 🟡 不爽级
-- ...（建议 ...）
+### 🟡 Annoying
+- ... (Suggestion: ...)
 
-### 🟢 锦上添花
+### 🟢 Nice to Have
 - ...
 
-## 总评
+## Overall Assessment
 
-**值得做吗**：{对核心目标的判断}
-**最优先 fix**：{1-3 件事}
+**Worth doing?**: {Judgment on core goal}
+**Top priority fixes**: {1-3 things}
 ```
 
 ---
 
-## 与其他 skill 的协作
+## Collaboration with Other Skills
 
-- 设计前：[bm.brainstorming](../bm.brainstorming/SKILL.md) 已经把 spec 定下来 → 这里跑 voice-of-user 拷问
-- 改完之后：再走一次 voice-of-user → 然后用 [bm.verification](../bm.verification/SKILL.md) 自验证
-- 写产品文案 / Landing：完稿后用 voice-of-user 看新用户能不能 30 秒被打动
+- Before design: [bm.brainstorming](../bm.brainstorming/SKILL.md) has already finalized the spec → run voice-of-user review here
+- After changes: Run voice-of-user again → then use [bm.verification](../bm.verification/SKILL.md) for self-verification
+- Writing product copy / Landing Page: After draft is done, use voice-of-user to check if new users can be engaged within 30 seconds
 
 ---
 
-## 文件落点
+## File Locations
 
-- **中间产物**：`./working/voice-of-user-{topic}.md`
-- **最终产物**：`./reviews/{topic}-uxreview.md`（代码项目 → `./docs/reviews/{topic}-uxreview.md`）（用户要求正式评审/归档时）
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Intermediate artifacts**: `./working/voice-of-user-{topic}.md`
+- **Final artifacts**: `./reviews/{topic}-uxreview.md` (code project → `./docs/reviews/{topic}-uxreview.md`) (when user requests formal review/archiving)
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.

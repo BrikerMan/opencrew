@@ -1,153 +1,153 @@
 ---
 name: bm.brainstorming
-description: "动手前精炼意图：用苏格拉底式追问把模糊需求变成清晰 spec，分块呈现给用户确认后再开干。Use when user has a vague idea, fuzzy goal, or complex request that needs sharpening, 想做, 想要, 计划, 设计, 帮我做, 帮我想, brainstorm, idea, plan, spec, design. 写文章/做决策/做计划/写代码前都适用。"
+description: "Refine intent before taking action: use Socratic questioning to turn vague requirements into clear specs, present in chunks for user confirmation before proceeding. Use when user has a vague idea, fuzzy goal, or complex request that needs sharpening, 想做, 想要, 计划, 设计, 帮我做, 帮我想, brainstorm, idea, plan, spec, design. Applicable before writing articles, making decisions, planning, or writing code."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: Brainstorming（动手前精炼意图）
+# Skill: Brainstorming (Refine Intent Before Taking Action)
 
-**写代码/写文章/做决策之前，先把模糊的想法磨成明确的 spec，让用户确认每一块再继续**。受众非技术，写文章、定计划、做产品决策都可以用。
-
----
-
-## 何时触发
-
-用户给的需求是**模糊**或**多解**的，比如：
-
-- "帮我写个 X" → X 是什么？给谁看？目标是什么？
-- "我想做个 Y 工具/产品/活动" → 解决什么问题？目标用户？范围？
-- "帮我想想 Z" → 想清楚什么？已有什么约束？
-- "重构/优化/整理 W" → 现状哪里不满意？理想状态什么样？
-
-**不要触发的情况**：用户给的是清晰、可直接执行的指令（"把 README 第二段改成 XXX"、"装一下 ffmpeg"）。
+**Before writing code/articles or making decisions, first grind vague ideas into clear specs, have the user confirm each piece, then continue.** Target audience is non-technical; writing articles, planning, and product decisions all apply.
 
 ---
 
-## 核心流程
+## When to Trigger
 
-### Step 1：识别模糊点（不要立刻动手）
+The user gives a **vague** or **open-ended** requirement, such as:
 
-读用户的输入，列出 **3-5 个最关键的不确定项**。优先级：
+- "Help me write an X" → What is X? Who is it for? What's the goal?
+- "I want to build a Y tool/product/event" → What problem does it solve? Target users? Scope?
+- "Help me think about Z" → Think through what? What constraints exist?
+- "Refactor/optimize/organize W" → What's unsatisfactory about the current state? What would ideal look like?
 
-1. **目标**：这件事做完，要达到什么状态？成功标准是什么？
-2. **受众/用户**：谁会看/用这个？他们的背景和期待？
-3. **范围**：什么必须有，什么不必有，什么坚决不做？
-4. **约束**：时间、预算、技术、风格上的硬限制？
-5. **已有素材**：用户手头有什么参考、半成品、相关资料？
+**Do NOT trigger when**: The user gives a clear, directly executable instruction ("Change the second paragraph of the README to XXX", "Install ffmpeg").
 
-### Step 2：苏格拉底式追问
+---
 
-**一次只问 1-2 个最关键的问题**。不要一次甩 10 个问题，用户会烦。
+## Core Process
 
-问题原则：
-- **具体**：不问"你想要什么风格"，问"你希望像 A 那样还是像 B 那样？给个例子"
-- **二选一/多选一**：减少用户脑力负担
-- **基于猜测**：先猜一个答案给用户验证（"我理解你是想 X，对吗？"）
+### Step 1: Identify Ambiguities (Do Not Start Immediately)
 
-例子：
+Read the user's input and list the **3-5 most critical uncertainties**. Priority:
 
-❌ 差："你想做个什么样的产品？"
-✅ 好："这个工具是给你自己用，还是要给别人用？如果给别人，是同事还是付费用户？"
+1. **Goal**: What state should things be in after completion? What are the success criteria?
+2. **Audience/Users**: Who will see/use this? Their background and expectations?
+3. **Scope**: What must be included, what's optional, what's strictly excluded?
+4. **Constraints**: Time, budget, technical, or style hard limits?
+5. **Existing Materials**: What references, drafts, or related materials does the user have?
 
-❌ 差："文章风格怎么定？"
-✅ 好："这篇文章是想严肃论证（像学术）还是想吸引注意力（像公众号）？我倾向后者，因为你提到要发朋友圈。"
+### Step 2: Socratic Questioning
 
-### Step 3：分块呈现 spec（关键）
+**Ask only 1-2 most critical questions at a time.** Don't throw 10 questions at once — users will be annoyed.
 
-**不要一次呈现完整的长 spec**，分块给用户看：
+Questioning principles:
+- **Specific**: Don't ask "what style do you want", ask "do you want it like A or like B? Give an example"
+- **Multiple choice**: Reduce cognitive load for the user
+- **Based on guesses**: First guess an answer for the user to verify ("I understand you want X, is that right?")
+
+Examples:
+
+❌ Bad: "What kind of product do you want to build?"
+✅ Good: "Is this tool for your own use, or for others? If for others, is it for colleagues or paying customers?"
+
+❌ Bad: "What style should the article be?"
+✅ Good: "Is this article meant to be a serious argument (like academic) or to attract attention (like social media)? I lean toward the latter, since you mentioned sharing it on social media."
+
+### Step 3: Present Spec in Chunks (Critical)
+
+**Don't present the entire long spec at once.** Show it to the user in chunks:
 
 ```
-我的理解（请确认或纠正）：
+My understanding (please confirm or correct):
 
-【目标】
-- 成功标准：XXX
+【Goal】
+- Success criteria: XXX
 
-【受众】
-- 主要：YYY
-- 次要：ZZZ
+【Audience】
+- Primary: YYY
+- Secondary: ZZZ
 
-⏸️ 这两块对吗？我先确认这个，再继续问范围和约束。
+⏸️ Are these two parts correct? I'll confirm this first, then continue with scope and constraints.
 ```
 
-用户确认 → 继续下一块。用户纠正 → 改完再确认 → 继续。
+User confirms → Continue to the next chunk. User corrects → Fix and re-confirm → Continue.
 
-### Step 4：完整 spec 落盘
+### Step 4: Finalize the Complete Spec
 
-确认完所有块后，写入 `./working/brainstorm-{topic}.md`（中间产物）或 `./{topic}-spec.md`（最终产物）：
+After all chunks are confirmed, write to `./working/brainstorm-{topic}.md` (intermediate artifact) or `./{topic}-spec.md` (final artifact):
 
 ```markdown
-# Spec: {主题}
+# Spec: {Topic}
 
-## 目标
-- 成功标准：...
+## Goal
+- Success criteria: ...
 
-## 受众
-- 主要：...
+## Audience
+- Primary: ...
 
-## 范围
-- 必须有：...
-- 不做：...
+## Scope
+- Must have: ...
+- Will not do: ...
 
-## 约束
-- 时间：...
-- 风格：...
+## Constraints
+- Time: ...
+- Style: ...
 
-## 已有素材
+## Existing Materials
 - ...
 
-## 下一步
+## Next Steps
 - [ ] ...
 ```
 
-### Step 5：明确交接
+### Step 5: Clear Handoff
 
 ```
-Spec 已落到 ./{topic}-spec.md，确认无误我就开始动手。
+Spec has been saved to ./{topic}-spec.md. Confirm it's correct and I'll start working.
 ```
 
 ---
 
-## 反模式（不要这样）
+## Anti-Patterns (Don't Do These)
 
-| 反模式 | 为什么错 | 正确做法 |
+| Anti-Pattern | Why It's Wrong | Correct Approach |
 |---|---|---|
-| 直接开干 | 走偏的代价 = 全部返工 | 先 spec 后干 |
-| 一次问 10 个问题 | 用户被吓跑 | 一次 1-2 个，分块走 |
-| 给开放式问题 | 用户不知怎么答 | 给具体选项或猜测让用户确认 |
-| 一次甩完整 spec | 太长，用户读不完不会逐块校对 | 分块，每块停一下 |
-| 只问不猜 | 像审讯，用户烦 | 先猜一个版本让用户改 |
-| 用户一句"差不多"就开干 | 模糊点没解决 | 卡住的关键点必须明确 |
+| Start working immediately | Cost of going off track = full rework | Spec first, then execute |
+| Ask 10 questions at once | User gets overwhelmed | 1-2 at a time, in chunks |
+| Give open-ended questions | User doesn't know how to answer | Give specific options or guesses for user to confirm |
+| Dump the entire spec at once | Too long, user won't read and verify each part | Present in chunks, pause at each |
+| Only ask, never guess | Feels like an interrogation, user gets annoyed | First guess a version for the user to modify |
+| Start working after user says "roughly" | Ambiguities remain unresolved | Key sticking points must be made explicit |
 
 ---
 
-## 三档触发深度
+## Three Tiers of Depth
 
-按需求复杂度选档：
+Choose based on requirement complexity:
 
-| 档位 | 适用 | 工作量 |
+| Tier | Applicable | Effort |
 |---|---|---|
-| **轻量** | 简单需求只有 1-2 个模糊点 | 直接问 1 句，得到答案就动手，不写 spec 文件 |
-| **标准** | 中等复杂度，需要确认目标+范围 | 完整走 Step 1-5，spec 写到 working/ |
-| **深度** | 大项目、产品、长内容 | 标准基础上加竞品/参考调研，spec 写到根目录归档 |
+| **Light** | Simple requirement with only 1-2 ambiguities | Just ask 1 question, start working after getting the answer, don't write a spec file |
+| **Standard** | Medium complexity, need to confirm goal + scope | Complete Steps 1-5, write spec to working/ |
+| **Deep** | Large project, product, long-form content | Standard + competitive/reference research, write spec to root directory for archiving |
 
-模糊时主动问用户："这是想快速对齐一下，还是要做个完整的 spec？"
-
----
-
-## 与其他 skill 的协作
-
-- 完成 spec 后，**真正动手前**：调用 [bm.voice-of-user](../bm.voice-of-user/SKILL.md) 从用户视角拷问一遍
-- 完成执行后：调用 [bm.verification](../bm.verification/SKILL.md) 自验证是否达成 spec 里的成功标准
-- 写文章/报告：spec 落盘后用 `skilless.ai-writing` 执行
-- 调研需求：spec 落盘后用 `skilless.ai-research` 或 [bm.research](../bm.research/SKILL.md)
+When unsure, proactively ask the user: "Do you want to quickly align, or create a complete spec?"
 
 ---
 
-## 文件落点
+## Collaboration with Other Skills
 
-- 中间 brainstorm 草稿 → `./working/brainstorm-{topic}.md`
-- 最终 spec → `./{topic}-spec.md`（代码项目 → `./docs/{topic}-spec.md`）或用户指定位置
-- 不写 `/tmp/`、不用隐藏目录
+- After completing spec, **before actually starting work**: invoke [bm.voice-of-user](../bm.voice-of-user/SKILL.md) to challenge from the user's perspective
+- After completing execution: invoke [bm.verification](../bm.verification/SKILL.md) to self-verify whether the spec's success criteria are met
+- Writing articles/reports: use `skilless.ai-writing` to execute after spec is finalized
+- Research needs: use `skilless.ai-research` or [bm.research](../bm.research/SKILL.md) after spec is finalized
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+---
+
+## File Locations
+
+- Intermediate brainstorm drafts → `./working/brainstorm-{topic}.md`
+- Final spec → `./{topic}-spec.md` (code project → `./docs/{topic}-spec.md`) or user-specified location
+- Don't write to `/tmp/` or hidden directories
+
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.

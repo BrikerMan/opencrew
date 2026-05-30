@@ -170,6 +170,14 @@ A skill is a loadable instruction set, not a separate agent. The `bm.*` prefix i
 - ✅ `working/` makes it obvious what's intermediate and safe to clean
 - ✅ Code projects: docs go to `./docs/` to keep the project root clean
 
+### AGENTS.md — per-project file organization
+
+When Lead enters a structured project for the first time, it can **propose a file organization plan** (where research, reviews, specs, etc. should land) and converge it into `./AGENTS.md`. Once established, all agents follow the project's `AGENTS.md` rules. If `AGENTS.md` already exists, agents follow it as-is.
+
+- ✅ One file (`./AGENTS.md`) defines the project's file placement conventions
+- ✅ Lead proposes, user confirms, all agents obey
+- ✅ Project rules override opencrew defaults
+
 ---
 
 ## Install

@@ -1,64 +1,64 @@
 ---
 name: bm.project-mgmt
-description: "项目管理：项目创建、任务管理、进度追踪、风险评估、周报生成。Use when user needs to manage projects, tasks, milestones, risks, timelines, 项目, 任务, 进度, 风险, 里程碑, 排期, project, task, sprint. 数据存入当前工作目录，按目录组织。"
+description: "Project management: project creation, task management, progress tracking, risk assessment, weekly report generation. Use when user needs to manage projects, tasks, milestones, risks, timelines, 项目, 任务, 进度, 风险, 里程碑, 排期, project, task, sprint. Data stored in current working directory, organized by directory."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: 项目管理
+# Skill: Project Management
 
-## 作用域
+## Scope
 
-项目跟踪、周报生成、风险预警、任务分解。
+Project tracking, weekly report generation, risk early warning, task decomposition.
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./projects/...`（代码项目 → `./docs/projects/...`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/project/`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./projects/...` (code project → `./docs/projects/...`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/project/`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
 ---
 
-## 项目跟踪
+## Project Tracking
 
-### 里程碑管理
+### Milestone Management
 
-每个项目定义 3-7 个里程碑。每个里程碑：
+Define 3-7 milestones per project. Each milestone:
 
 ```markdown
-## 里程碑
+## Milestones
 
-| 名称 | 交付物 | 截止日期 | 状态 |
+| Name | Deliverable | Deadline | Status |
 |------|--------|---------|------|
-| M1: 基础架构 | API 框架 + DB schema | 2026-06-01 | ✅ done |
-| M2: 核心功能 | 用户注册/登录/CRUD | 2026-06-15 | 🟡 at-risk |
-| M3: 上线 | 部署 + 监控 | 2026-07-01 | ⬜ pending |
+| M1: Infrastructure | API framework + DB schema | 2026-06-01 | ✅ done |
+| M2: Core Features | User registration/login/CRUD | 2026-06-15 | 🟡 at-risk |
+| M3: Launch | Deployment + monitoring | 2026-07-01 | ⬜ pending |
 ```
 
-**状态灯**：
-- ✅ done — 已完成
-- 🟢 on-track — 正常推进
-- 🟡 at-risk — 有延期风险
-- 🔴 delayed — 已延期
+**Status lights**:
+- ✅ done — Completed
+- 🟢 on-track — Progressing normally
+- 🟡 at-risk — At risk of delay
+- 🔴 delayed — Already delayed
 
-### 进度评估
+### Progress Assessment
 
-- 用已完成里程碑数 / 总里程碑数 = 粗略百分比
-- **每周更新一次**，不要每天变
-- 关注趋势：连续两周 at-risk = 需要干预
+- Use completed milestones / total milestones = rough percentage
+- **Update once per week**, not daily
+- Watch trends: two consecutive weeks at-risk = intervention needed
 
-## 周报生成
+## Weekly Report Generation
 
-### 个人周报
+### Personal Weekly Report
 
-个人生活/成长周报由 `bm.life-journal` 负责，写入 `./journal/weekly/`。本 skill 只处理项目/工作周报；如果用户说“生活周报/个人复盘”，切到 `bm.life-journal`。
+Personal life/growth weekly reports are handled by `bm.life-journal` and written to `./journal/weekly/`. This skill only handles project/work weekly reports; if the user says "life weekly review/personal reflection", switch to `bm.life-journal`.
 
-### 项目周报
+### Project Weekly Report
 
-写入 `./projects/{Project}/mgmt/weekly-updates/YYYY-Wxx.md`：
+Write to `./projects/{Project}/mgmt/weekly-updates/YYYY-Wxx.md`:
 
 ```markdown
 ---
@@ -68,74 +68,74 @@ project: ProjectName
 tags: [project, weekly]
 ---
 
-# ProjectName 周报 2026-W18
+# ProjectName Weekly Report 2026-W18
 
-## 状态灯：🟢 on-track
+## Status Light: 🟢 on-track
 
 ## Last Week ✅
-- ✅ 完成 auth 模块重构（[[T-0015-auth-refactor]]）
-- ✅ 上线 v2.1 到 staging
+- ✅ Completed auth module refactoring ([[T-0015-auth-refactor]])
+- ✅ Deployed v2.1 to staging
 
 ## This Week 🎯
-- [ ] 生产环境发布 v2.1
-- [ ] 开始 notification 模块
+- [ ] Production deployment of v2.1
+- [ ] Start notification module
 
-## 风险/阻塞
-- staging 环境间歇性超时，需运维排查
+## Risks/Blockers
+- Staging environment intermittent timeouts, need ops investigation
 
 ← [[2026-W17]] | [[2026-W19]] →
 ```
 
-**周报连续性**：
-- 创建前先读前一期，对照上周计划逐项回顾
-- 用 `← 上周 | 下周 →` 链接形成时间线
+**Weekly report continuity**:
+- Read the previous issue before creating, review last week's plan item by item
+- Use `← last week | next week →` links to form a timeline
 
-## 风险管理
+## Risk Management
 
-### 风险识别清单
+### Risk Identification Checklist
 
-- **技术风险**：新技术、复杂集成、性能瓶颈、单点依赖
-- **资源风险**：人员变动、时间压缩、技能缺口
-- **需求风险**：需求变更、理解偏差、优先级调整
-- **外部风险**：第三方服务、政策变化、市场竞争
+- **Technical risks**: New technology, complex integrations, performance bottlenecks, single points of dependency
+- **Resource risks**: Personnel changes, compressed timelines, skill gaps
+- **Requirements risks**: Requirement changes, misunderstanding, priority shifts
+- **External risks**: Third-party services, policy changes, market competition
 
-### 评估矩阵
+### Assessment Matrix
 
-| 可能性 \ 影响 | 低影响 | 中影响 | 高影响 |
+| Probability \ Impact | Low Impact | Medium Impact | High Impact |
 |-------------|--------|--------|--------|
-| 高概率 | 🟡 监控 | 🟠 主动缓解 | 🔴 优先处理 |
-| 中概率 | 🟢 接受 | 🟡 监控 | 🟠 主动缓解 |
-| 低概率 | ⬜ 忽略 | 🟢 接受 | 🟡 监控 |
+| High probability | 🟡 Monitor | 🟠 Actively mitigate | 🔴 Prioritize |
+| Medium probability | 🟢 Accept | 🟡 Monitor | 🟠 Actively mitigate |
+| Low probability | ⬜ Ignore | 🟢 Accept | 🟡 Monitor |
 
-### 风险记录格式
+### Risk Record Format
 
 ```markdown
-| 风险描述 | 概率 | 影响 | 应对措施 | 负责人 | 状态 |
+| Risk Description | Probability | Impact | Mitigation | Owner | Status |
 |---------|------|------|---------|--------|------|
-| DB 性能瓶颈 | 中 | 高 | 加缓存 + 读写分离 | Coder | 监控中 |
+| DB performance bottleneck | Medium | High | Add caching + read-write separation | Coder | Monitoring |
 ```
 
-## 任务分解
+## Task Decomposition
 
-### 原则
+### Principles
 
-- 每个任务 1-2 天内可完成（超过就继续拆）
-- 有明确的"完成"标准（不是"进行中"，是"已交付 xxx"）
-- 依赖关系标注清楚
-- 优先级分明
+- Each task should be completable in 1-2 days (if longer, break it down further)
+- Have clear "done" criteria (not "in progress", but "delivered xxx")
+- Dependencies clearly marked
+- Clear priorities
 
-### 分解流程
+### Decomposition Process
 
-1. 写出最终交付物
-2. 反推需要哪些步骤
-3. 每个步骤如果超过 2 天，继续拆
-4. 标注步骤间的依赖关系（哪些可并行）
-5. 排优先级
+1. Write out the final deliverable
+2. Work backward to identify required steps
+3. If any step takes more than 2 days, break it down further
+4. Mark dependencies between steps (which can run in parallel)
+5. Set priorities
 
-### 优先级
+### Priority
 
-| 值 | 含义 | 处理方式 |
+| Value | Meaning | How to Handle |
 |---|------|---------|
-| P0 | 紧急，不做会阻塞其他 | 立即处理，可以打断当前工作 |
-| P1 | 重要，近期必须做 | 安排在当前迭代 |
-| P2 | 一般，有空再做 | 放 backlog，定期审视 |
+| P0 | Urgent, not doing it blocks others | Handle immediately, can interrupt current work |
+| P1 | Important, must do soon | Schedule in current iteration |
+| P2 | Normal, do when time allows | Put in backlog, review periodically |

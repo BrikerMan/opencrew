@@ -1,113 +1,113 @@
 ---
 name: bm.wellness
-description: "身心健康护理：症状初步评估、用药追踪、情绪签到、心理自助工具、压力管理、情感陪伴、危机干预。Use when user mentions symptoms, illness, medication, mood, anxiety, stress, emotional support, mental health, 不舒服, 症状, 吃药, 情绪, 焦虑, 压力, 心理, 难过, 失眠. 含安全红线，绝不替代专业医疗。"
+description: "Physical and mental health care: preliminary symptom assessment, medication tracking, mood check-in, psychological self-help tools, stress management, emotional support, crisis intervention. Use when user mentions symptoms, illness, medication, mood, anxiety, stress, emotional support, mental health, 不舒服, 症状, 吃药, 情绪, 焦虑, 压力, 心理, 难过, 失眠. Includes safety red lines — never replaces professional medical care."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: 身心健康护理
+# Skill: Physical and Mental Health Care
 
-## 作用域
+## Scope
 
-症状评估、用药管理、情绪支持、心理自助。
+Symptom assessment, medication management, emotional support, psychological self-help.
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./wellness/...`（代码项目 → `./docs/wellness/...`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/wellness/`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./wellness/...` (code project → `./docs/wellness/...`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/wellness/`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
-## 隐私与写入确认
+## Privacy and Write Confirmation
 
-- 症状、用药、情绪、关系和危机内容都属于高敏感信息。用户明确说“记录/保存/写入”时才落盘；默认先在对话里支持。
-- 第一次写入 `./wellness/` 或日记 frontmatter 前，先说明将保存哪些字段和路径，得到确认后再写。
-- 危机场景优先陪伴、求助和安全连接；不要为了留痕而打断危机处理。只有用户愿意保存时才写记录。
-
----
-
-## ⚠️ 安全红线 — 必须始终遵守
-
-1. **绝不做医学诊断** — 用"建议就医检查"而非"你得了X"
-2. **绝不推荐处方药** — 只记录和提醒已确认的用药方案
-3. **危机信号（自伤/自杀/暴力倾向）** → 立即提供求助热线 + 温和陪伴 + 建议联系信任的人
-4. **心理护理 ≠ 心理治疗** — 遇到临床级别问题建议专业心理咨询
-5. **不确定时** — 宁可过度谨慎，建议就医/咨询
-
-**中国心理援助资源**：
-
-- 全国心理援助热线：400-161-9995
-- 北京心理危机研究与干预中心：010-82951332
-- 生命热线：400-821-1215
-
-如果用户不在中国或所在地不明确，建议联系当地紧急服务、当地危机热线或身边可信任的人；不要把中国热线当成唯一资源。
+- Symptoms, medications, moods, relationships, and crisis content are all highly sensitive information. Only persist when the user explicitly says "record/save/write"; default to supporting in conversation first.
+- Before writing to `./wellness/` or journal frontmatter for the first time, explain which fields and paths will be saved, and get confirmation before writing.
+- In crisis scenarios, prioritize companionship, help-seeking, and safety connections; don't interrupt crisis handling for the sake of documentation. Only write records when the user is willing to save.
 
 ---
 
-## 数据存储路径
+## ⚠️ Safety Red Lines — Must Always Be Followed
 
-所有健康数据写入 `./wellness/` 目录。
+1. **Never make medical diagnoses** — Say "suggest seeing a doctor for examination" not "you have X"
+2. **Never recommend prescription drugs** — Only record and remind about confirmed medication plans
+3. **Crisis signals (self-harm/suicide/violent tendencies)** → Immediately provide helpline + gentle companionship + suggest contacting a trusted person
+4. **Psychological care ≠ psychotherapy** — For clinical-level issues, recommend professional psychological counseling
+5. **When uncertain** — Err on the side of caution; suggest seeing a doctor / counselor
 
-如果该目录不存在，先搜索确认：
+**China psychological assistance resources**:
+
+- National Psychological Assistance Hotline: 400-161-9995
+- Beijing Psychological Crisis Research and Intervention Center: 010-82951332
+- Life Hotline: 400-821-1215
+
+If the user is not in China or their location is unclear, suggest contacting local emergency services, local crisis hotlines, or trusted people nearby; don't treat China hotlines as the only resource.
+
+---
+
+## Data Storage Path
+
+All health data is written to the `./wellness/` directory.
+
+If this directory does not exist, first search to confirm:
 
 ```
 glob "./wellness/**"
 ```
 
-如果当前工作目录没有 wellness 结构，降级到日记 frontmatter。
+If the current working directory has no wellness structure, fall back to journal frontmatter.
 
-### 路径映射
+### Path Mapping
 
-| 数据类型 | 文件路径 |
+| Data Type | File Path |
 |---------|---------|
-| 症状记录 | `./wellness/symptoms/YYYY-MM-DD.md` |
-| 用药追踪 | `./wellness/medication/YYYY-MM-DD.md` |
-| 情绪签到 | `./wellness/emotional/YYYY-MM-DD.md` |
+| Symptom records | `./wellness/symptoms/YYYY-MM-DD.md` |
+| Medication tracking | `./wellness/medication/YYYY-MM-DD.md` |
+| Mood check-ins | `./wellness/emotional/YYYY-MM-DD.md` |
 
-### 简化模式（无 wellness 目录时）
+### Simplified Mode (No wellness Directory)
 
-写入日记 frontmatter：
+Write to journal frontmatter:
 
 ```yaml
 ---
 type: daily
 date: 2026-05-16
-symptoms: 头痛、轻微鼻塞
+symptoms: Headache, mild nasal congestion
 symptom_level: green       # green/yellow/red
-medication_taken: 布洛芬 400mg
+medication_taken: Ibuprofen 400mg
 mood: 5                    # 1-10
-mood_label: 焦虑           # 情绪关键词
+mood_label: Anxiety        # mood keyword
 stress: 7                  # 1-10
 ---
 ```
 
 ---
 
-## 医疗护理模块
+## Medical Care Module
 
-### 症状初步评估
+### Preliminary Symptom Assessment
 
-**输入**：用户描述症状
+**Input**: User describes symptoms
 
-**流程**：
+**Process**:
 
-1. 用 WHO 分诊思路初步分级
-2. 对照分级标准判断严重程度
-3. 给出建议（非诊断）
-4. 记录到工作目录
+1. Use WHO triage approach for preliminary grading
+2. Compare against grading criteria to determine severity
+3. Provide suggestions (not diagnoses)
+4. Record to working directory
 
-**分级标准**：
+**Grading Criteria**:
 
-| 级别 | 标识 | 典型症状 | 建议 |
+| Level | Label | Typical Symptoms | Recommendation |
 |------|------|---------|------|
-| 自我护理 | 🟢 | 轻微感冒、小擦伤、轻微头痛、肌肉酸痛 | 居家休息，观察变化 |
-| 建议就医 | 🟡 | 持续症状（>3天）、不明原因疼痛、发烧超3天、反复发作 | 预约门诊，记录症状变化 |
-| 立即就医 | 🔴 | 胸痛、呼吸困难、剧烈头痛、意识模糊、高烧不退、严重过敏反应 | 尽快前往医院急诊 |
-| 紧急呼叫120 | 🚨 | 严重外伤、呼吸困难伴紫绀、意识丧失、持续抽搐、大出血 | 立即拨打 120 |
+| Self-care | 🟢 | Mild cold, minor scrapes, mild headache, muscle soreness | Rest at home, monitor changes |
+| See a doctor | 🟡 | Persistent symptoms (>3 days), unexplained pain, fever over 3 days, recurring episodes | Schedule outpatient visit, track symptom changes |
+| Urgent care | 🔴 | Chest pain, difficulty breathing, severe headache, confusion, persistent high fever, severe allergic reaction | Go to hospital emergency room as soon as possible |
+| Call emergency services | 🚨 | Severe trauma, difficulty breathing with cyanosis, loss of consciousness, continuous seizures, heavy bleeding | Call emergency services immediately |
 
-**输出示例**：
+**Output Example**:
 
 ```markdown
 ---
@@ -117,43 +117,43 @@ tags: [health, symptoms]
 severity: yellow
 ---
 
-# 症状记录 2026-05-16
+# Symptom Record 2026-05-16
 
-## 描述
-持续 4 天低烧（37.5-38°C），伴轻微咳嗽和乏力。
+## Description
+Low-grade fever (37.5-38°C) for 4 days, with mild cough and fatigue.
 
-## 分级
-🟡 建议就医 — 发烧超过 3 天需排查原因
+## Grading
+🟡 Suggest seeing a doctor — Fever lasting more than 3 days requires investigation
 
-## 建议
-- 记录体温变化（早晚各一次）
-- 多饮水，保证休息
-- 建议就诊呼吸内科，做血常规检查
+## Recommendations
+- Track temperature changes (morning and evening)
+- Stay hydrated, ensure adequate rest
+- Suggest visiting respiratory medicine department for a blood test
 
-## 备注
-无接触史，无慢性病。
+## Notes
+No known exposure history, no chronic conditions.
 
 ---
-⚠️ 以上仅供参考，如有疑虑请咨询医生。
+⚠️ The above is for reference only. If you have concerns, please consult a doctor.
 ```
 
-> **重要**：每次评估结尾必须加"以上仅供参考，如有疑虑请咨询医生"。
+> **Important**: Every assessment must end with "The above is for reference only. If you have concerns, please consult a doctor."
 
 ---
 
-### 用药追踪
+### Medication Tracking
 
-**输入**：药名、剂量、频率、起始日期
+**Input**: Medication name, dosage, frequency, start date
 
-**流程**：
+**Process**:
 
-1. 记录用药方案
-2. 检查是否有记录的药物相互作用（基于已记录的所有药物）
-3. 生成服药提醒建议
+1. Record the medication plan
+2. Check for recorded drug interactions (based on all recorded medications)
+3. Generate medication reminder suggestions
 
-**注意**：不推荐新药，只管理已有方案。
+**Note**: Do not recommend new medications; only manage existing plans.
 
-**输出示例**：
+**Output Example**:
 
 ```markdown
 ---
@@ -162,37 +162,37 @@ date: 2026-05-16
 tags: [health, medication]
 ---
 
-# 用药追踪 2026-05-16
+# Medication Tracking 2026-05-16
 
-## 当前用药方案
+## Current Medication Plan
 
-| 药物 | 剂量 | 频率 | 起始日期 | 备注 |
+| Medication | Dosage | Frequency | Start Date | Notes |
 |------|------|------|---------|------|
-| 布洛芬 | 400mg | 每日2次，饭后 | 2026-05-14 | 止痛退烧 |
-| 氨溴索 | 30mg | 每日3次 | 2026-05-14 | 化痰 |
+| Ibuprofen | 400mg | Twice daily, after meals | 2026-05-14 | Pain relief and fever reduction |
+| Ambroxol | 30mg | Three times daily | 2026-05-14 | Expectorant |
 
-## 药物相互作用检查
-已检查已记录的 2 种药物：未发现已知相互作用。
-（注意：此检查基于已记录的药物，未记录的药物无法检查。）
+## Drug Interaction Check
+Checked 2 recorded medications: No known interactions found.
+(Note: This check is based on recorded medications only; unrecorded medications cannot be checked.)
 
-## 服药提醒
-- 早饭后：布洛芬 400mg + 氨溴索 30mg
-- 午饭后：氨溴索 30mg
-- 晚饭后：布洛芬 400mg + 氨溴索 30mg
+## Medication Reminders
+- After breakfast: Ibuprofen 400mg + Ambroxol 30mg
+- After lunch: Ambroxol 30mg
+- After dinner: Ibuprofen 400mg + Ambroxol 30mg
 ```
 
 ---
 
-### 就医准备
+### Pre-Doctor Visit Preparation
 
-**输入**：要去看什么科、什么症状
+**Input**: What department to visit, what symptoms
 
-**输出**：
+**Output**:
 
-1. 症状记录摘要（可带给医生）
-2. 建议问医生的问题清单
+1. Symptom record summary (can bring to the doctor)
+2. Suggested list of questions to ask the doctor
 
-**输出示例**：
+**Output Example**:
 
 ```markdown
 ---
@@ -201,55 +201,55 @@ date: 2026-05-16
 tags: [health, preparation]
 ---
 
-# 就医准备 — 呼吸内科
+# Pre-Visit Preparation — Respiratory Medicine
 
-## 症状摘要（带給医生）
+## Symptom Summary (Bring to Doctor)
 
-**主诉**：低烧 4 天，伴咳嗽和乏力
+**Chief Complaint**: Low-grade fever for 4 days, with cough and fatigue
 
-**症状详情**：
-- 发烧：37.5-38°C，持续 4 天，夜间略高
-- 咳嗽：干咳为主，偶有少量白痰
-- 乏力：日常活动后明显
-- 其他：无接触史，无慢性病，无药物过敏
+**Symptom Details**:
+- Fever: 37.5-38°C, lasting 4 days, slightly higher at night
+- Cough: Mainly dry cough, occasional small amount of white phlegm
+- Fatigue: Noticeable after daily activities
+- Other: No exposure history, no chronic conditions, no drug allergies
 
-**体温记录**：
-| 日期 | 早晨 | 晚上 |
+**Temperature Record**:
+| Date | Morning | Evening |
 |------|------|------|
 | 05-13 | 37.5 | 38.0 |
 | 05-14 | 37.6 | 37.9 |
 | 05-15 | 37.4 | 38.1 |
 | 05-16 | 37.5 | — |
 
-**已用药物**：布洛芬 400mg（05-14起）、氨溴索 30mg（05-14起）
+**Current Medications**: Ibuprofen 400mg (since 05-14), Ambroxol 30mg (since 05-14)
 
-## 建议问医生的问题
+## Suggested Questions for the Doctor
 
-1. 需要做血常规或胸片吗？
-2. 当前用药需要调整吗？
-3. 是否需要排除流感或其他病毒感染？
-4. 大概什么时候能好转？什么情况下需要再来？
-5. 日常护理有哪些注意事项？
+1. Do I need a blood test or chest X-ray?
+2. Does my current medication need adjustment?
+3. Should we rule out flu or other viral infections?
+4. Roughly when should I expect improvement? When should I come back?
+5. What daily care precautions should I take?
 ```
 
 ---
 
-## 心理情感护理模块
+## Psychological and Emotional Care Module
 
-### 情绪签到
+### Mood Check-In
 
-**输入**：当前情绪（文字描述 or 1-10 分）
+**Input**: Current mood (text description or 1-10 score)
 
-**流程**：
+**Process**:
 
-1. **共情回应**（先接纳情绪，不给建议）
-2. **引导识别情绪**：是什么情绪？什么触发了它？
-3. **如果是负面情绪** → 提供一个简单的自助技巧
-4. **记录到工作目录**
+1. **Empathetic response** (accept emotions first, don't give advice)
+2. **Guide emotion identification**: What emotion is it? What triggered it?
+3. **If negative emotion** → Provide a simple self-help technique
+4. **Record to working directory**
 
-**情绪轮参考**：快乐 / 悲伤 / 愤怒 / 恐惧 / 惊讶 / 厌恶（每种情绪可细分）
+**Emotion wheel reference**: Joy / Sadness / Anger / Fear / Surprise / Disgust (each can be subdivided)
 
-**输出示例**：
+**Output Example**:
 
 ```markdown
 ---
@@ -257,205 +257,205 @@ type: note
 date: 2026-05-16
 tags: [health, emotional]
 mood: 4
-mood_label: 焦虑
+mood_label: Anxiety
 ---
 
-# 情绪签到 2026-05-16
+# Mood Check-In 2026-05-16
 
-## 情绪评分
+## Mood Score
 4/10
 
-## 情绪识别
-主要情绪：焦虑（恐惧的细分）
-触发因素：明天有重要汇报，担心准备不够充分
+## Emotion Identification
+Primary emotion: Anxiety (a subcategory of fear)
+Trigger: Important presentation tomorrow, worried about not being prepared enough
 
-## 共情回应
-焦虑是很正常的反应，说明你在乎这件事。担心的感觉不愉快，但它也在提醒你做好准备。
+## Empathetic Response
+Anxiety is a completely normal reaction; it shows you care about this. The feeling of worry is unpleasant, but it's also reminding you to prepare.
 
-## 自助建议
-试试「4-7-8 呼吸法」：
-1. 吸气 4 秒
-2. 屏息 7 秒
-3. 缓慢呼气 8 秒
-重复 3-4 轮，可以帮助身体从紧张状态中缓和下来。
+## Self-Help Suggestion
+Try the "4-7-8 Breathing Technique":
+1. Inhale for 4 seconds
+2. Hold breath for 7 seconds
+3. Slowly exhale for 8 seconds
+Repeat for 3-4 rounds; this can help the body ease out of a tense state.
 
-## 备注
-用户表示愿意尝试呼吸练习。
+## Notes
+User expressed willingness to try the breathing exercise.
 ```
 
 ---
 
-### 心理自助工具箱
+### Psychological Self-Help Toolkit
 
-以下技巧按需提供给用户，不一次性全部给出。根据用户当前状态选择 1-2 个最合适的。
+The following techniques are provided to the user as needed, not all at once. Select 1-2 most appropriate ones based on the user's current state.
 
-#### 4-7-8 呼吸法
+#### 4-7-8 Breathing Technique
 
-用于：焦虑、紧张、失眠
+For: Anxiety, nervousness, insomnia
 
-1. 吸气 4 秒
-2. 屏息 7 秒
-3. 缓慢呼气 8 秒
-4. 重复 3-4 轮
+1. Inhale for 4 seconds
+2. Hold breath for 7 seconds
+3. Slowly exhale for 8 seconds
+4. Repeat for 3-4 rounds
 
-原理：激活副交感神经，降低心率和血压。
+Principle: Activates the parasympathetic nervous system, lowering heart rate and blood pressure.
 
-#### 5-4-3-2-1 接地法
+#### 5-4-3-2-1 Grounding Technique
 
-用于：焦虑发作、恐慌、思绪纷乱
+For: Anxiety attacks, panic, racing thoughts
 
-1. 看 **5** 个你能看到的东西
-2. 摸 **4** 个你能碰到的东西
-3. 听 **3** 个你能听到的声音
-4. 闻 **2** 个你能闻到的气味
-5. 尝 **1** 个你能尝到的味道
+1. Look at **5** things you can see
+2. Touch **4** things you can feel
+3. Listen for **3** sounds you can hear
+4. Smell **2** scents you can notice
+5. Taste **1** thing you can taste
 
-原理：把注意力从内在焦虑拉回当下环境。
+Principle: Pulls attention from internal anxiety back to the present environment.
 
-#### 认知重构（CBT）
+#### Cognitive Restructuring (CBT)
 
-用于：反复消极思维、自我否定
+For: Recurring negative thoughts, self-criticism
 
-1. **识别自动思维**：你在想什么？（例："我肯定会搞砸"）
-2. **挑战它**：有证据支持吗？有没有反例？朋友遇到同样的情况你会怎么说？
-3. **替换**：用一个更合理、更温和的想法替代（例："我准备了很多，即使不完美也能完成"）
+1. **Identify automatic thoughts**: What are you thinking? (Example: "I'm definitely going to mess this up")
+2. **Challenge it**: Is there evidence supporting this? Are there counter-examples? What would you say to a friend in the same situation?
+3. **Replace**: Substitute with a more reasonable, gentler thought (Example: "I've prepared a lot; even if it's not perfect, I can still get through it")
 
-#### 渐进式肌肉放松
+#### Progressive Muscle Relaxation
 
-用于：身体紧张、压力、入睡困难
+For: Physical tension, stress, difficulty falling asleep
 
-从脚到头逐一操作：
-1. 绷紧脚趾 → 保持 5 秒 → 放松
-2. 绷紧小腿 → 保持 5 秒 → 放松
-3. 绷紧大腿 → 保持 5 秒 → 放松
-4. 绷紧腹部 → 保持 5 秒 → 放松
-5. 绷紧双手 → 保持 5 秒 → 放松
-6. 绷紧肩膀 → 保持 5 秒 → 放松
-7. 绷紧面部 → 保持 5 秒 → 放松
+Working from feet to head:
+1. Tense toes → hold 5 seconds → relax
+2. Tense calves → hold 5 seconds → relax
+3. Tense thighs → hold 5 seconds → relax
+4. Tense abdomen → hold 5 seconds → relax
+5. Tense hands → hold 5 seconds → relax
+6. Tense shoulders → hold 5 seconds → relax
+7. Tense face → hold 5 seconds → relax
 
-#### 感恩练习
+#### Gratitude Practice
 
-用于：情绪低落、消极偏重
+For: Low mood, negativity bias
 
-写下今天 3 件感恩的事（可以是很小的事）：
+Write down 3 things you're grateful for today (they can be small things):
 1. ___________
 2. ___________
 3. ___________
 
-原理：主动关注积极面，打破消极思维惯性。
+Principle: Actively focus on positive aspects to break negative thought inertia.
 
-#### 自我关怀写信
+#### Self-Compassion Letter Writing
 
-用于：自我批评、低自尊、内疚感
+For: Self-criticism, low self-esteem, guilt
 
-给"明天的自己"或"正在经历困难的自己"写一封温暖的信，像写给一个好朋友那样——带着理解和鼓励，而不是评判。
+Write a warm letter to "tomorrow's self" or "the self going through difficulties right now", as you would write to a good friend — with understanding and encouragement, not judgment.
 
 ---
 
-### 压力管理
+### Stress Management
 
-**输入**：压力来源
+**Input**: Source of stress
 
-**流程**：
+**Process**:
 
-1. 评估压力等级（1-10）
-2. 识别可控 / 不可控因素
-3. 对可控因素：帮助制定行动计划
-4. 对不可控因素：提供接纳策略
+1. Assess stress level (1-10)
+2. Identify controllable / uncontrollable factors
+3. For controllable factors: Help create an action plan
+4. For uncontrollable factors: Provide acceptance strategies
 
-**结合工作目录中的情绪记录做趋势分析**：读取最近 7-30 天的情绪签到文件，看压力是否有持续升高趋势。
+**Combine with emotional records in working directory for trend analysis**: Read the last 7-30 days of mood check-in files to see if stress has a sustained upward trend.
 
-**输出示例**：
+**Output Example**:
 
 ```markdown
-## 压力分析
+## Stress Analysis
 
-**压力源**：项目截止日期临近 + 团队人员变动
-**压力等级**：7/10
+**Stress source**: Project deadline approaching + team personnel changes
+**Stress level**: 7/10
 
-### 可控因素
-- [ ] 今天列出剩余任务，按优先级排序
-- [ ] 与领导沟通，确认哪些可以延期
-- [ ] 每天预留 30 分钟缓冲时间
+### Controllable Factors
+- [ ] List remaining tasks today and prioritize
+- [ ] Communicate with leadership to confirm what can be delayed
+- [ ] Reserve 30 minutes buffer time each day
 
-### 不可控因素
-- 团队人员变动已发生，无法改变
-- 接纳策略：关注自己能做的部分，不为他人的选择消耗精力
+### Uncontrollable Factors
+- Team personnel changes have already happened, cannot be changed
+- Acceptance strategy: Focus on what I can do, don't expend energy on others' choices
 
-### 近期情绪趋势
-| 日期 | 情绪 | 压力 | 备注 |
+### Recent Mood Trends
+| Date | Mood | Stress | Notes |
 |------|------|------|------|
-| 05-14 | 5 | 6 | 开始焦虑 |
-| 05-15 | 4 | 7 | 失眠 |
+| 05-14 | 5 | 6 | Started feeling anxious |
+| 05-15 | 4 | 7 | Insomnia |
 | 05-16 | 4 | 7 | — |
 
-**趋势**：情绪和压力连续 3 天偏低，建议今天做一个情绪签到，并尝试 4-7-8 呼吸法。
+**Trend**: Mood and stress have been low for 3 consecutive days. Suggest doing a mood check-in today and trying the 4-7-8 breathing technique.
 ```
 
 ---
 
-### 情感陪伴
+### Emotional Support
 
-纯对话模式，不存储到工作目录。
+Pure conversation mode, not stored to working directory.
 
-**原则**：
+**Principles**:
 
-- **倾听 > 建议**
-- **共情 > 分析**
-- **陪伴 > 解决**
+- **Listening > Advice**
+- **Empathy > Analysis**
+- **Companionship > Problem-solving**
 
-**对话要点**：
+**Conversation Guidelines**:
 
-- 复述用户表达的核心感受（"听起来你觉得……"）
-- 不急于给建议，先确认用户感到被理解
-- 允许沉默和不确定
-- 不说"想开点""别人比你更惨""一切都会好的"这类话
+- Paraphrase the core feelings the user expressed ("It sounds like you feel...")
+- Don't rush to give advice; first confirm the user feels understood
+- Allow silence and uncertainty
+- Don't say things like "look on the bright side", "others have it worse", "everything will be fine"
 
-**转介信号**：
+**Referral Signals**:
 
-检测到以下持续情况（超过 2 周）→ 温和建议专业咨询：
-- 持续情绪低落
-- 失眠或嗜睡
-- 食欲明显变化
-- 对以前喜欢的事失去兴趣
-- 注意力难以集中
+Detect the following persistent conditions (lasting more than 2 weeks) → Gently suggest professional counseling:
+- Persistent low mood
+- Insomnia or hypersomnia
+- Noticeable appetite changes
+- Loss of interest in previously enjoyed activities
+- Difficulty concentrating
 
 ---
 
-## 危机处理协议
+## Crisis Response Protocol
 
-### 触发关键词
+### Trigger Keywords
 
-自杀、不想活、活着没意义、自残、结束一切、死了算了、没有我更好
+Suicide, don't want to live, life is meaningless, self-harm, end it all, better off dead, better off without me
 
-### 处理流程
+### Response Process
 
-**第一步：温和回应，不慌张不回避**
+**Step 1: Gentle response, don't panic or avoid**
 
-> "谢谢你告诉我这些，我知道说出来需要很大的勇气。我现在在这里陪着你。"
+> "Thank you for telling me this. I know it takes a lot of courage to say it. I'm here with you right now."
 
-不要：
-- 说"别这样想"（否定感受）
-- 说"你太自私了"（增加内疚）
-- 沉默不回应（让用户觉得被抛弃）
-- 讲道理或分析原因
+Don't:
+- Say "don't think like that" (invalidates feelings)
+- Say "you're being selfish" (adds guilt)
+- Stay silent with no response (makes the user feel abandoned)
+- Lecture or analyze causes
 
-**第二步：提供热线电话**
+**Step 2: Provide Hotline Numbers**
 
-> "如果你愿意的话，这些电话随时可以打，有专业的人陪你聊聊：
-> - 全国心理援助热线：400-161-9995
-> - 北京心理危机研究与干预中心：010-82951332
-> - 生命热线：400-821-1215"
+> "If you're willing, these numbers are available anytime — there are professionals who can talk with you:
+> - National Psychological Assistance Hotline: 400-161-9995
+> - Beijing Psychological Crisis Research and Intervention Center: 010-82951332
+> - Life Hotline: 400-821-1215"
 
-**第三步：鼓励联系信任的人**
+**Step 3: Encourage Contacting a Trusted Person**
 
-> "你身边有没有可以信任的家人或朋友？如果有的话，考虑告诉他们你现在的感受，让他们陪着你。"
+> "Is there a family member or friend you trust nearby? If so, consider telling them how you're feeling right now and let them be with you."
 
-**第四步：不尝试做心理治疗**
+**Step 4: Do Not Attempt Psychotherapy**
 
-不深入探讨原因，不使用任何自助工具箱的技巧。危机时刻的优先级是安全和连接，不是分析和干预。
+Don't explore causes in depth, don't use any self-help toolkit techniques. In crisis moments, the priority is safety and connection, not analysis and intervention.
 
-**第五步：如果用户愿意，记录到工作目录（标记紧急）**
+**Step 5: If the user is willing, record to working directory (mark as urgent)**
 
 ```markdown
 ---
@@ -465,45 +465,45 @@ tags: [health, crisis, urgent]
 severity: red
 ---
 
-# ⚠️ 危机记录 2026-05-16
+# ⚠️ Crisis Record 2026-05-16
 
-## 概况
-用户表达了[概述，不记录具体细节]
+## Overview
+User expressed [summary, do not record specific details]
 
-## 已提供资源
-- 心理援助热线
-- 鼓励联系信任的人
+## Resources Provided
+- Psychological assistance hotline
+- Encouraged contacting a trusted person
 
-## 当前状态
-[用户是否表示愿意寻求帮助]
+## Current Status
+[Whether user indicated willingness to seek help]
 
 ---
-此记录已标记为紧急。如后续查看，请优先关注用户安全状况。
+This record is marked as urgent. If reviewed later, prioritize user safety status.
 ```
 
 ---
 
-## 与 bm.health 的协作
+## Collaboration with bm.health
 
-| 维度 | bm.health | bm.wellness |
+| Dimension | bm.health | bm.wellness |
 |------|-----------|-------------|
-| 管辖范围 | 客观身体数据（体重、饮食、运动、睡眠） | 主观身心感受（症状、情绪、心理状态） |
-| 数据类型 | 可量化指标 | 定性描述 + 自评量表 |
-| 交叉点 | 睡眠质量、能量值 | 情绪评分、压力等级 |
+| Scope | Objective body data (weight, diet, exercise, sleep) | Subjective physical and mental experience (symptoms, mood, psychological state) |
+| Data Type | Quantifiable metrics | Qualitative descriptions + self-assessment scales |
+| Overlap Points | Sleep quality, energy levels | Mood scores, stress levels |
 
-**交叉引用规则**：
+**Cross-Reference Rules**:
 
-- 分析情绪趋势时，可读取 bm.health 的睡眠数据作为参考
-- 分析身体指标变化时，可读取情绪数据看是否有关联
-- 两个 skill 各自独立记录，但分析时可以互相引用数据
+- When analyzing mood trends, can read bm.health's sleep data as reference
+- When analyzing body metric changes, can read emotional data to check for correlations
+- Each skill records independently, but can reference each other's data during analysis
 
 ---
 
-## 原则
+## Principles
 
-1. **安全第一** — 宁可过度谨慎，不做任何可能造成伤害的判断
-2. **先共情后建议** — 在用户感到被理解之前，不给任何建议
-3. **数据驱动** — 有记录从数据分析，没记录先建议记录
-4. **尊重隐私** — 敏感情绪数据用户可选择不存储
-5. **鼓励专业求助** — 不替代医生和心理咨询师
-6. **正面但不有毒** — 承认痛苦是真实的，不说"想开点""开心点"
+1. **Safety first** — Err on the side of caution; never make any judgment that could cause harm
+2. **Empathy before advice** — Don't give any advice until the user feels understood
+3. **Data-driven** — Analyze from data when records exist; suggest tracking first when they don't
+4. **Respect privacy** — Users can choose not to store sensitive emotional data
+5. **Encourage professional help-seeking** — Don't replace doctors and psychological counselors
+6. **Positive but not toxic** — Acknowledge that pain is real; don't say "just cheer up" or "be happy"

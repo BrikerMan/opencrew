@@ -1,200 +1,200 @@
 ---
 name: bm.systematic-troubleshooting
-description: "系统化排查根因：4 阶段法（复现 → 缩小 → 假设 → 验证）。Use when something is broken, wrong, slow, weird, unexpected, intermittent, 出错, 报错, bug, 问题, 不对, 慢, 卡, 怪, 排查, 定位, debug, troubleshoot. 适用于代码 bug、产品异常、流程出错、数据不对——任何「事情没按预期发生」的场景。"
+description: "Systematic root cause troubleshooting: 4-phase method (Reproduce → Isolate → Hypothesize → Verify). Use when something is broken, wrong, slow, weird, unexpected, intermittent, 出错, 报错, bug, 问题, 不对, 慢, 卡, 怪, 排查, 定位, debug, troubleshoot. Applicable to code bugs, product anomalies, process errors, data issues — any scenario where 'things are not happening as expected'."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: Systematic Troubleshooting（系统化排查）
+# Skill: Systematic Troubleshooting
 
-**先复现，再缩小，再假设，最后验证。绝不靠猜。** 适用于所有「事情没按预期发生」的场景。
+**First reproduce, then isolate, then hypothesize, finally verify. Never rely on guessing.** Applicable to all scenarios where "things are not happening as expected".
 
-不只是代码 bug——产品流程异常、数据对不上、设备不工作、操作没反应、流程卡住，都适用。
-
----
-
-## 核心原则
-
-1. **先证据，后假设**：没复现就别开始修
-2. **缩小范围，不是放大**：每一步都让问题边界更清晰
-3. **假设要可证伪**：能用一个动作验证 yes/no
-4. **改最少的东西**：一次只动一个变量
-5. **修了之后必须验证**：否则可能只是掩盖
+Not just code bugs — product process anomalies, data mismatches, device malfunctions, operations not responding, processes stuck — all apply.
 
 ---
 
-## 4 阶段法
+## Core Principles
 
-### 阶段 1：复现（Reproduce）
+1. **Evidence before hypotheses**: Don't start fixing without reproducing
+2. **Narrow the scope, don't broaden it**: Each step should make the problem boundary clearer
+3. **Hypotheses must be falsifiable**: Can be verified with a single yes/no action
+4. **Change the minimum**: Only manipulate one variable at a time
+5. **Must verify after fixing**: Otherwise you may have just masked the issue
 
-**目标**：让问题可控地、稳定地、最小步数地出现。
+---
 
-**关键动作**：
-- 找最小复现步骤（删掉所有非必要步骤）
-- 记录环境差异：什么时候出/什么时候不出
-- 不能稳定复现的：记录频率和条件，不要跳过
+## 4-Phase Method
 
-**问题分类**（决定下一步策略）：
+### Phase 1: Reproduce
 
-| 类型 | 特征 | 难度 |
+**Goal**: Make the problem appear in a controlled, stable, minimal-step manner.
+
+**Key actions**:
+- Find the minimal reproduction steps (remove all non-essential steps)
+- Record environmental differences: when it occurs vs. when it doesn't
+- Cannot stably reproduce: Record frequency and conditions, don't skip
+
+**Problem classification** (determines next-step strategy):
+
+| Type | Characteristics | Difficulty |
 |---|---|---|
-| 必现 | 每次都出 | 低 |
-| 条件触发 | 特定输入/状态/时间才出 | 中 |
-| 偶发 | 时有时无，无规律 | 高（先想办法变成条件触发） |
-| 一次性 | 出过一次再没出 | 最高（先收集证据，等再次出现） |
+| Always reproducible | Occurs every time | Low |
+| Condition-triggered | Only occurs with specific input/state/time | Medium |
+| Intermittent | Occurs sometimes, no pattern | High (first try to make it condition-triggered) |
+| One-time | Happened once and never again | Highest (first collect evidence, wait for recurrence) |
 
-**反模式**：
-- ❌ 没复现就开始改代码 → 改了不知道有没有用
-- ❌ 复现一次就以为搞定了 → 偶发问题需要多次确认
+**Anti-patterns**:
+- ❌ Start modifying code without reproducing → You won't know if the fix worked
+- ❌ Reproduce once and think it's handled → Intermittent issues need multiple confirmations
 
-### 阶段 2：缩小范围（Isolate）
+### Phase 2: Isolate
 
-**目标**：把"问题出在哪"的边界从大到小压缩。
+**Goal**: Compress the boundary of "where the problem is" from large to small.
 
-**方法**：
+**Methods**:
 
-| 方法 | 操作 | 适用 |
+| Method | Operation | Applicable When |
 |---|---|---|
-| **二分** | 砍一半看问题在不在 | 不知道在哪一段 |
-| **切换** | 换数据/环境/设备/账号 | 怀疑环境 |
-| **回退** | 退到一个已知好的版本 | 之前是好的 |
-| **最小化** | 剥离到最小可复现 | 复杂系统 |
-| **时间法** | git bisect / 翻历史 | 回归问题 |
+| **Bisect** | Cut in half and see which side has the problem | Don't know which segment it's in |
+| **Swap** | Change data/environment/device/account | Suspect environment |
+| **Revert** | Go back to a known-good version | It was working before |
+| **Minimize** | Strip down to minimal reproduction | Complex systems |
+| **Timeline** | git bisect / review history | Regression issues |
 
-**追问 5 次"为什么"**：
-- 表面：报错了
-- 为什么报错？→ 函数返回 None
-- 为什么是 None？→ 数据库查询没返回
-- 为什么没返回？→ 字段名拼错了
-- 为什么字段名拼错？→ 上周改了 schema 没同步
-- **根因**：变更管理流程缺失
+**Ask "Why" 5 Times**:
+- Surface: Error thrown
+- Why the error? → Function returned None
+- Why None? → Database query returned nothing
+- Why nothing? → Field name was misspelled
+- Why misspelled? → Schema was changed last week without syncing
+- **Root cause**: Change management process missing
 
-修最深一层能修的，别修最表面那层。
+Fix the deepest layer you can fix, not the surface layer.
 
-### 阶段 3：假设（Hypothesize）
+### Phase 3: Hypothesize
 
-**目标**：基于证据列出 2-3 个最可能的根因，每个都能验证。
+**Goal**: Based on evidence, list 2-3 most likely root causes, each verifiable.
 
-**好假设的标准**：
-- ✅ **具体**："`config.json` 里 `port` 字段是字符串 `'8080'` 而不是数字 `8080`"
-- ✅ **可证伪**：跑一个动作就知道对不对
-- ❌ "可能是配置问题" — 太模糊
-- ❌ "应该是缓存的问题" — 没证据
+**Criteria for a good hypothesis**:
+- ✅ **Specific**: "`port` field in `config.json` is string `'8080'` instead of number `8080`"
+- ✅ **Falsifiable**: Running one action tells you if it's right or wrong
+- ❌ "Might be a configuration issue" — too vague
+- ❌ "Probably a caching problem" — no evidence
 
-**列假设按概率排序**：
+**List hypotheses ordered by probability**:
 
 ```
-假设 1（最可能）：A 改坏了 B
-  - 验证：跑 X 看 Y
-  - 证据来源：错误信息提到 A
+Hypothesis 1 (most likely): A broke B
+  - Verification: Run X and check Y
+  - Evidence source: Error message mentions A
 
-假设 2：环境差异
-  - 验证：在 staging 复现
-  - 证据来源：本地好用，线上不好用
+Hypothesis 2: Environment difference
+  - Verification: Reproduce on staging
+  - Evidence source: Works locally, doesn't work in production
 
-假设 3（兜底）：第三方依赖
-  - 验证：检查依赖版本
-  - 证据来源：最近升级过
+Hypothesis 3 (fallback): Third-party dependency
+  - Verification: Check dependency versions
+  - Evidence source: Recently upgraded
 ```
 
-### 阶段 4：验证（Verify）
+### Phase 4: Verify
 
-**目标**：确认假设对不对，然后再确认修复有效。
+**Goal**: Confirm whether the hypothesis is correct, then confirm whether the fix is effective.
 
-**两步验证**：
+**Two-step verification**:
 
-1. **验证根因**：用阶段 3 的检验动作，确认假设成立
-   - 假设错了 → 回阶段 3，换下一个假设
-   - 假设对了 → 进入修复
+1. **Verify root cause**: Use Phase 3's verification action to confirm the hypothesis
+   - Hypothesis wrong → Return to Phase 3, try next hypothesis
+   - Hypothesis correct → Proceed to fix
 
-2. **验证修复**：
-   - 改最少的代码 / 配置 / 步骤
-   - **用阶段 1 的复现步骤再跑一次** — 必须不再触发问题
-   - 跑相关测试 / 周边场景 — 没引入新问题
-   - 用 [bm.verification](../bm.verification/SKILL.md) 给出完成报告
+2. **Verify fix**:
+   - Change the minimum code / configuration / steps
+   - **Run Phase 1's reproduction steps again** — must no longer trigger the problem
+   - Run related tests / adjacent scenarios — no new issues introduced
+   - Use [bm.verification](../bm.verification/SKILL.md) to provide a completion report
 
 ---
 
-## 输出格式
+## Output Format
 
-排查过程要落档，方便用户跟进 / 后续复盘：
+Document the troubleshooting process for user follow-up / future retrospectives:
 
 ```markdown
-# 排查记录：{问题}
+# Troubleshooting Record: {Problem}
 
-## 现象
-- {一句话描述}
-- 复现步骤：
+## Symptoms
+- {One-sentence description}
+- Reproduction steps:
   1. ...
   2. ...
 
-## 环境
-- {OS / 版本 / 配置}
+## Environment
+- {OS / version / configuration}
 
-## 排查时间线
+## Troubleshooting Timeline
 
-### 阶段 1：复现 ✅
-- 复现成功，必现
-- 最小步骤：...
+### Phase 1: Reproduce ✅
+- Successfully reproduced, always reproducible
+- Minimal steps: ...
 
-### 阶段 2：缩小
-- 二分了 X，问题在 Y 模块
-- 5why：... → 根因猜测：...
+### Phase 2: Isolate
+- Bisected X, problem is in module Y
+- 5 Whys: ... → Root cause guess: ...
 
-### 阶段 3：假设
-1. ❌ A：验证后排除（证据：...）
-2. ✅ B：成立（证据：...）
+### Phase 3: Hypothesize
+1. ❌ A: Ruled out after verification (evidence: ...)
+2. ✅ B: Confirmed (evidence: ...)
 
-### 阶段 4：验证
-- 修了 ...
-- 复现步骤现在不再触发 ✅
-- 周边测试通过 ✅
+### Phase 4: Verify
+- Fixed ...
+- Reproduction steps no longer trigger the issue ✅
+- Adjacent tests passed ✅
 
-## 根因
-{一句话}
+## Root Cause
+{One sentence}
 
-## 修复
-{改了什么，为什么这样改}
+## Fix
+{What was changed, why it was changed this way}
 
-## 防再发
-- {流程/检查项)
+## Prevention
+- {Process/checklist item}
 ```
 
 ---
 
-## 反模式
+## Anti-Patterns
 
-| 反模式 | 为什么错 | 正确做法 |
+| Anti-Pattern | Why It's Wrong | Correct Approach |
 |---|---|---|
-| 瞎改试运气 | 改对了不知道为啥，改错了浪费时间 | 先复现 + 假设 |
-| 跳过复现直接猜 | 假设没证据，方向可能完全错 | 先稳定复现 |
-| 一次改 5 个地方 | 不知道哪个起了作用 | 一次一个变量 |
-| 改了能跑就不管 | 只是掩盖，可能再发 | 修根因，不修症状 |
-| 看错误最外层 | 最外层是入口不是根因 | stack trace 从内往外读 |
-| 不看现有 issue | 可能是已知问题 | 先搜 GitHub Issues / 历史排查记录 |
-| 修完不验证 | 可能没修好或引入新问题 | 跑复现步骤 + 周边测试 |
+| Blindly changing things and hoping | If it works you don't know why; if it fails you waste time | Reproduce first + hypothesize |
+| Skip reproduction and guess directly | Hypotheses lack evidence, direction may be completely wrong | Stably reproduce first |
+| Change 5 things at once | Don't know which one worked | One variable at a time |
+| Fix it and move on once it works | Just masking the issue, may recur | Fix root cause, not symptoms |
+| Look only at the outermost error | Outermost is the entry point, not the root cause | Read stack traces from inside out |
+| Don't check existing issues | Might be a known problem | Search GitHub Issues / historical troubleshooting records first |
+| Don't verify after fixing | Might not be fixed or may have introduced new issues | Run reproduction steps + adjacent tests |
 
 ---
 
-## 非代码场景示例
+## Non-Code Scenario Examples
 
-**场景：用户说"我的某个文件不见了"**
-1. 复现：让用户描述具体哪个文件、什么时候发现、上次见到是什么时候
-2. 缩小：是真的删了还是搜不到？回收站/最近文件/git log？
-3. 假设：误删 / 重命名 / 同步出问题 / 路径变了
-4. 验证：每个假设对应一个查找动作
+**Scenario: User says "one of my files is missing"**
+1. Reproduce: Ask the user which file specifically, when they noticed, when they last saw it
+2. Isolate: Was it actually deleted or just can't be found? Trash/recent files/git log?
+3. Hypothesize: Accidental deletion / renamed / sync issue / path changed
+4. Verify: Each hypothesis corresponds to a search action
 
-**场景：会议没人来**
-1. 复现：之前几次会议谁来了？
-2. 缩小：是这次特殊还是一直这样？同步发邀请的是谁？
-3. 假设：邀请没发到 / 时间冲突 / 主题没吸引力 / 没人觉得自己该来
-4. 验证：抽查几个人问情况
+**Scenario: No one showed up to the meeting**
+1. Reproduce: Who came to the previous few meetings?
+2. Isolate: Is this one unusual or has it always been like this? Who sent the invitations?
+3. Hypothesize: Invitations didn't reach people / time conflicts / topic wasn't compelling / no one felt they should attend
+4. Verify: Spot-check a few people and ask
 
 ---
 
-## 文件落点
+## File Locations
 
-- 排查记录 → `./working/troubleshoot-{topic}.md`
-- 重要问题的根因总结 → 归档到 `./postmortems/{date}-{topic}.md`（代码项目 → `./docs/postmortems/{date}-{topic}.md`）
+- Troubleshooting records → `./working/troubleshoot-{topic}.md`
+- Root cause summaries for important issues → Archive to `./postmortems/{date}-{topic}.md` (code project → `./docs/postmortems/{date}-{topic}.md`)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.

@@ -1,125 +1,125 @@
 ---
 name: bm.review-checklist
-description: "代码审查清单：结构化 code review 流程、质量门禁、最佳实践检查。Use when user requests code review, PR review, quality check, 审查, review, 代码审查, PR检查. 涵盖安全、性能、可维护性、测试覆盖等维度。"
+description: "Code review checklist: structured code review process, quality gates, best practice checks. Use when user requests code review, PR review, quality check, 审查, review, 代码审查, PR检查. Covers security, performance, maintainability, test coverage dimensions."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: 代码审查清单
+# Skill: Code Review Checklist
 
-多维度代码审查的检查项和输出格式。
+Checklist items and output format for multi-dimensional code review.
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./reviews/...`（代码项目 → `./docs/reviews/...`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/review/`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./reviews/...` (code project → `./docs/reviews/...`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/review/`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
 ---
 
-## 审查流程
+## Review Process
 
-### Step 1：理解上下文
+### Step 1: Understand Context
 
-委派方会告诉你：
-- 改了什么（新功能/bug fix/重构）
-- 涉及哪些文件
-- 需要关注的重点
+The delegating party will tell you:
+- What was changed (new feature / bug fix / refactor)
+- Which files are involved
+- What to focus on
 
-如果没给上下文，自己读 commit message 和 diff 摘要推断。
+If no context is given, infer from commit messages and diff summaries yourself.
 
-### Step 2：读代码
+### Step 2: Read the Code
 
-1. 读被改动的文件，理解改动意图
-2. 读相关上下文文件（被调用的函数、依赖的模块）
-3. 检查是否跟项目现有模式一致
+1. Read the changed files, understand the intent of the changes
+2. Read related context files (called functions, dependent modules)
+3. Check consistency with existing project patterns
 
-### Step 3：逐维度检查
+### Step 3: Check Each Dimension
 
-## 维度一：正确性
+## Dimension 1: Correctness
 
-- [ ] 核心逻辑是否符合预期（对照需求/spec）
-- [ ] 边界条件：空值 `null`/`undefined`/`None`、零值 `0`/`""`、负数、超大值
-- [ ] 类型是否正确（类型推断 vs 显式标注）
-- [ ] 并发/竞态：共享状态、异步操作顺序、锁的范围
-- [ ] 资源泄漏：文件句柄、数据库连接、内存（特别是循环内创建的）
-- [ ] 幂等性：重复调用是否安全
+- [ ] Core logic matches expectations (against requirements/spec)
+- [ ] Edge cases: null `null`/`undefined`/`None`, zero values `0`/`""`, negative numbers, extremely large values
+- [ ] Types are correct (type inference vs. explicit annotations)
+- [ ] Concurrency/race conditions: shared state, async operation ordering, lock scope
+- [ ] Resource leaks: file handles, database connections, memory (especially those created in loops)
+- [ ] Idempotency: is repeated calling safe
 
-## 维度二：安全性
+## Dimension 2: Security
 
-- [ ] 输入校验：用户输入、外部 API 返回值是否被信任
-- [ ] SQL 注入：是否用了参数化查询，不是字符串拼接
-- [ ] XSS：用户生成内容是否被转义
-- [ ] CSRF：是否有 token 验证
-- [ ] 权限检查：当前用户有权做这个操作吗
-- [ ] 敏感数据：密码/token 不落日志、不暴露在 API 响应中
-- [ ] 加密：传输层 HTTPS、存储层 hash/encrypt
+- [ ] Input validation: are user inputs and external API return values trusted
+- [ ] SQL injection: using parameterized queries, not string concatenation
+- [ ] XSS: is user-generated content escaped
+- [ ] CSRF: is there token verification
+- [ ] Permission checks: does the current user have permission for this operation
+- [ ] Sensitive data: passwords/tokens not logged or exposed in API responses
+- [ ] Encryption: transport layer HTTPS, storage layer hash/encrypt
 
-## 维度三：性能
+## Dimension 3: Performance
 
-- [ ] N+1 查询：循环内有没有数据库调用
-- [ ] 全量加载：是否需要分页/懒加载/流式处理
-- [ ] 缓存策略：热点数据是否缓存、缓存失效策略是否合理
-- [ ] 内存使用：大数组/列表的处理（是否可以 streaming）
-- [ ] 异步 vs 同步：I/O 操作是否异步
+- [ ] N+1 queries: are there database calls inside loops
+- [ ] Full data loading: is pagination/lazy loading/streaming needed
+- [ ] Caching strategy: is hot data cached, is cache invalidation strategy reasonable
+- [ ] Memory usage: handling of large arrays/lists (can streaming be used)
+- [ ] Async vs sync: are I/O operations async
 
-## 维度四：可维护性
+## Dimension 4: Maintainability
 
-- [ ] 命名：函数名是否表达意图（不需要注释解释）
-- [ ] 函数长度：超过 30 行考虑拆分
-- [ ] 耦合：改 A 是否会影响 B
-- [ ] 重复：3 处以上相同逻辑 → 抽取公共函数
-- [ ] 魔法数字/字符串：硬编码常量 → 提取为命名常量
-- [ ] 过度抽象：只有 1 个实现时不需要 interface/策略模式
+- [ ] Naming: do function names express intent (no comments needed to explain)
+- [ ] Function length: consider splitting if over 30 lines
+- [ ] Coupling: will changing A affect B
+- [ ] Duplication: 3+ occurrences of the same logic → extract a shared function
+- [ ] Magic numbers/strings: hardcoded constants → extract as named constants
+- [ ] Over-abstraction: don't need an interface/strategy pattern with only 1 implementation
 
-## 维度五：一致性
+## Dimension 5: Consistency
 
-- [ ] 代码风格是否跟项目一致（命名、格式、结构）
-- [ ] 错误处理方式是否一致（throw vs return error vs Result）
-- [ ] 日志格式是否一致
-- [ ] API 设计风格是否一致（RESTful、命名约定）
+- [ ] Code style consistent with the project (naming, formatting, structure)
+- [ ] Error handling approach consistent (throw vs return error vs Result)
+- [ ] Logging format consistent
+- [ ] API design style consistent (RESTful, naming conventions)
 
-## 维度六：错误处理
+## Dimension 6: Error Handling
 
-- [ ] 异常被正确捕获（不是空 `catch`/`except pass`）
-- [ ] 错误信息有意义（不只是 `"error"` 或 `"something went wrong"`）
-- [ ] 失败时有合理降级或回滚
-- [ ] 错误可追踪（有足够上下文：请求 ID、用户 ID、关键参数）
+- [ ] Exceptions properly caught (not empty `catch`/`except pass`)
+- [ ] Error messages are meaningful (not just `"error"` or `"something went wrong"`)
+- [ ] Reasonable degradation or rollback on failure
+- [ ] Errors are traceable (with sufficient context: request ID, user ID, key parameters)
 
-## 严重程度分级
+## Severity Levels
 
-| 级别 | 含义 | 示例 |
+| Level | Meaning | Examples |
 |------|------|------|
-| 🔴 必须改 | 会导致 bug/安全问题/数据丢失 | SQL 注入、空指针、资源泄漏、权限绕过 |
-| 🟡 建议改 | 不改不会炸，但应该改 | N+1 查询、命名不清晰、缺少错误处理、缺少测试 |
-| 🟢 可选 | 锦上添花 | 代码风格微调、微小可维护性提升 |
+| 🔴 Must fix | Will cause bugs/security issues/data loss | SQL injection, null pointer, resource leak, permission bypass |
+| 🟡 Should fix | Won't break things but should be addressed | N+1 queries, unclear naming, missing error handling, missing tests |
+| 🟢 Optional | Nice to have | Minor code style tweaks, small maintainability improvements |
 
-## 输出格式
+## Output Format
 
 ```markdown
-## 审查结论
+## Review Conclusion
 [PASS / PASS_WITH_NOTES / REQUEST_CHANGES]
 
-## 🔴 必须修改
-- [问题描述] `文件路径:行号` — [原因] → 建议改为 [具体改法]
+## 🔴 Must Fix
+- [Issue description] `file path:line number` — [Reason] → Suggested fix: [specific fix]
 
-## 🟡 建议修改
-- [问题描述] `文件路径:行号` — [原因]
+## 🟡 Should Fix
+- [Issue description] `file path:line number` — [Reason]
 
-## 🟢 可选改进
-- [建议]
+## 🟢 Optional Improvements
+- [Suggestion]
 
-## 总结
-[一两句话总评]
+## Summary
+[One or two sentence overall assessment]
 ```
 
-## 审查原则
+## Review Principles
 
-- 代码没问题就不要硬找问题。PASS 就是 PASS
-- 每个 🔴/🟡 必须带文件路径和行号
-- 每个问题给具体改法，不只是指出问题
-- 不挑格式问题（那是 linter 的活）
-- 不熟悉的领域标注"此处不确定，建议找熟悉的人看"
+- If the code has no issues, don't force-find problems. PASS is PASS
+- Every 🔴/🟡 must include the file path and line number
+- Every issue should come with a specific fix, not just pointing out the problem
+- Don't nitpick formatting (that's the linter's job)
+- For unfamiliar domains, note "unsure about this part, suggest having someone familiar review it"

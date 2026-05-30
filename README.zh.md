@@ -170,6 +170,14 @@ Skill 是可加载的指令集，不是独立 agent。用 `bm.*` 前缀做命名
 - ✅ `working/` 让你一眼知道哪些是中间产物，可以放心清理
 - ✅ 代码项目：文档类产物统一放 `./docs/`，保持项目根目录整洁
 
+### AGENTS.md — 项目级文件组织
+
+当 Lead 首次进入一个有结构的项目时，会**提议文件组织方案**（research、reviews、specs 等放哪里），并将达成共识的规则收敛到 `./AGENTS.md`。一旦建立，所有 agent 遵循项目的 `AGENTS.md` 规则。如果 `AGENTS.md` 已存在，agent 直接遵循。
+
+- ✅ 一个文件（`./AGENTS.md`）定义项目的文件落点惯例
+- ✅ Lead 提议 → 用户确认 → 所有 agent 遵守
+- ✅ 项目规则覆盖 opencrew 默认规则
+
 ---
 
 ## 安装

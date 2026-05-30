@@ -1,215 +1,215 @@
 ---
 name: bm.skill-improvement
-description: "Skill 自我优化与创建：评估现有 skill 质量、发现问题、提出改进方案、迭代更新。也能创建新 skill，创建前先 brainstorm 精炼需求。Use when user wants to improve, update, optimize, create skills, 优化 skill, 改进 skill, 更新 skill, 创建 skill, 新建 skill, skill 质量. 由 butler agent 调用。"
+description: "Skill self-improvement and creation: evaluate existing skill quality, identify issues, propose improvements, iterate updates. Can also create new skills — brainstorm to refine requirements before creation. Use when user wants to improve, update, optimize, create skills, 优化 skill, 改进 skill, 更新 skill, 创建 skill, 新建 skill, skill 质量. Called by butler agent."
 source: opencrew
 version: "20260522.01"
 ---
 
-# Skill: Skill 自我优化与创建
+# Skill: Skill Self-Improvement and Creation
 
-## 作用域
+## Scope
 
-两个核心能力：
-1. **优化**：分析已有 skill 使用情况，生成改进建议，用户确认后执行
-2. **创建**：创建新 skill，创建前必须先 brainstorm 精炼需求
+Two core capabilities:
+1. **Optimize**: Analyze existing skill usage, generate improvement suggestions, execute after user confirmation
+2. **Create**: Create new skills — must brainstorm to refine requirements before creation
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./reports/skill-suggestions/{skill}-{date}.md`（代码项目 → `./docs/reports/skill-suggestions/{skill}-{date}.md`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/skill-improvement/`
-- **变更日志**：`./working/skill-improvement/changelog.md`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./reports/skill-suggestions/{skill}-{date}.md` (code project → `./docs/reports/skill-suggestions/{skill}-{date}.md`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/skill-improvement/`
+- **Change log**: `./working/skill-improvement/changelog.md`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
-
----
-
-## 原则
-
-1. **不自动修改任何 skill 文件**。所有改动必须用户确认
-2. **每次只改一个 skill**。不要一次改多个
-3. **改前备份**。记录原始内容和改动理由
-4. **可回滚**。每次改动记录版本号，可以恢复
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
 ---
 
-## 优化流程
+## Principles
 
-### Step 1：收集使用数据
+1. **Never auto-modify any skill file**. All changes require user confirmation
+2. **Only modify one skill at a time**. Don't change multiple at once
+3. **Back up before modifying**. Record original content and reason for change
+4. **Rollback capable**. Record version number for each change; can be reverted
 
-从以下来源推断 skill 使用情况：
+---
 
-1. `./reports/butler-*.md` 和 `./reports/skill-suggestions/*.md` — 之前的复盘与建议
-2. 近期对话上下文 — 用户反馈了什么问题
-3. `./working/skill-improvement/changelog.md` — 已确认执行过的 skill 变更
-4. 相关产物目录 — 哪些 skill 对应的输出质量如何
+## Optimization Process
 
-### Step 2：评估每个 Skill
+### Step 1: Collect Usage Data
 
-对每个 skill 按 3 个维度打分：
+Infer skill usage from the following sources:
 
-| 维度 | 评分标准 |
+1. `./reports/butler-*.md` and `./reports/skill-suggestions/*.md` — previous retrospectives and suggestions
+2. Recent conversation context — what issues the user reported
+3. `./working/skill-improvement/changelog.md` — confirmed and executed skill changes
+4. Related artifact directories — quality of each skill's corresponding output
+
+### Step 2: Evaluate Each Skill
+
+Score each skill on 3 dimensions:
+
+| Dimension | Scoring Criteria |
 |------|---------|
-| **清晰度** | Agent 按照指令执行时，是否经常偏离？偏离说明指令不够清晰 |
-| **完整性** | 是否经常遇到指令没覆盖的场景？ |
-| **实用性** | 实际使用中哪些部分是多余的？哪些缺失？ |
+| **Clarity** | When the agent follows the instructions, does it often deviate? Deviation indicates unclear instructions |
+| **Completeness** | Are there frequent scenarios not covered by the instructions? |
+| **Practicality** | Which parts are redundant in practice? Which are missing? |
 
-### Step 3：生成优化报告
+### Step 3: Generate Optimization Report
 
 ```markdown
-## Skill 优化报告
+## Skill Optimization Report
 
-### 评估结果
+### Evaluation Results
 
-| Skill | 清晰度 | 完整性 | 实用性 | 优先级 |
+| Skill | Clarity | Completeness | Practicality | Priority |
 |-------|--------|--------|--------|--------|
-| research | 8/10 | 7/10 | 9/10 | 低 |
-| meeting | 6/10 | 5/10 | 8/10 | 高 |
-| health | 9/10 | 8/10 | 9/10 | 无需改 |
+| research | 8/10 | 7/10 | 9/10 | Low |
+| meeting | 6/10 | 5/10 | 8/10 | High |
+| health | 9/10 | 8/10 | 9/10 | No changes needed |
 
-### 需要优化的 Skill
+### Skills Needing Optimization
 
-#### 1. bm.meeting/SKILL.md（优先级：高）
+#### 1. bm.meeting/SKILL.md (Priority: High)
 
-**问题**：
-- 字幕提取步骤不够具体，Agent 不知道如何处理无 speaker 标注的情况
-- 缺少"多语言会议"的处理说明
+**Issues**:
+- Subtitle extraction steps are not specific enough; the agent doesn't know how to handle cases without speaker annotations
+- Missing handling instructions for "multilingual meetings"
 
-**建议改动**：
-1. 在"字幕提取"部分增加无 speaker 标注的处理流程
-2. 增加"多语言会议"小节
+**Suggested Changes**:
+1. Add processing flow for subtitles without speaker annotations in the "subtitle extraction" section
+2. Add a "multilingual meetings" subsection
 
-**改动内容**：
-[具体要改的文字，old → new]
+**Change Content**:
+[Specific text to change, old → new]
 ```
 
-### Step 4：用户确认
+### Step 4: User Confirmation
 
-把报告交给用户，等确认后再改。
+Present the report to the user and wait for confirmation before making changes.
 
-### Step 5：执行改动
+### Step 5: Execute Changes
 
-用户确认后：
-1. 记录改动前内容到 `./working/skill-improvement/changelog.md`
-2. 修改 skill 文件
-3. 在 changelog 中记录改动摘要和回滚信息
+After user confirmation:
+1. Record pre-change content to `./working/skill-improvement/changelog.md`
+2. Modify the skill file
+3. Record change summary and rollback info in the changelog
 
 ---
 
-## 变更日志格式
+## Change Log Format
 
-在 `./working/skill-improvement/changelog.md` 中维护：
+Maintain in `./working/skill-improvement/changelog.md`:
 
 ```markdown
-## Skill 变更日志
+## Skill Change Log
 
-| 日期 | Skill | 改动摘要 | 原因 |
+| Date | Skill | Change Summary | Reason |
 |------|-------|---------|------|
-| 2026-05-16 | bm.meeting | 增加无 speaker 字幕处理流程 | 字幕提取经常偏离 |
-| 2026-05-16 | bm.project-mgmt | 增加项目目录创建流程 | 首次创建时不确定步骤 |
+| 2026-05-16 | bm.meeting | Added subtitle processing flow without speaker annotations | Subtitle extraction frequently deviates |
+| 2026-05-16 | bm.project-mgmt | Added project directory creation flow | Uncertain steps during first creation |
 ```
 
 ---
 
-## 优化模式
+## Optimization Modes
 
-### 用户主动触发
+### User-Triggered
 
 ```
-用户 → Lead: "帮我优化一下 meeting skill"
-Lead → Butler: 执行 skill-improvement 流程
-Butler → 输出优化报告
-Lead → 交给用户确认
+User → Lead: "Help me optimize the meeting skill"
+Lead → Butler: Execute skill-improvement process
+Butler → Output optimization report
+Lead → Present to user for confirmation
 ```
 
-### Butler 定期复盘时触发
+### Butler Periodic Retrospective Trigger
 
-在复盘报告的"建议优化"部分输出。不自动执行，等用户确认。
+Output in the "suggested optimizations" section of the retrospective report. Don't auto-execute; wait for user confirmation.
 
 ---
 
-## 创建流程（新增 Skill）
+## Creation Process (New Skill)
 
-当用户说"创建一个 skill"、"新建一个 skill"时走此流程。
+Follow this process when the user says "create a skill" or "make a new skill".
 
-### Step 0：先 Brainstorm（强制）
+### Step 0: Brainstorm First (Mandatory)
 
-**绝不跳过这一步**。加载 `bm.brainstorming`，用苏格拉底式追问搞清楚：
+**Never skip this step.** Load `bm.brainstorming`, use Socratic questioning to clarify:
 
-1. **解决什么问题**：这个 skill 要让 agent 做什么？解决哪类场景？
-2. **谁用**：哪个 agent 会加载？ Lead？Coder？所有？
-3. **输入输出**：触发条件是什么？产出什么文件/格式？
-4. **边界**：什么不算这个 skill 的范围？什么情况下不该触发？
-5. **与现有 skill 的关系**：和已有 skill 是否功能重叠？是否应该合并或拆分？
+1. **What problem does it solve**: What should this skill make the agent do? Which scenarios does it address?
+2. **Who uses it**: Which agent will load it? Lead? Coder? All?
+3. **Input/output**: What are the trigger conditions? What files/formats does it produce?
+4. **Boundaries**: What's outside this skill's scope? When should it not trigger?
+5. **Relationship to existing skills**: Does it overlap with existing skills? Should it be merged or split?
 
-把 brainstorm 结果整理成 skill spec，**分块给用户确认**，用户确认后才进入创建。
+Organize the brainstorm results into a skill spec, **present in chunks for user confirmation**. Only proceed to creation after user confirmation.
 
-### Step 1：确定命名和位置
+### Step 1: Determine Name and Location
 
-- **命名**：遵循项目惯例（如 `bm.{name}` 或 `skilless.ai-{name}`）
-- **位置**：`./skills/{name}/SKILL.md`（项目级）或 `~/.agents/skills/{name}/SKILL.md`（全局级）
-- **优先创建项目级**（随项目走，可定制），除非用户明确要全局共享
+- **Naming**: Follow project conventions (e.g., `bm.{name}` or `skilless.ai-{name}`)
+- **Location**: `./skills/{name}/SKILL.md` (project-level) or `~/.agents/skills/{name}/SKILL.md` (global)
+- **Prefer project-level** (travels with the project, customizable), unless the user explicitly wants global sharing
 
-### Step 2：生成 SKILL.md
+### Step 2: Generate SKILL.md
 
-每个 SKILL.md 必须包含：
+Every SKILL.md must include:
 
 ```markdown
 ---
 name: {name}
-description: "{一句话说明 + 触发词}"
+description: "{One-sentence description + trigger keywords}"
 source: opencrew
 version: "{date}.01"
 ---
 
-# Skill: {标题}
+# Skill: {Title}
 
-## 作用域
-{这个 skill 管什么、不管什么}
+## Scope
+{What this skill covers, what it doesn't}
 
-## 文件落点
-{产物写到哪}
-
----
-
-## 原则
-{3-5 条核心原则}
+## File Locations
+{Where artifacts are written}
 
 ---
 
-## 核心流程
-{Step by step 的执行流程}
+## Principles
+{3-5 core principles}
 
 ---
 
-## 注意事项
-{边界条件、常见陷阱}
+## Core Process
+{Step-by-step execution process}
+
+---
+
+## Notes
+{Edge cases, common pitfalls}
 ```
 
-### Step 3：用户确认
+### Step 3: User Confirmation
 
-把完整的 SKILL.md 内容展示给用户，确认：
-- description 的触发词是否覆盖了用户期望的场景
-- 流程是否完整
-- 原则是否合理
+Show the complete SKILL.md content to the user for confirmation:
+- Do the trigger keywords in the description cover the user's expected scenarios
+- Is the process complete
+- Are the principles reasonable
 
-### Step 4：创建文件
+### Step 4: Create the File
 
-用户确认后：
-1. 创建目录 `./skills/{name}/`
-2. 写入 SKILL.md
-3. 在 `./working/skill-improvement/changelog.md` 记录创建
+After user confirmation:
+1. Create directory `./skills/{name}/`
+2. Write SKILL.md
+3. Record creation in `./working/skill-improvement/changelog.md`
 
-### Step 5：注册
+### Step 5: Register
 
-提醒用户（或 Lead）在对应 agent 的 Skills 表中加入新 skill 的引用。
+Remind the user (or Lead) to add a reference to the new skill in the corresponding agent's Skills table.
 
 ---
 
-## 注意事项
+## Notes
 
-- 不要为了改而改。用得好的 skill 不要动
-- 每次改动最小化。只改有问题的部分，不顺手"完善"其他部分
-- 改动理由必须来自实际使用中的问题，不是理论上的"可以更好"
-- 如果 skill 刚改过不到 7 天，不要再次建议改动（给改动时间验证）
+- Don't change for the sake of changing. Well-functioning skills should not be touched
+- Minimize each change. Only fix the problematic parts; don't "improve" other parts along the way
+- Change reasons must come from real-world usage problems, not theoretical "could be better"
+- If a skill was changed less than 7 days ago, don't suggest changes again (give the change time to be validated)

@@ -1,57 +1,57 @@
 ---
 name: bm.health
-description: "个人健康管理：身体指标追踪、饮食记录、运动记录、睡眠记录、趋势分析。Use when user wants to log or check weight, diet, exercise, sleep, body metrics, 体重, 饮食, 运动, 睡眠, 卡路里, 跑步, 健身。"
+description: "Personal health management: body metrics tracking, diet logging, exercise logging, sleep logging, trend analysis. Use when user wants to log or check weight, diet, exercise, sleep, body metrics, 体重, 饮食, 运动, 睡眠, 卡路里, 跑步, 健身."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: 个人健康管理
+# Skill: Personal Health Management
 
-## 作用域
+## Scope
 
-身体指标追踪、饮食、运动、睡眠的数据驱动管理。情绪、压力、症状和用药归 `bm.wellness`。
+Data-driven management of body metrics, diet, exercise, and sleep. Emotions, stress, symptoms, and medications belong to `bm.wellness`.
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./health/...`（代码项目 → `./docs/health/...`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/health/`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./health/...` (code project → `./docs/health/...`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/health/`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
-## 隐私与写入确认
+## Privacy and Write Confirmation
 
-- 健康数据属于敏感个人信息。用户明确说“记录/保存/写入”时才落盘；只是询问建议时，默认只在对话里回答。
-- 第一次写入 `./health/` 或日记 frontmatter 前，先说明将保存哪些字段和路径，得到确认后再写。
-- 不把健康数据写到 cwd 之外，不把用户未提供的数据补全或猜测出来。
+- Health data is sensitive personal information. Only persist when the user explicitly says "record/save/write"; if just asking for advice, default to answering in conversation only.
+- Before writing to `./health/` or journal frontmatter for the first time, explain which fields and paths will be saved, and get confirmation before writing.
+- Don't write health data outside cwd, and don't fill in or guess data the user hasn't provided.
 
 ---
 
-## 数据存储路径
+## Data Storage Path
 
-所有健康数据写入 `./health/` 目录。
+All health data is written to the `./health/` directory.
 
-如果该目录不存在，先搜索确认：
+If this directory does not exist, first search to confirm:
 
 ```
 glob "./health/**"
 ```
 
-如果当前工作目录没有 Health 结构，健康数据写入日记 frontmatter。
+If the current working directory has no Health structure, write health data to journal frontmatter.
 
-### 路径映射
+### Path Mapping
 
-| 数据类型 | 文件路径 |
+| Data Type | File Path |
 |---------|---------|
-| 身体指标 | `./health/body/metrics/YYYY-MM-DD.md` |
-| 饮食记录 | `./health/diet/YYYY-MM-DD.md` |
-| 运动记录 | `./health/exercise/YYYY-MM-DD.md` |
-| 睡眠记录 | `./health/sleep/YYYY-MM-DD.md` |
+| Body metrics | `./health/body/metrics/YYYY-MM-DD.md` |
+| Diet records | `./health/diet/YYYY-MM-DD.md` |
+| Exercise records | `./health/exercise/YYYY-MM-DD.md` |
+| Sleep records | `./health/sleep/YYYY-MM-DD.md` |
 
-### 简化模式（无 health 目录时）
+### Simplified Mode (No health Directory)
 
-写入日记 frontmatter：
+Write to journal frontmatter:
 
 ```yaml
 ---
@@ -59,27 +59,27 @@ type: daily
 date: 2026-05-16
 weight: 72.5           # kg
 body_fat: 18            # %
-sleep_hours: 7.5        # 小时
+sleep_hours: 7.5        # hours
 sleep_quality: 4        # 1-5
-exercise_type: running  # 类型
-exercise_duration: 45   # 分钟
+exercise_type: running  # type
+exercise_duration: 45   # minutes
 ---
 ```
 
-## 记录流程
+## Recording Process
 
-### 身体指标
+### Body Metrics
 
-当用户提供体重/体脂等数据时：
+When the user provides weight/body fat data:
 
-**Step 1**：确认日期（默认今天）
-**Step 2**：搜索当天是否已有记录
+**Step 1**: Confirm the date (default is today)
+**Step 2**: Search whether a record already exists for that day
 
 ```
 glob "./health/body/metrics/YYYY-MM-DD.md"
 ```
 
-**Step 3**：创建或更新记录
+**Step 3**: Create or update the record
 
 ```markdown
 ---
@@ -88,24 +88,24 @@ date: 2026-05-16
 tags: [health, metrics]
 ---
 
-# 身体指标 2026-05-16
+# Body Metrics 2026-05-16
 
-| 指标 | 值 |
+| Metric | Value |
 |------|------|
-| 体重 | 72.5 kg |
-| 体脂率 | 18% |
+| Weight | 72.5 kg |
+| Body Fat | 18% |
 
-## 备注
-[如有异常或用户说明]
+## Notes
+[If there are anomalies or user notes]
 ```
 
-**Step 4**：读取最近 7 天数据，给出趋势分析
+**Step 4**: Read the last 7 days of data and provide trend analysis
 
 ```
 glob "./health/body/metrics/*.md"
 ```
 
-### 饮食记录
+### Diet Records
 
 ```markdown
 ---
@@ -114,27 +114,27 @@ date: 2026-05-16
 tags: [health, diet]
 ---
 
-# 饮食 2026-05-16
+# Diet 2026-05-16
 
-| 餐次 | 内容 | 估算热量 |
+| Meal | Content | Estimated Calories |
 |------|------|---------|
-| 早餐 | 鸡蛋x2 + 全麦面包 + 牛奶 | ~450 kcal |
-| 午餐 | 鸡胸肉沙拉 | ~350 kcal |
-| 晚餐 | 牛肉面 | ~650 kcal |
+| Breakfast | Eggs x2 + whole wheat bread + milk | ~450 kcal |
+| Lunch | Chicken breast salad | ~350 kcal |
+| Dinner | Beef noodles | ~650 kcal |
 
-**总热量**：~1450 kcal
+**Total calories**: ~1450 kcal
 
-## 建议
-蛋白质摄入不错（鸡蛋+鸡胸+牛肉），但晚餐碳水偏高。
-建议晚餐减少面条分量，加一份蔬菜。
+## Suggestions
+Good protein intake (eggs + chicken breast + beef), but dinner carbs are on the high side.
+Suggest reducing noodle portion at dinner and adding a serving of vegetables.
 ```
 
-**记录饮食后必须给建议**：
-1. 分析营养结构（蛋白质/碳水/蔬菜/热量）
-2. 指出问题
-3. 给一句具体改进建议
+**After recording diet, always provide suggestions**:
+1. Analyze nutritional composition (protein/carbs/vegetables/calories)
+2. Point out issues
+3. Give one specific improvement suggestion
 
-### 运动记录
+### Exercise Records
 
 ```markdown
 ---
@@ -143,21 +143,21 @@ date: 2026-05-16
 tags: [health, exercise]
 ---
 
-# 运动 2026-05-16
+# Exercise 2026-05-16
 
-| 项目 | 详情 |
+| Item | Details |
 |------|------|
-| 类型 | 跑步 |
-| 时长 | 45 分钟 |
-| 距离 | 6.2 km |
-| 强度 | RPE 6/10 |
-| 心率 | avg 145 bpm |
+| Type | Running |
+| Duration | 45 minutes |
+| Distance | 6.2 km |
+| Intensity | RPE 6/10 |
+| Heart Rate | avg 145 bpm |
 
-## 备注
-配速比上周快了 10s/km，进步明显。
+## Notes
+Pace is 10s/km faster than last week, clear improvement.
 ```
 
-### 睡眠记录
+### Sleep Records
 
 ```markdown
 ---
@@ -166,31 +166,31 @@ date: 2026-05-16
 tags: [health, sleep]
 ---
 
-# 睡眠 2026-05-16
+# Sleep 2026-05-16
 
-| 指标 | 值 |
+| Metric | Value |
 |------|------|
-| 入睡时间 | 23:30 |
-| 起床时间 | 07:00 |
-| 时长 | 7.5 小时 |
-| 质量 | 4/5 |
+| Bedtime | 23:30 |
+| Wake time | 07:00 |
+| Duration | 7.5 hours |
+| Quality | 4/5 |
 
-## 备注
-深度睡眠时间充足，醒后精神不错。
+## Notes
+Sufficient deep sleep, felt refreshed upon waking.
 ```
 
-## 趋势分析
+## Trend Analysis
 
-当用户问健康趋势时：
+When the user asks about health trends:
 
-**Step 1**：读取最近 7-30 天的数据文件
-**Step 2**：汇总关键指标
-**Step 3**：计算趋势（上升/下降/稳定）
+**Step 1**: Read data files from the last 7-30 days
+**Step 2**: Summarize key metrics
+**Step 3**: Calculate trends (increasing/decreasing/stable)
 
 ```markdown
-## 体重趋势（最近 7 天）
+## Weight Trend (Last 7 Days)
 
-| 日期 | 体重 | 变化 |
+| Date | Weight | Change |
 |------|------|------|
 | 05-10 | 73.2 | — |
 | 05-11 | 73.0 | -0.2 |
@@ -200,15 +200,15 @@ tags: [health, sleep]
 | 05-15 | 72.5 | -0.1 |
 | 05-16 | 72.5 | 0.0 |
 
-**趋势**：稳步下降，7 天减少 0.7 kg。速度健康，继续保持。
+**Trend**: Steadily decreasing, 0.7 kg loss over 7 days. Healthy rate, keep it up.
 
-**注意**：单日波动 ±0.3 kg 正常，看 7 天移动平均更准确。
+**Note**: Daily fluctuations of ±0.3 kg are normal; the 7-day moving average is more accurate.
 ```
 
-## 健康建议原则
+## Health Advice Principles
 
-1. **基于数据**：有记录的从数据分析，没记录的说"缺少数据，建议先记录"
-2. **不做医疗诊断**：异常指标建议就医，不自己下结论
-3. **鼓励可持续习惯**：不推荐极端节食/过度运动
-4. **尊重个人偏好**：饮食偏好、运动喜好都要考虑
-5. **数据缺失时不假设**：不要编造数据填空
+1. **Data-driven**: When records exist, analyze from data; when they don't, say "insufficient data, suggest tracking first"
+2. **No medical diagnoses**: For abnormal metrics, suggest seeing a doctor; don't draw conclusions yourself
+3. **Encourage sustainable habits**: Don't recommend extreme diets or excessive exercise
+4. **Respect personal preferences**: Consider dietary preferences and exercise preferences
+5. **Don't assume when data is missing**: Don't fabricate data to fill gaps

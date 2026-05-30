@@ -1,157 +1,157 @@
 ---
 name: bm.verification
-description: "完成前自验证：声明 done 之前必须列检查清单、跑一遍、看结果。Use before claiming a task is complete, finished, ready, done, 完成, 搞定, 做完, 跑通, ready, done, finish, complete. 防止虚假完成、自欺欺人、提交破损产物。"
+description: "Self-verification before completion: before claiming done, must list checklist, run through it, and check results. Use before claiming a task is complete, finished, ready, done, 完成, 搞定, 做完, 跑通, ready, done, finish, complete. Prevents false completions, self-deception, and submitting broken deliverables."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: Verification（完成前自验证）
+# Skill: Verification (Self-Verification Before Completion)
 
-**声明"完成"之前，agent 必须自己跑一遍验证，列证据，不是嘴上说"我做完了"**。
+**Before claiming "done", the agent must run through verification itself, list evidence, not just say "I finished it" in words.**
 
-适用于代码、文档、设计、报告、配置——任何要交付的产物。
+Applicable to code, documentation, design, reports, configuration — any deliverable.
 
 ---
 
-## 触发时机
+## Trigger Timing
 
-**强制触发**：当 agent 准备说以下任何话之前——
+**Mandatory trigger**: Before the agent is about to say any of the following —
 
-- "我已经完成了 X"
-- "X 修好了"
-- "可以了，你试试"
-- "搞定，已经写入 Y"
-- "需求都实现了"
+- "I've completed X"
+- "X is fixed"
+- "It's ready, give it a try"
+- "Done, written to Y"
+- "All requirements are implemented"
 - "Done"
 
-**不触发**：
-- 用户明确说"先这样吧，我自己看"
-- 中间产物，未声明完成
+**Do NOT trigger**:
+- User explicitly says "that's fine for now, I'll review it myself"
+- Intermediate artifacts, not claiming completion
 
 ---
 
-## 三步法
+## Three-Step Method
 
-### Step 1：列检查清单
+### Step 1: List the Checklist
 
-根据这次任务的目标，列出**可验证的检查项**。每条必须是：
-- **客观**：能用证据回答 yes/no，不是主观判断
-- **具体**：不是"功能正常"，是"运行 X 命令返回 0"
-- **可执行**：你（agent）当场就能验证
+Based on this task's goals, list **verifiable checklist items**. Each must be:
+- **Objective**: Can be answered with evidence yes/no, not subjective judgment
+- **Specific**: Not "feature works", but "running command X returns 0"
+- **Actionable**: You (the agent) can verify it on the spot
 
-清单举例：
+Checklist examples:
 
-**写代码**：
-- [ ] 文件已写入预期路径（用 `ls` 或读文件验证）
-- [ ] 语法正确（lint / typecheck 通过）
-- [ ] 关键行为符合 spec（跑测试或手动调用）
-- [ ] 没改坏其他文件（git diff 看一下范围）
+**Writing code**:
+- [ ] File written to expected path (verify with `ls` or reading the file)
+- [ ] Syntax correct (lint / typecheck passes)
+- [ ] Key behavior matches spec (run tests or manual invocation)
+- [ ] Haven't broken other files (check scope with git diff)
 
-**写文档**：
-- [ ] 长度 / 结构符合要求
-- [ ] 涉及的事实是从源材料来的，不是编的
-- [ ] 链接 / 文件路径都能打开
-- [ ] 用户提的关键点都覆盖了
+**Writing documentation**:
+- [ ] Length / structure meets requirements
+- [ ] Facts are from source material, not fabricated
+- [ ] Links / file paths are all accessible
+- [ ] User's key points are all covered
 
-**修 bug**：
-- [ ] 复现步骤现在不再触发问题
-- [ ] 没引入回归（相关测试通过）
-- [ ] 修的是根因不是症状
+**Fixing a bug**:
+- [ ] Reproduction steps no longer trigger the issue
+- [ ] No regression introduced (related tests pass)
+- [ ] Root cause was fixed, not symptoms
 
-**配置/安装**：
-- [ ] 配置文件是合法格式（json/yaml 解析通过）
-- [ ] 服务/工具能起来
-- [ ] 用一个最小用例验证生效
+**Configuration/Installation**:
+- [ ] Config file is valid format (json/yaml parsing passes)
+- [ ] Service/tool can start
+- [ ] Verified with a minimal test case
 
-### Step 2：实际跑一遍
+### Step 2: Actually Run Through It
 
-**真的执行**，不是想象。常用动作：
+**Actually execute**, don't imagine. Common actions:
 
-| 产物类型 | 验证动作 |
+| Deliverable Type | Verification Action |
 |---|---|
-| 代码 | 跑测试 / lint / typecheck / 实际调用一次 |
-| 脚本 | 在 sample 输入上跑一次 |
-| 文档 | 通读一次，检查链接和事实 |
-| 配置 | 让目标程序加载这个配置 |
-| 数据/报告 | 抽样检查若干条目 |
+| Code | Run tests / lint / typecheck / actually invoke once |
+| Script | Run once with sample input |
+| Documentation | Read through once, check links and facts |
+| Configuration | Have the target program load this config |
+| Data/Report | Spot-check several entries |
 
-记录每个检查项的**实际证据**：
-- 命令的 exit code 和输出片段
-- 文件实际内容片段
-- 截图 / 日志关键行
+Record **actual evidence** for each checklist item:
+- Command exit codes and output snippets
+- Actual file content snippets
+- Screenshots / key log lines
 
-### Step 3：呈现验证报告
+### Step 3: Present the Verification Report
 
-呈现给用户的格式：
+Format presented to the user:
 
 ```markdown
-## 完成报告
+## Completion Report
 
-**做了什么**：一句话说做了啥。
+**What was done**: One sentence describing what was done.
 
-**验证结果**：
-- ✅ 文件写入 ./output/report.md（138 行）
-- ✅ Markdown lint 通过（0 errors）
-- ✅ 所有链接可访问（5/5）
-- ⚠️ 一处 [需确认]：原始资料里 X 项数据缺失，已标注
+**Verification Results**:
+- ✅ File written to ./output/report.md (138 lines)
+- ✅ Markdown lint passed (0 errors)
+- ✅ All links accessible (5/5)
+- ⚠️ One item [needs confirmation]: X data field missing from original material, marked accordingly
 
-**证据**：
+**Evidence**:
 \```
 $ wc -l output/report.md
 138 output/report.md
 
 $ markdownlint output/report.md
-（无输出，通过）
+(no output, passed)
 \```
 
-**未覆盖**：
-- 没做 Y，因为超出范围
+**Not Covered**:
+- Didn't do Y because it's out of scope
 
-**下一步建议**：
-- 你可能想检查一下 ⚠️ 那条
+**Suggested Next Steps**:
+- You may want to check the ⚠️ item
 ```
 
 ---
 
-## 反模式（绝对不要这样）
+## Anti-Patterns (Absolutely Do Not Do These)
 
-| 反模式 | 为什么错 | 正确做法 |
+| Anti-Pattern | Why It's Wrong | Correct Approach |
 |---|---|---|
-| "应该可以了" / "理论上没问题" | 没真跑过 | 必须跑 |
-| 跑了一次没报错就认为 OK | 没看输出，可能是 silent failure | 看实际输出对照预期 |
-| 自己觉得对就报完成 | 主观，不可信 | 给客观证据 |
-| 验证时降低标准 | 自欺 | 验证标准 = 任务标准 |
-| 报告"全部完成"但有项跳过 | 误导用户 | 跳过的项明确标注，给原因 |
-| 失败的项藏起来 | 用户后面发现更糟 | 失败项用 ❌ 明确报告，给修复建议 |
+| "Should be fine" / "Theoretically no issues" | Haven't actually run it | Must run it |
+| Ran once without errors and assumed OK | Didn't check output; could be silent failure | Check actual output against expectations |
+| Self-assessed as correct and reported done | Subjective, unreliable | Give objective evidence |
+| Lowered verification standards during verification | Self-deception | Verification standard = task standard |
+| Reported "all done" but skipped some items | Misleading to the user | Explicitly mark skipped items with reasons |
+| Hid failed items | User discovers them later, worse | Report failed items with ❌ clearly, give fix suggestions |
 
 ---
 
-## 边界情况
+## Edge Cases
 
-**验证失败时**：
-- 不要硬报"完成"
-- 报告"部分完成"或"未完成"，列出失败项和你的判断（继续修 / 需要用户决策）
+**When verification fails**:
+- Don't stubbornly report "done"
+- Report "partially done" or "not done", list failed items and your assessment (continue fixing / needs user decision)
 
-**无法验证时**（比如需要外部环境）：
-- 明确说"我无法本地验证 X，因为 Y"
-- 给用户简单的验证步骤："请你跑一下 `Z`，看输出是不是 `...`"
+**When unable to verify** (e.g., requires external environment):
+- Explicitly say "I cannot locally verify X because Y"
+- Give the user simple verification steps: "Please run `Z` and check if the output is `...`"
 
-**验证成本太高时**（比如要部署到生产）：
-- 退一步：在 staging / 本地复现一个等价场景验证
-- 不能验证的部分明确标记
-
----
-
-## 与其他 skill 的协作
-
-- 任务起点用 [bm.brainstorming](../bm.brainstorming/SKILL.md) 定的 spec → 验证 = 对照 spec 的成功标准
-- 出错了 → 切到 [bm.systematic-troubleshooting](../bm.systematic-troubleshooting/SKILL.md) 排查根因
-- 用户视角 review → [bm.voice-of-user](../bm.voice-of-user/SKILL.md)
+**When verification cost is too high** (e.g., requires production deployment):
+- Fall back: Reproduce an equivalent scenario on staging / locally to verify
+- Clearly mark the parts that cannot be verified
 
 ---
 
-## 文件落点
+## Collaboration with Other Skills
 
-验证证据/日志 → `./working/verification-{task}.log`，必要时附在报告里。
+- Task starting point used spec defined by [bm.brainstorming](../bm.brainstorming/SKILL.md) → Verification = checking against spec's success criteria
+- Errors occur → Switch to [bm.systematic-troubleshooting](../bm.systematic-troubleshooting/SKILL.md) to troubleshoot root cause
+- User perspective review → [bm.voice-of-user](../bm.voice-of-user/SKILL.md)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则文档类最终产物统一放到 `./docs/` 下对应子目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+---
+
+## File Locations
+
+Verification evidence/logs → `./working/verification-{task}.log`, attach to report when needed.
+
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), document-type final artifacts go under `./docs/` in corresponding subdirectories. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.

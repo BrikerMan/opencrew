@@ -1,47 +1,47 @@
 ---
 name: bm.life-journal
-description: "生活记录：日记、周报回顾、月度回顾、生活事件记录、成长追踪。Use when user wants to write journal, diary, weekly review, monthly reflection, life events, milestones, 日记, 周报, 月报, 复盘, 回顾, 感恩, 反思. 三段式结构。"
+description: "Life journaling: diary, weekly reviews, monthly reflections, life event records, growth tracking. Use when user wants to write journal, diary, weekly review, monthly reflection, life events, milestones, 日记, 周报, 月报, 复盘, 回顾, 感恩, 反思. Three-part structure."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: 生活记录
+# Skill: Life Journaling
 
-## 作用域
+## Scope
 
-日记、反思、生活记忆、成长追踪的叙事记录。
+Narrative records for diaries, reflections, life memories, and growth tracking.
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./journal/...`（代码项目 → `./docs/journal/...`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/journal/`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./journal/...` (code project → `./docs/journal/...`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/journal/`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
-## 隐私与写入确认
+## Privacy and Write Confirmation
 
-- 日记和生活事件默认是私密内容。用户明确说“写日记/记录/保存/归档”时才落盘；如果只是聊天或倾诉，默认不写文件。
-- 第一次写入 `./journal/` 前，先说明将保存的路径和内容类型，得到确认后再写。
-- 不把用户没有明确表达的感受、动机或事实写成确定记录；不确定的内容标 `[需确认]`。
+- Journals and life events are private content by default. Only persist when the user explicitly says "write journal/record/save/archive"; if just chatting or venting, default to not writing files.
+- Before writing to `./journal/` for the first time, explain the path and content type to be saved, and get confirmation before writing.
+- Don't write feelings, motivations, or facts that the user hasn't explicitly expressed as definitive records; mark uncertain content with `[needs confirmation]`.
 
 ---
 
-## 日记流程
+## Diary Process
 
-### Step 1：检查日记是否已存在
+### Step 1: Check if Diary Already Exists
 
 ```
 glob "./journal/daily/YYYY-MM-DD.md"
 ```
 
-如果存在 → 读取并追加内容
-如果不存在 → 从模板创建
+If it exists → Read and append content
+If it doesn't exist → Create from template
 
-### Step 2：创建日记
+### Step 2: Create Diary
 
-从 `./templates/Daily.md` 创建（如有），写入 `./journal/daily/YYYY-MM-DD.md`：
+Create from `./templates/Daily.md` (if available), write to `./journal/daily/YYYY-MM-DD.md`:
 
 ```markdown
 ---
@@ -54,58 +54,58 @@ tags: [daily]
 
 # 2026-05-16
 
-## 感恩
-- 项目上线顺利，团队配合好
-- 晚上跑了 5 公里，状态不错
+## Gratitude
+- Project launch went smoothly, great team collaboration
+- Ran 5 km in the evening, felt good
 
-## 记录
-- 上午完成 IPverse 周会，确定下周发布计划
-- 下午 code review，发现 auth 模块有安全隐患（已修）
-- 晚上跑步 5km，配速 5'30"
+## Record
+- Morning: completed IPverse weekly meeting, confirmed next week's release plan
+- Afternoon: code review, found a security issue in auth module (fixed)
+- Evening: ran 5km, pace 5'30"
 
-## 反思
-今天效率高，但中午忘了休息，下午 3 点有点疲劳。
-明天试着中午休息 15 分钟。
+## Reflection
+Productive day today, but forgot to take a break at noon and felt a bit tired around 3 PM.
+Tomorrow I'll try taking a 15-minute rest at noon.
 
-## 计划
-- [ ] 写 IPverse 发布 checklist
-- [ ] 回复 Chris 的邮件
+## Plan
+- [ ] Write IPverse release checklist
+- [ ] Reply to Chris's email
 ```
 
-### 三段式结构（灵活使用）
+### Three-Part Structure (Use Flexibly)
 
-| 段落 | 作用 | 必写？ |
+| Section | Purpose | Required? |
 |------|------|--------|
-| **感恩** | 记录 1-3 件值得感恩的事 | 推荐 |
-| **记录/反思** | 今天发生了什么、学到了什么 | 核心 |
-| **计划** | 明天最重要的 1-3 件事 | 推荐 |
+| **Gratitude** | Record 1-3 things to be grateful for | Recommended |
+| **Record/Reflection** | What happened today, what was learned | Core |
+| **Plan** | 1-3 most important things for tomorrow | Recommended |
 
-不强求每段都有。写三行也比不写好。
+Don't force every section to be filled. Writing three lines is better than writing nothing.
 
-### 时间边界规则
+### Time Boundary Rules
 
-- 凌晨 0:00-3:59 → 归入**前一天**日记
-- 早晨 4:00 起 → 归入**当天**日记
+- 12:00 AM - 3:59 AM → Assign to the **previous day's** diary
+- From 4:00 AM onward → Assign to the **current day's** diary
 
-## 周报回顾
+## Weekly Review
 
-### Step 1：读取本周日记
+### Step 1: Read This Week's Diaries
 
 ```
 glob "./journal/daily/*.md"
 ```
 
-筛选本周日期范围的文件。
+Filter files within this week's date range.
 
-### Step 2：读取上周周报
+### Step 2: Read Last Week's Weekly Review
 
 ```
 glob "./journal/weekly/*.md"
 ```
 
-### Step 3：生成周报
+### Step 3: Generate Weekly Review
 
-写入 `./journal/weekly/YYYY-Wxx.md`：
+Write to `./journal/weekly/YYYY-Wxx.md`:
 
 ```markdown
 ---
@@ -114,34 +114,34 @@ date: 2026-W18
 tags: [weekly]
 ---
 
-# 周报 2026-W18
+# Weekly Review 2026-W18
 
-## 本周关键词
-上线、重构、跑步
+## This Week's Keywords
+Launch, refactoring, running
 
-## 高光时刻
-- IPverse v2.1 成功上线 staging
-- 连续 5 天跑步，累计 30km
+## Highlights
+- IPverse v2.1 successfully deployed to staging
+- Ran 5 consecutive days, 30km total
 
-## 挑战
-- auth 模块重构比预期多 1 天
-  - 原因：测试覆盖不足
-  - 应对：下次重构前先补测试
+## Challenges
+- Auth module refactoring took 1 day longer than expected
+  - Cause: insufficient test coverage
+  - Takeaway: add tests before next refactoring
 
-## 成长
-- 学会了用 Mermaid 画架构图
-- 发现中午休息 15 分钟能显著提升下午效率
+## Growth
+- Learned to draw architecture diagrams with Mermaid
+- Discovered that a 15-minute noon rest significantly improves afternoon efficiency
 
-## 下周关注
-- IPverse 生产环境发布
-- 开始 notification 模块设计
+## Focus for Next Week
+- IPverse production deployment
+- Start notification module design
 
 ← [[2026-W17]] | [[2026-W19]] →
 ```
 
-## 生活事件记录
+## Life Event Records
 
-重要事件（里程碑、决定、转折点）用独立笔记：
+Important events (milestones, decisions, turning points) use standalone notes:
 
 ```markdown
 ---
@@ -150,63 +150,63 @@ date: 2026-05-16
 tags: [milestone]
 ---
 
-# IPverse v2.1 上线
+# IPverse v2.1 Launch
 
-## 发生了什么
-经过 2 个月开发，IPverse v2.1 今天成功部署到生产环境。
-首次使用蓝绿部署，零停机切换。
+## What Happened
+After 2 months of development, IPverse v2.1 was successfully deployed to production today.
+First time using blue-green deployment, zero-downtime switchover.
 
-## 感受
-紧张但踏实。团队配合很好，特别是 QA 的测试覆盖让上线很有信心。
+## Feelings
+Nervous but grounded. The team worked really well together, especially the QA test coverage which gave us confidence in the launch.
 
-## 学到了什么
-- 蓝绿部署比滚动更新更适合我们的场景
-- 上线前 48 小时冻结 feature branch 很有效
+## What I Learned
+- Blue-green deployment suits our scenario better than rolling updates
+- Freezing feature branches 48 hours before launch was very effective
 
-## 后续
-- 监控 1 周稳定性
-- 收集用户反馈
+## Follow-up
+- Monitor stability for 1 week
+- Collect user feedback
 ```
 
-### 事件先放 Inbox
+### Events Go to Inbox First
 
-重要但来不及整理的 → 先放 `./inbox/`
-整理确认后 → 移到对应目录或 `./journal/`
+Important but not yet organized → Place in `./inbox/` first
+After organizing and confirming → Move to the appropriate directory or `./journal/`
 
-## 成长追踪
+## Growth Tracking
 
-### 月度回顾
+### Monthly Review
 
-每月初做一次：
+Do once at the beginning of each month:
 
 ```markdown
-# 月度回顾 2026-05
+# Monthly Review 2026-05
 
-## 技能
-- [x] 掌握 Mermaid 图表
-- [ ] 深入学习 k8s（进行中）
-- [ ] Rust 入门（未开始）
+## Skills
+- [x] Mastered Mermaid diagrams
+- [ ] Deep dive into k8s (in progress)
+- [ ] Rust basics (not started)
 
-## 习惯
-| 习惯 | 完成率 | 趋势 |
+## Habits
+| Habit | Completion Rate | Trend |
 |------|--------|------|
-| 每日运动 | 80% | ↑ |
-| 日记 | 90% | → |
-| 冥想 | 40% | ↓ |
+| Daily exercise | 80% | ↑ |
+| Journaling | 90% | → |
+| Meditation | 40% | ↓ |
 
-## 关键事件
-- IPverse v2.1 上线
-- 参加湾区 AI Meetup
+## Key Events
+- IPverse v2.1 launch
+- Attended Bay Area AI Meetup
 
-## 下月目标
-- [ ] k8s 完成学习路径
-- [ ] 冥想习惯提升到 70%
+## Goals for Next Month
+- [ ] Complete k8s learning path
+- [ ] Improve meditation habit to 70%
 ```
 
-## 原则
+## Principles
 
-1. **真实 > 好看**：记录真实感受，不美化
-2. **简短 > 冗长**：写几句就够了，不要有"写日记"的压力
-3. **持续 > 完美**：每天写三行比每周写三页更有价值
-4. **不评判**：记录感受时不对自己做道德评判
-5. **变化优先**：记录变化（状态变化、决定、里程碑），不记录静态信息
+1. **Authentic > polished**: Record true feelings, don't embellish
+2. **Brief > verbose**: A few lines are enough; don't create "journaling pressure"
+3. **Consistent > perfect**: Writing three lines every day is more valuable than writing three pages once a week
+4. **No judgment**: Don't morally judge yourself when recording feelings
+5. **Prioritize change**: Record changes (state changes, decisions, milestones), not static information

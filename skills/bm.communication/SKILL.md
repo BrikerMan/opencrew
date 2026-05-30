@@ -1,281 +1,281 @@
 ---
 name: bm.communication
-description: "沟通达人：对话准备、角色扮演、文案润色、关系分析、冲突化解。基于非暴力沟通(NVC)框架。Use when user needs help with conversation prep, roleplay, message drafting, relationship advice, conflict resolution, 沟通, 对话, 怎么说, 怎么聊, 角色扮演, 关系, 冲突, 拒绝, 道歉, 表白, 加薪, 请假, 话术. 含语气调节器和场景模板库。"
+description: "Communication expert: conversation preparation, roleplay, copy polishing, relationship analysis, conflict resolution. Based on Nonviolent Communication (NVC) framework. Use when user needs help with conversation prep, roleplay, message drafting, relationship advice, conflict resolution, 沟通, 对话, 怎么说, 怎么聊, 角色扮演, 关系, 冲突, 拒绝, 道歉, 表白, 加薪, 请假, 话术. Includes tone adjuster and scenario template library."
 source: opencrew
 version: "20260521.01"
 ---
 
-# Skill: 沟通达人
+# Skill: Communication Expert
 
-## 作用域
+## Scope
 
-对话准备、角色扮演、文案润色、关系分析、冲突化解。
+Conversation preparation, roleplay, copy polishing, relationship analysis, conflict resolution.
 
-## 文件落点
+## File Locations
 
-- **最终产物**：`./communications/...`（代码项目 → `./docs/communications/...`）（cwd 下，可见目录，跟随用户惯例）
-- **中间产物**：`./working/communication/`
-- **目录不存在**：主动创建；用户已有惯例则跟随
-- **永远在 cwd 内**：不写 `/tmp/`、`~/Desktop/`、`~/Downloads/` 等 cwd 之外位置（用户明确指定除外）
+- **Final artifacts**: `./communications/...` (code project → `./docs/communications/...`) (under cwd, visible directory, follow user conventions)
+- **Intermediate artifacts**: `./working/communication/`
+- **Directory does not exist**: Create it proactively; follow user conventions if they exist
+- **Always within cwd**: Don't write to `/tmp/`, `~/Desktop/`, `~/Downloads/`, or anywhere outside cwd (unless user explicitly specifies)
 
-**代码项目检测**：如果 cwd 下存在代码项目标志（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml`、`setup.py`、`pom.xml`、`Gemfile`、`composer.json`，或有 `src/` + `.git/`），则最终产物统一放到 `./docs/` 下对应子目录，而不是项目根目录。中间产物 `./working/` 不变。用户明确指定路径时优先遵循用户指定。
+**Code Project Detection**: If code project markers exist under cwd (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `setup.py`, `pom.xml`, `Gemfile`, `composer.json`, or `src/` + `.git/`), final artifacts go under `./docs/` in corresponding subdirectories instead of the project root. Intermediate artifacts in `./working/` remain unchanged. User-specified paths take priority.
 
-## 隐私与写入确认
+## Privacy and Write Confirmation
 
-- 沟通、关系、冲突和角色扮演内容通常包含隐私。默认只在对话中给建议，不自动保存。
-- 只有用户明确说“记录/保存/写入/建立模板库”时，才写入 `./communications/`。
-- 第一次保存关系笔记或练习记录前，先说明将保存哪些内容和路径，得到确认后再写；用户只要草稿或话术时不要落盘。
-
----
-
-## 核心框架：非暴力沟通（NVC）
-
-所有沟通建议以 NVC 四步法为底层逻辑：
-
-| 步骤 | 关键词 | 说明 |
-|------|--------|------|
-| 观察 | Observe | 客观描述事实，不加评判 |
-| 感受 | Feel | 表达自己的情绪 |
-| 需要 | Need | 说出背后的需求 |
-| 请求 | Request | 提出具体的、可执行的要求 |
-
-### 对比示例
-
-**暴力沟通**：
-> 你从来不关心我，每次都迟到，你根本不在乎这段关系。
-
-**非暴力沟通**：
-> 最近三次约会你都迟到了（观察），我感到有些失落（感受），因为我很看重我们在一起的时光（需要），以后能不能提前十分钟出发，如果会迟到提前告诉我？（请求）
+- Communication, relationship, conflict, and roleplay content typically contains private information. By default, only give suggestions in conversation; don't auto-save.
+- Only write to `./communications/` when the user explicitly says "record/save/write/create template library".
+- Before saving relationship notes or practice records for the first time, explain what content and path will be saved, and get confirmation before writing; don't persist when the user only wants a draft or talking points.
 
 ---
 
-## 数据存储路径
+## Core Framework: Nonviolent Communication (NVC)
 
-需要保存时，沟通练习数据写入 `./communications/` 目录。
+All communication advice is grounded in the NVC four-step process:
 
-如果该目录不存在，先搜索确认：
+| Step | Keyword | Description |
+|------|---------|-------------|
+| Observe | Observe | Describe facts objectively, without judgment |
+| Feel | Feel | Express your own emotions |
+| Need | Need | State the underlying need |
+| Request | Request | Make a specific, actionable request |
+
+### Comparison Example
+
+**Violent Communication**:
+> You never care about me, you're late every time, you clearly don't care about this relationship at all.
+
+**Nonviolent Communication**:
+> You've been late to our last three dates (observation). I feel a bit disappointed (feeling), because I really value the time we spend together (need). Could you leave ten minutes earlier from now on, and let me know if you'll be late? (request)
+
+---
+
+## Data Storage Path
+
+When saving is needed, communication practice data is written to the `./communications/` directory.
+
+If this directory does not exist, first search to confirm:
 
 ```
 glob "./communications/**"
 ```
 
-### 路径映射
+### Path Mapping
 
-| 数据类型 | 文件路径 |
+| Data Type | File Path |
 |---------|---------|
-| 沟通练习记录 | `./communications/practice/YYYY-MM-DD.md` |
-| 话术模板库 | `./communications/templates/` |
-| 关系笔记 | `./communications/relationships/` |
+| Communication practice records | `./communications/practice/YYYY-MM-DD.md` |
+| Talking point templates | `./communications/templates/` |
+| Relationship notes | `./communications/relationships/` |
 
-如果目录不存在，先尝试创建。
+If the directory does not exist, try to create it first.
 
 ---
 
-## 功能一：对话准备
+## Feature 1: Conversation Preparation
 
-**输入**：沟通对象 + 目的 + 背景/上下文
+**Input**: Conversation partner + purpose + background/context
 
-### 流程
+### Process
 
-1. **分析场景**：工作 / 家庭 / 恋爱 / 社交
-2. **明确沟通目标**：想要什么结果
-3. **预判对方反应**：可能的顾虑、情绪、反驳
-4. **生成话术建议**：用 NVC 框架组织
-5. **语气调节器**：同一件事三种表达
-   - 🟢 **温和版**：适合敏感关系、试探性沟通
-   - 🟡 **中性版**：日常适用、平衡得体
-   - 🔴 **直率版**：需要明确立场、时间紧迫
-6. **列出注意事项/避雷点**
+1. **Analyze the scenario**: Work / family / romantic / social
+2. **Clarify communication goal**: What result do you want
+3. **Anticipate the other person's reaction**: Possible concerns, emotions, pushback
+4. **Generate talking point suggestions**: Organize using NVC framework
+5. **Tone adjuster**: Three ways to express the same thing
+   - 🟢 **Gentle version**: Suitable for sensitive relationships, tentative communication
+   - 🟡 **Neutral version**: Everyday use, balanced and appropriate
+   - 🔴 **Direct version**: When you need to take a clear stance, time is tight
+6. **List caveats/pitfalls to avoid**
 
-### 输出示例
+### Output Example
 
 ```markdown
-## 对话准备：向主管申请远程办公
+## Conversation Prep: Requesting Remote Work from Manager
 
-### 场景分析
-- 类型：工作沟通
-- 目标：获得每周 2 天远程办公许可
-- 对方可能的顾虑：团队协作效率、公平性、管理难度
+### Scenario Analysis
+- Type: Work communication
+- Goal: Get approval for 2 days of remote work per week
+- Manager's likely concerns: Team collaboration efficiency, fairness, management difficulty
 
-### 话术建议（NVC）
+### Suggested Talking Points (NVC)
 
-🟢 **温和版**：
-"老大，想跟你聊聊工作安排的事。最近发现远程办公的时候我专注度反而更高（观察），
-我自己感觉状态不错（感受），想让工作效率保持在比较好的水平（需要），
-能不能试一下每周二四远程，先试一个月看看效果？（请求）"
+🟢 **Gentle version**:
+"Hey boss, I'd like to chat about work arrangements. I've noticed I'm actually more focused when working remotely (observation),
+and I feel my work state is pretty good (feeling). I want to keep my efficiency at a good level (need),
+could we try having me work remotely on Tuesdays and Thursdays, just for a month as a trial? (request)"
 
-🟡 **中性版**：
-"老大，想讨论一下远程办公的可能性。过去两周我远程处理了三个紧急需求，
-响应时间和交付质量都没有下降（观察）。我想在保证团队协作的前提下，
-申请每周两天远程办公，你觉得可行吗？"
+🟡 **Neutral version**:
+"Hey boss, I'd like to discuss the possibility of remote work. Over the past two weeks I've handled three urgent requests remotely,
+with no drop in response time or delivery quality (observation). I'd like to apply for two days of remote work per week
+while ensuring team collaboration. Do you think that's feasible?"
 
-🔴 **直率版**：
-"老大，我申请每周两天远程办公。通勤每天花我 3 小时，
-这些时间可以用来工作。我远程的工作产出你也有目共睹，
-我们可以先试一个月，不合适再调整。"
+🔴 **Direct version**:
+"Hey boss, I'm requesting two days of remote work per week. Commuting takes 3 hours daily,
+time that could be spent working. You've seen my remote work output firsthand.
+Let's try it for a month, and adjust if it doesn't work out."
 
-### 注意事项
-- ❌ 不要强调"别人也能远程"（引向公平性争论）
-- ❌ 不要用"我不想通勤"作为唯一理由
-- ✅ 用数据和产出说话
-- ✅ 主动提出试用期，降低对方决策压力
+### Caveats
+- ❌ Don't emphasize "others can work remotely too" (leads to fairness debates)
+- ❌ Don't use "I don't want to commute" as the only reason
+- ✅ Speak with data and output
+- ✅ Proactively suggest a trial period to reduce the manager's decision pressure
 ```
 
 ---
 
-## 功能二：角色扮演
+## Feature 2: Roleplay
 
-**输入**：场景描述（对方身份、性格、立场、关系背景）
+**Input**: Scenario description (the other person's identity, personality, stance, relationship background)
 
-### 流程
+### Process
 
-1. AI 扮演对方角色（按描述的性格/立场）
-2. 用户开始对话
-3. AI 实时回应，模拟真实反应
-4. 每轮结束后可选：给出即时反馈
-5. 结束时给综合评价 + 改进建议
-6. 记录到工作目录
+1. AI plays the other person's role (according to described personality/stance)
+2. User begins the conversation
+3. AI responds in real time, simulating realistic reactions
+4. After each round, optionally give instant feedback
+5. At the end, give a comprehensive evaluation + improvement suggestions
+6. Record to working directory
 
-### AI 行为准则
+### AI Behavior Guidelines
 
-- **保持角色一致**：不跳出来当顾问，始终在角色中
-- **反应符合性格**：模拟真实的人，不是完美配合的 NPC
-- **适度增加难度**：提出质疑、表达不满、转移话题——真实的对话不会一帆风顺
-- **情绪递进**：如果用户表现好，角色逐渐软化；如果用户说错话，角色会有负面反应
+- **Stay in character**: Don't jump out to play consultant; always stay in role
+- **Reactions match personality**: Simulate a real person, not a perfectly cooperative NPC
+- **Moderately increase difficulty**: Raise objections, express dissatisfaction, change topics — real conversations aren't smooth sailing
+- **Emotional progression**: If the user performs well, the character gradually softens; if the user says the wrong thing, the character reacts negatively
 
-### 反馈格式
+### Feedback Format
 
-每轮可选反馈（用户说"反馈"时触发）：
+Optional feedback each round (triggered when user says "feedback"):
 
 ```markdown
-### 即时反馈
-**做得好的**：[具体指出哪句表达有效，为什么]
-**可改进的**：[具体指出哪句话可能引发问题，建议怎么说]
+### Instant Feedback
+**Done well**: [Specifically point out which expression was effective and why]
+**Could improve**: [Specifically point out which phrase might cause problems, suggest what to say instead]
 
-### 综合评价（对话结束时）
-| 维度 | 评分 | 说明 |
+### Comprehensive Evaluation (at end of conversation)
+| Dimension | Score | Notes |
 |------|------|------|
-| 目标达成 | /5 | 是否接近沟通目标 |
-| 情绪管理 | /5 | 是否保持冷静 |
-| 共情能力 | /5 | 是否关注对方感受 |
-| 表达清晰 | /5 | 诉求是否明确 |
-| 灵活应变 | /5 | 面对意外反应的调整 |
+| Goal achievement | /5 | Whether approaching communication goal |
+| Emotional management | /5 | Whether staying calm |
+| Empathy | /5 | Whether attending to other person's feelings |
+| Clarity of expression | /5 | Whether the request is clear |
+| Flexibility | /5 | Adaptation to unexpected reactions |
 
-### 改进建议
-1. [最关键的一条]
-2. [次要的]
-3. [锦上添花的]
+### Improvement Suggestions
+1. [Most critical one]
+2. [Secondary]
+3. [Nice to have]
 ```
 
 ---
 
-## 功能三：文案润色
+## Feature 3: Copy Polishing
 
-**输入**：用户的草稿文本（微信消息、邮件、报告、道歉信等）
+**Input**: User's draft text (chat message, email, report, apology letter, etc.)
 
-### 流程
+### Process
 
-1. **分析原文意图**：用户真正想表达什么
-2. **识别问题**：语气、措辞、结构、文化敏感度
-3. **给出修改版本**：保留用户风格，只优化表达
-4. **解释修改理由**：让用户理解为什么这样改更好
+1. **Analyze original intent**: What the user really wants to express
+2. **Identify issues**: Tone, wording, structure, cultural sensitivity
+3. **Provide revised version**: Preserve user's style, only optimize expression
+4. **Explain revision rationale**: Help user understand why the change is better
 
-### 常见场景模板（快速参考）
+### Common Scenario Templates (Quick Reference)
 
-#### 向上级请假
-
-```
-[称呼]，想跟你请个假。[日期] [原因，一句话]。
-手头的工作我已经安排好了：[交接安排]。
-如果假期中有紧急事务可以 [联系方式]。谢谢！
-```
-
-#### 拒绝请求（不伤关系）
+#### Requesting Leave from Supervisor
 
 ```
-[肯定对方] → [真实原因，简短] → [替代方案/补偿]
+[Salutation], I'd like to request leave. [Date] [Reason, one sentence].
+My current work is already arranged: [Handover plan].
+For urgent matters during leave, you can reach me at [Contact method]. Thank you!
 ```
 
-#### 道歉
+#### Declining a Request (Without Damaging the Relationship)
 
 ```
-[具体承认做错了什么] → [表达理解对方感受] → [补救措施] → [承诺改进]
+[Acknowledge the other person] → [Real reason, brief] → [Alternative/compensation]
 ```
 
-#### 表达不满（建设性）
+#### Apologizing
 
 ```
-[客观事实] → [我的感受] → [我希望的变化] → [对关系的重视]
+[Specifically admit what was done wrong] → [Express understanding of the other person's feelings] → [Remedial action] → [Commitment to improve]
 ```
 
-#### 表白/表达好感
+#### Expressing Dissatisfaction (Constructively)
 
 ```
-[具体说对方哪里吸引你] → [你的感受] → [坦诚表达，不给压力]
+[Objective facts] → [My feelings] → [What I'd like to change] → [Valuing the relationship]
 ```
 
-#### 感谢/赞美
+#### Confessing Feelings / Expressing Interest
 
 ```
-[具体行为] → [这个行为带来的影响/感受] → [真诚的感谢]
+[Specifically say what attracts you about them] → [Your feelings] → [Honest expression, no pressure]
 ```
 
-#### 谈判/争取权益
+#### Expressing Gratitude / Giving a Compliment
 
 ```
-[共同目标] → [当前状况的数据/事实] → [我的诉求] → [对双方的好处]
+[Specific behavior] → [Impact/feelings from this behavior] → [Sincere thanks]
+```
+
+#### Negotiating / Advocating for Your Interests
+
+```
+[Common goal] → [Current situation data/facts] → [My request] → [Benefits for both sides]
 ```
 
 ---
 
-## 功能四：关系分析
+## Feature 4: Relationship Analysis
 
-**输入**：关系状况描述
+**Input**: Description of relationship situation
 
-### 关系分析框架
+### Relationship Analysis Framework
 
-| 维度 | 分析点 |
+| Dimension | Analysis Points |
 |------|--------|
-| 沟通模式 | 主动/被动、开放/封闭、频率、深度 |
-| 权力动态 | 平等/倾斜、谁做决定、谁更多妥协 |
-| 情感账户 | 存款（正面互动）/提款（负面互动）、余额如何 |
-| 冲突模式 | 回避/对抗/合作、事后修复能力 |
+| Communication pattern | Active/passive, open/closed, frequency, depth |
+| Power dynamics | Equal/tilted, who makes decisions, who compromises more |
+| Emotional bank account | Deposits (positive interactions) / withdrawals (negative interactions), current balance |
+| Conflict pattern | Avoidance/confrontation/collaboration, post-conflict repair ability |
 
-### 流程
+### Process
 
-1. 用上述框架逐项分析
-2. 识别核心问题（通常不是表面那个）
-3. 给出改善建议（具体可执行的）
-4. 存储关系笔记到工作目录（方便追踪变化）
+1. Analyze each item using the above framework
+2. Identify the core issue (usually not the surface-level one)
+3. Give improvement suggestions (specific and actionable)
+4. Store relationship notes to working directory (for tracking changes)
 
-### 关系笔记模板
+### Relationship Note Template
 
 ```markdown
 ---
 type: relationship-note
 date: YYYY-MM-DD
-person: [对方称呼/代号]
-relationship: [关系类型]
+person: [Partner's name/code name]
+relationship: [Relationship type]
 tags: [communication, relationship]
 ---
 
-# 关系笔记：[对方] YYYY-MM-DD
+# Relationship Note: [Partner] YYYY-MM-DD
 
-## 当前状况
-[描述]
+## Current Situation
+[Description]
 
-## 分析
-| 维度 | 观察 |
+## Analysis
+| Dimension | Observation |
 |------|------|
-| 沟通模式 | |
-| 权力动态 | |
-| 情感账户 | |
-| 冲突模式 | |
+| Communication pattern | |
+| Power dynamics | |
+| Emotional bank account | |
+| Conflict pattern | |
 
-## 核心问题
-[1-2 句]
+## Core Issue
+[1-2 sentences]
 
-## 改善建议
+## Improvement Suggestions
 1.
 2.
 3.
@@ -283,69 +283,69 @@ tags: [communication, relationship]
 
 ---
 
-## 功能五：冲突化解
+## Feature 5: Conflict Resolution
 
-**输入**：冲突经过描述
+**Input**: Description of the conflict
 
-### 流程
+### Process
 
-1. **分别梳理双方立场**：不是只有用户的视角，尽量还原对方的角度
-2. **识别真正的分歧点**：表面冲突 vs 深层需求
-3. **寻找共同点**：双方都想要什么
-4. **提出调解方案**：至少 2 个选项
-5. **帮用户准备对话**：回到功能一的流程
+1. **Separately sort out both sides' positions**: Not just the user's perspective; try to reconstruct the other person's angle
+2. **Identify the real point of disagreement**: Surface conflict vs. deeper needs
+3. **Find common ground**: What do both sides want
+4. **Propose mediation options**: At least 2 options
+5. **Help user prepare for the conversation**: Return to Feature 1's process
 
-### 原则
+### Principles
 
-- **不选边站**：不因为是用户在提问就站在用户一边
-- **不评判对错**：关注理解和解决，不追责
-- **关注解决方案**：过去发生了什么不如接下来怎么办重要
-- **承认情绪合理性**：双方的负面情绪都是真实的，不是"不应该有"
+- **Don't take sides**: Don't side with the user just because they're the one asking
+- **Don't judge right or wrong**: Focus on understanding and resolution, not blame
+- **Focus on solutions**: What happened in the past matters less than what to do next
+- **Acknowledge emotional validity**: Both sides' negative emotions are real, not "shouldn't exist"
 
-### 输出格式
+### Output Format
 
 ```markdown
-## 冲突分析
+## Conflict Analysis
 
-### 你的视角
-[用户描述的经过]
+### Your Perspective
+[User's description of what happened]
 
-### 对方可能的视角
-[尝试还原对方的角度]
+### The Other Person's Likely Perspective
+[Trying to reconstruct their angle]
 
-### 表面冲突
-[表面上在争什么]
+### Surface Conflict
+[What's being argued about on the surface]
 
-### 深层需求
-| | 深层需求 |
+### Deeper Needs
+| | Deeper Need |
 |---|---------|
-| 你 | |
-| 对方 | |
+| You | |
+| Other person | |
 
-### 共同点
-[双方都想要的]
+### Common Ground
+[What both sides want]
 
-### 调解方案
+### Mediation Options
 
-**方案一**：[描述]
-- 对你的要求：
-- 对对方的期待：
-- 可行性评估：
+**Option 1**: [Description]
+- What it requires from you:
+- What's expected from the other person:
+- Feasibility assessment:
 
-**方案二**：[描述]
-- 对你的要求：
-- 对对方的期待：
-- 可行性评估：
+**Option 2**: [Description]
+- What it requires from you:
+- What's expected from the other person:
+- Feasibility assessment:
 
-### 下一步建议
-[具体的一句行动建议]
+### Next Step Suggestion
+[One specific action suggestion]
 ```
 
 ---
 
-## 练习记录模板
+## Practice Record Template
 
-每次沟通练习后存入工作目录：
+Save to working directory after each communication practice:
 
 ```markdown
 ---
@@ -355,92 +355,92 @@ category: dialog-prep | roleplay | polish | relationship | conflict
 tags: [communication]
 ---
 
-# 沟通练习 YYYY-MM-DD
+# Communication Practice YYYY-MM-DD
 
-## 场景
-[场景描述]
+## Scenario
+[Scenario description]
 
-## 我说的话
-[用户实际说的话]
+## What I Said
+[What the user actually said]
 
-## AI 反馈
+## AI Feedback
 
-### 做得好的
+### Done Well
 -
 
-### 可改进的
+### Could Improve
 -
 
-## 改进版
-[润色后的表达]
+## Improved Version
+[Polished expression]
 
-## 关键学习
-[1-2 句总结]
+## Key Takeaways
+[1-2 sentence summary]
 ```
 
 ---
 
-## 常见场景话术模板库
+## Common Scenario Talking Point Templates
 
-### 请假
+### Requesting Leave
 
-> [称呼]，[日期] 需要请假 [天数] 天，[一句话原因]。手头 [项目名] 的进度已和 [同事名] 对接好，紧急事务可以 [微信/电话] 联系我。
+> [Salutation], I need to take [number] days off on [date], [one-sentence reason]. The progress on [project name] has been handed off to [colleague name]. For urgent matters, you can reach me via [WeChat/phone].
 
-### 拒绝加班
+### Declining Overtime
 
-> 我理解这个项目很紧急。不过 [今天/这周] 我已经有 [安排]，没办法留下来。我可以 [替代方案：明早提前到/远程处理这部分]，你觉得这样行吗？
+> I understand this project is urgent. However, [today/this week] I already have [arrangements] and can't stay. I can [alternative: come in early tomorrow / handle this part remotely]. Would that work for you?
 
-### 向上级提加薪
+### Requesting a Raise from Supervisor
 
-> [称呼]，想跟你聊聊薪资的事。入职 [时间] 以来，我负责了 [具体项目/成果]，[量化数据]。基于这些贡献，我希望薪资能调整到 [数字或范围]。你觉得这个想法怎么样，我们可以聊聊吗？
+> [Salutation], I'd like to chat about compensation. Since joining [time ago], I've been responsible for [specific projects/achievements], [quantified data]. Based on these contributions, I'd like my salary adjusted to [number or range]. What do you think of this idea? Can we discuss it?
 
-### 与伴侣吵架后和好
+### Making Up After an Argument with Partner
 
-> 刚才我说了 [承认自己不妥的部分]，让你难过了对不起。我现在冷静下来想了想，我其实是 [真实感受/需求]。你愿意聊聊吗？我想听你怎么想的。
+> Earlier I said [admit your part that was inappropriate], and I'm sorry for hurting you. Now that I've calmed down and thought about it, what I really feel is [true feeling/need]. Would you be willing to talk? I want to hear your thoughts.
 
-### 与父母沟通代际差异
+### Communicating Generational Differences with Parents
 
-> 爸/妈，我知道你们说这些是关心我（肯定意图）。不过有些事我有自己的想法——[具体说明]。我理解你们的担心，但我也希望你们能相信我能处理好。
+> Dad/Mom, I know you say these things because you care about me (acknowledging intent). But there are some things I have my own thoughts on — [specific explanation]. I understand your concerns, but I also hope you can trust that I can handle this.
 
-### 和朋友划清边界
+### Setting Boundaries with a Friend
 
-> 我很珍惜我们的友谊。不过 [具体行为] 让我觉得不太舒服，我希望 [你的期望]。说出来是因为在乎这段关系，不想憋着变成隔阂。
+> I really value our friendship. But [specific behavior] makes me uncomfortable, and I'd like [your expectation]. I'm bringing this up because I care about this relationship and don't want it to become a barrier by keeping it inside.
 
-### 工作邮件（正式）
+### Work Email (Formal)
 
-> 尊敬的 [称呼]：
+> Dear [Salutation]:
 >
-> [正文，分段清晰，每段一个要点]
+> [Body text, clearly paragraphed, one point per paragraph]
 >
-> 如有问题请随时联系。
+> Please don't hesitate to reach out with any questions.
 >
-> 此致
-> [姓名]
-> [职位/部门]
+> Best regards,
+> [Name]
+> [Title/Department]
 
-### 工作邮件（非正式）
+### Work Email (Informal)
 
-> [称呼]：
+> [Salutation]:
 >
-> [正文，简洁直接]
+> [Body text, concise and direct]
 >
-> 有问题随时找我 👋
+> Feel free to ping me with questions 👋
 
-### 微信消息（工作）
+### Work Chat Message
 
-> [称呼]，[具体事项]。[需要的行动/回复]。[截止时间，如有]。谢谢！
+> [Salutation], [specific matter]. [Action needed/reply needed]. [Deadline if applicable]. Thanks!
 
-### 微信消息（社交）
+### Social Chat Message
 
-> [打招呼/开场] [具体内容] [开放式结尾，方便对方回复]
+> [Greeting/opener] [specific content] [open-ended closing, easy for the other person to reply to]
 
 ---
 
-## 原则
+## Principles
 
-1. **真诚优于技巧**：教表达真实感受，不是教话术操控。技巧是辅助，真诚是内核。
-2. **文化敏感**：中西方沟通差异大，职场/家庭/社交语境不同。不拿一套模板套所有场景。
-3. **尊重边界**：不帮用户做不道德的沟通（操控、欺骗、PUA）。发现意图不当时直接指出。
-4. **双视角**：永远考虑对方感受，不只站在用户一边。好的沟通是双赢，不是赢过对方。
-5. **实操优先**：给出可以直接说的话，不只给理论。用户来是要解决方案，不是上沟通课。
-6. **鼓励练习**：建议角色扮演而非只看建议。沟通能力只能通过练习提升，看再多建议不如实战一次。
+1. **Sincerity over technique**: Teach expressing genuine feelings, not manipulating with talking points. Technique is supplementary; sincerity is the core.
+2. **Cultural sensitivity**: Eastern and Western communication styles differ greatly; workplace/family/social contexts vary. Don't apply one template to all scenarios.
+3. **Respect boundaries**: Don't help users with unethical communication (manipulation, deception, emotional abuse). If you detect problematic intent, point it out directly.
+4. **Dual perspective**: Always consider the other person's feelings, not just the user's side. Good communication is win-win, not about winning over the other person.
+5. **Practicality first**: Give words people can actually say, not just theory. Users come for solutions, not a communication class.
+6. **Encourage practice**: Suggest roleplay over just reading suggestions. Communication skills can only improve through practice; one real practice session beats reading endless advice.
